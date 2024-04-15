@@ -1,0 +1,7 @@
+_*
+*.exe
+*tmp*
+*data*
+*temp*
+*.o
+out
