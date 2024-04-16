@@ -11,4 +11,4 @@ public:
     virtual ~ListBase() = default;
 };
 
-#endif // _BASELIST_H_
+#endif

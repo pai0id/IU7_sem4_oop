@@ -1,4 +1,3 @@
-/*Класс итератор*/
 #ifndef _LISTITERATOR_H_
 #define _LISTITERATOR_H_
 

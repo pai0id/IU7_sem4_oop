@@ -101,7 +101,7 @@ void test_removal() {
         Iterator<int> iter1(list0.begin());
         iter1++;
         list0.remove(iter1);
-        cout << list0 << endl; // 2 4 5 78
+        cout << list0 << endl;
 
         cout << "\npop()" << endl;
         cout << list0 << endl;
