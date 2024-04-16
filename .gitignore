@@ -1,7 +1,9 @@
-_*
+_exmpl
+_lect
 *.exe
 *tmp*
 *data*
 *temp*
 *.o
 out
+.vscode
