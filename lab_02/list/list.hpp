@@ -6,7 +6,7 @@
 #include "exceptions.h"
 
 template <typename Type>
-List<Type>::List(size_type n) noexcept : csize(n)
+List<Type>::List(size_type n) noexcept
 {
     for (size_type i = 0; i < n; ++i)
     {
@@ -26,7 +26,7 @@ List<Type>::List(const List<Type>& list) noexcept
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-List<Type>::List(size_type n, const T& value) noexcept : csize(n)
+List<Type>::List(size_type n, const T& value) noexcept
 {
     for (size_type i = 0; i < n; ++i)
     {
@@ -142,10 +142,9 @@ List<Type>& List<Type>::operator=(List<Type>&& someList)
     {
         return *this;
     }
-    for (auto&& elem : someList)
-    {
-        pushBack(std::move(elem));
-    }
+    head = std::move(someList.head);
+    tail = std::move(someList.tail);
+    csize = std::move(someList.csize);
     return *this;
 }
 
