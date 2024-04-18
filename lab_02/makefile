@@ -1,5 +1,5 @@
 build:
-	g++ -I./list -o app.exe list/*.h list/*.hpp main.cpp
+	g++ -I list -std=c++20 -o app.exe main.cpp
 
 run:
 	./app.exe

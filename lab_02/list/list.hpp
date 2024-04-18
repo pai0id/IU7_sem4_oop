@@ -1,412 +1,530 @@
-#ifndef _LIST_HPP_
-#define _LIST_HPP_
+#ifndef LIST_IMPL_H
+#define LIST_IMPL_H
 
-#include <memory>
-#include <ctime>
-#include <iterator>
-#include <algorithm>
-
+#include <iostream>
 #include "list.h"
 
-template <typename T>
-List<T>::List() : head(nullptr), tail(nullptr) {}
-// копирования
-template <typename T>
-List<T>::List(const List<T> &someList) : head(nullptr), tail(nullptr)
-{
-    this->extend(someList);
-}
-
-// перемещения
-template <typename T>
-List<T>::List(List<T> &&someList)
-{
-    this->sizeList = someList->sizeList;
-    this->head.reset(someList->head);
-    this->tail.reset(someList->tail);
-
-    someList->sizeList = 0;
-    someList->head = nullptr;
-    someList->tail = nullptr;
-}
-
-// от списка
-template <typename T>
-List<T>::List(std::initializer_list<T> someList) : head(nullptr), tail(nullptr)
-{
-    for (const auto &data : someList)
-        append(data);
-}
-
-// от массива
-template <typename T>
-List<T>::List(const T *arr, const int size)
-{
-    for (int i = 0; i < size; i++)
-        this->append(arr[i]);
-}
-
-// от итератора
-template <typename T>
-template <typename T_>
-List<T>::List(T_ begin, T_ end)
-{
-    for (auto it = begin; end != it; ++it)
-        this->append(*it);
-}
-
-template <typename T>
-List<T> &List<T>::operator=(const List &someList)
-{
-    if (this != &someList)
-    {
-        this->clear();
-        this->extend(someList);
+template <typename Type>
+List<Type>::List(size_type n) noexcept : csize(n) {
+    for (size_type i = 0; i < n; ++i) {
+        pushBack(value_type());
     }
-
-    return *this;
 }
 
-template <typename T>
-List<T> &List<T>::operator=(List &&someList)
-{
-    if (this != someList)
-    {
-        this->clear();
-        this->sizeList = someList->sizeList;
-        this->head = someList->head;
-        this->tail = someList->tail;
-
-        someList->sizeList = 0;
-        someList->head = nullptr;
-        someList->tail = nullptr;
+template <typename Type>
+List<Type>::List(const List<Type>& list) noexcept {
+    for (const auto& elem : list) {
+        pushBack(elem);
     }
-
-    return *this;
 }
 
+template <typename Type>
 template <typename T>
-List<T> &List<T>::operator=(std::initializer_list<T> someList)
-{
-    if (this != &someList)
-    {
-        this->clear();
-        this->sizeList = someList->size;
-        this->head = someList->begin;
-        this->tail = someList->end;
-
-        someList->size = 0;
-        someList->begin = nullptr;
-        someList->end = nullptr;
+requires Convertible<T, typename List<Type>::value_type>
+List<Type>::List(size_type n, const T& value) noexcept : csize(n) {
+    for (size_type i = 0; i < n; ++i) {
+        pushBack(value);
     }
-
-    return *this;
 }
 
+template <typename Type>
 template <typename T>
-List<T> &List<T>::append(const T &data)
-{
-    std::shared_ptr<ListNode<T>> newNode = initNode(data);
-
-    if (this->isEmpty())
-        this->head = newNode;
-    else
-        this->tail->setNext(newNode);
-
-    this->tail = newNode;
-
-    return *this;
+requires Convertible<T, typename List<Type>::value_type>
+List<Type>::List(std::initializer_list<T> initList) noexcept : csize(initList.size()) {
+    for (const auto& elem : initList) {
+        pushBack(elem);
+    }
 }
 
-template <typename T>
-List<T> &List<T>::operator+=(const T &data)
-{
-    this->append(data);
-    return *this;
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+         ForwardIterator<typename C::iterator>
+List<Type>::List(const C& container) noexcept {
+    for (const auto& elem : container) {
+        pushBack(elem);
+    }
 }
 
-template <typename T>
-List<T> &List<T>::add(const T &data) const
-{
-    List<T> newList(*this);
-    newList.append(data);
-    return newList;
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type>
+List<Type>::List(const C&& container) noexcept {
+    for (auto&& val : container) {
+        pushBack(std::move(val));
+    }
 }
 
-template <typename T>
-List<T> List<T>::operator+(const T &data) const
-{
-    return *this->add(data);
+template <typename Type>
+template <ForwardIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+List<Type>::List(const Iter& begin, const Iter& end) noexcept {
+    for (auto it = begin; it != end; ++it) {
+        pushBack(*it);
+    }
 }
 
-template <typename T>
-List<T> &List<T>::insert(const T &data, const Iterator<T> &iter) noexcept
-{
-    std::shared_ptr<ListNode<T>> curNode = this->head;
-    std::shared_ptr<ListNode<T>> tmp = nullptr;
-    Iterator<T> cur = this->begin();
+template <typename Type>
+typename List<Type>::size_type List<Type>::size() const noexcept {
+    return csize;
+}
 
-    if (this->head == nullptr && cur == iter)
-    {
-        std::shared_ptr<ListNode<T>> newNode = initNode(data);
-        this->head = newNode;
-        this->tail = newNode;
+template <typename Type>
+typename List<Type>::iterator List<Type>::begin() noexcept {
+    return iterator(head);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::begin() const noexcept {
+    return const_iterator(head);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::cbegin() const noexcept {
+    return const_iterator(head);
+}
+
+template <typename Type>
+typename List<Type>::iterator List<Type>::end() noexcept {
+    return iterator(tail);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::end() const noexcept {
+    return const_iterator(tail);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::cend() const noexcept {
+    return const_iterator(tail);
+}
+
+template <typename Type>
+List<Type>& List<Type>::operator=(const List<Type>& someList) {
+    if (this == &someList) {
         return *this;
     }
-
-    while(curNode && cur != iter)
-    {
-        tmp=curNode;
-        curNode=curNode->getNext();
-        cur.next();
+    for (const auto& elem : someList) {
+        pushBack(elem);
     }
-
-    std::shared_ptr<ListNode<T>> newNode = initNode(data, curNode);
-
-    if (curNode == this->head)
-        this->head = newNode;
-    else
-        tmp->setNext(newNode);
-
     return *this;
 }
 
-template <typename T>
-List<T> &List<T>::extend(const List &ListToAdd)
-{
-    if (ListToAdd.isEmpty())
+template <typename Type>
+List<Type>& List<Type>::operator=(List<Type>&& someList) {
+    if (this == &someList) {
         return *this;
-
-    if (this == &ListToAdd)
-    {
-        List<T> ListCopy;
-        ListCopy = ListToAdd;
-        addList(ListCopy);
     }
-    else
-        addList(ListToAdd);
-
+    for (auto&& elem : someList) {
+        pushBack(std::move(elem));
+    }
     return *this;
 }
 
-template <typename T>
-List<T> &List<T>::operator+=(const List<T> &someList)
-{
-    this->extend(someList);
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
+List<Type>& List<Type>::operator=(const C& container) {
+    clear();
+    for (const auto& val : container) {
+        pushBack(val);
+    }
     return *this;
 }
 
-template <typename T>
-List<T> &List<T>::addlist(const List<T> &someList) const
-{
-    List<T> newList(*this);
-    newList.extend(someList);
-    return newList;
-}
-
-template <typename T>
-List<T> List<T>::operator+(const List<T> &someList) const
-{
-    return *this->addlist(someList);
-}
-
-template <typename T>
-const T List<T>::pop()
-{
-    time_t t_time = time(NULL);
-    if (this->isEmpty())
-        throw ListEmptyError(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-
-    Iterator<T> iter = this->end();
-
-    return remove(iter);
-}
-
-template <typename T>
-const T List<T>::remove(const Iterator<T> &iter)
-{
-    time_t t_time = time(NULL);
-    if (this->isEmpty())
-        throw ListEmptyError(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-
-    std::shared_ptr<ListNode<T>> curNode = this->head;
-    std::shared_ptr<ListNode<T>> tmp = nullptr;
-    Iterator<T> cur = this->begin();
-
-    while(curNode && cur != iter)
-    {
-        tmp=curNode;
-        curNode=curNode->getNext();
-        cur.next();
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type>
+List<Type>& List<Type>::operator=(C&& container) {
+    clear();
+    for (auto&& val : container) {
+        pushBack(std::move(val));
     }
-
-    if (curNode == nullptr)
-        throw ListRangeError(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-
-    T retData = iter.getCur();
-
-    if (curNode->getNext() == nullptr)
-        this->tail = tmp;
-
-    if (curNode == this->head)
-        this->head = this->head->getNext();
-    else
-        tmp->setNext(curNode->getNext());
-
-    return retData;
-}
-
-template <typename T>
-List<T> &List<T>::clear()
-{
-    this->head = nullptr;
-    this->tail = nullptr;
-
     return *this;
 }
 
+template <typename Type>
 template <typename T>
-constexpr size_t List<T>::size() const noexcept {
-    std::shared_ptr<ListNode<T>> cur(this->head);
-    size_t s = 0;
-    for (; cur; cur = cur->getNext()) {
-        ++s;
+requires Convertible<T, Type>
+List<Type>& List<Type>::operator=(std::initializer_list<T> someList) {
+    clear();
+    for (const auto& val : someList) {
+        pushBack(val);
+    }
+    return *this;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+void List<Type>::pushFront(const T& data) {
+    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        newNode->SetNext(head);
+        head = newNode;
+    }
+    ++csize;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+void List<Type>::pushFront(T&& data) {
+    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        newNode->SetNext(head);
+        head = newNode;
+    }
+    ++csize;
+}
+
+template <typename Type>
+void List<Type>::popFront() noexcept {
+    if (!head) {
+        return;
+    }
+    if (head == tail) {
+        head.reset();
+        tail.reset();
+    } else {
+        head = head->GetNext();
+    }
+    --csize;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+void List<Type>::pushBack(const T& data) {
+    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        tail->SetNext(newNode);
+        tail = newNode;
+    }
+    ++csize;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+void List<Type>::pushBack(T&& data) {
+    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        tail->SetNext(newNode);
+        tail = newNode;
+    }
+    ++csize;
+}
+
+template <typename Type>
+void List<Type>::popBack() noexcept {
+    if (!head) {
+        return;
+    }
+    if (head == tail) {
+        head.reset();
+        tail.reset();
+        csize = 0;
+        return;
+    }
+    auto currentNode = head;
+    while (currentNode->GetNext() != tail) {
+        currentNode = currentNode->GetNext();
+    }
+    tail = currentNode;
+    tail->SetNextNull();
+    --csize;
+}
+
+template <typename Type>
+typename List<Type>::iterator List<Type>::getFront() {
+    return iterator(head);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::getFront() const {
+    return const_iterator(head);
+}
+
+template <typename Type>
+typename List<Type>::iterator List<Type>::getBack() {
+    return iterator(tail);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::getBack() const {
+    return const_iterator(tail);
+}
+
+template <typename Type>
+typename List<Type>::iterator List<Type>::get(size_t index) {
+    if (index >= csize) {
+        throw std::out_of_range("Index out of range");
+    }
+    auto currentNode = head;
+    for (size_t i = 0; i < index; ++i) {
+        currentNode = currentNode->GetNext();
+    }
+    return iterator(currentNode);
+}
+
+template <typename Type>
+typename List<Type>::const_iterator List<Type>::get(size_t index) const {
+    if (index >= csize) {
+        throw std::out_of_range("Index out of range");
+    }
+    auto currentNode = head;
+    for (size_t i = 0; i < index; ++i) {
+        currentNode = currentNode->GetNext();
+    }
+    return const_iterator(currentNode);
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data) {
+    if (pos == cbegin()) {
+        pushFront(data);
+        return begin();
+    } else if (pos == cend()) {
+        pushBack(data);
+        return iterator(tail);
+    } else {
+        auto currentNode = head;
+        while (currentNode->GetNext() != pos.getNode()) {
+            currentNode = currentNode->GetNext();
+        }
+        std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data, currentNode->GetNext());
+        currentNode->SetNext(newNode);
+        ++csize;
+        return iterator(newNode);
+    }
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, typename List<Type>::value_type>
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data) {
+    if (pos == cbegin()) {
+        pushFront(std::move(data));
+        return begin();
+    } else if (pos == cend()) {
+        pushBack(std::move(data));
+        return iterator(tail);
+    } else {
+        auto currentNode = head;
+        while (currentNode->GetNext() != pos.getNode()) {
+            currentNode = currentNode->GetNext();
+        }
+        std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data), currentNode->GetNext());
+        currentNode->SetNext(newNode);
+        ++csize;
+        return iterator(newNode);
+    }
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
+List<Type>& List<Type>::operator+=(const C &container) {
+    for (const auto& val : container) {
+        pushBack(val);
+    }
+    return *this;
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
+List<Type>& List<Type>::operator+=(C &&container) {
+    for (auto&& val : container) {
+        pushBack(std::move(val));
+    }
+    return *this;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, Type>
+List<Type>& List<Type>::operator+=(const T &data) {
+    pushBack(data);
+    return *this;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, Type>
+List<Type>& List<Type>::operator+=(T &&data) {
+    pushBack(std::move(data));
+    return *this;
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
+List<Type> List<Type>::operator+(const C &container) const {
+    List<Type> result(*this);
+    for (const auto& val : container) {
+        result.pushBack(val);
+    }
+    return result;
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
+List<Type> List<Type>::operator+(C &&container) const {
+    List<Type> result(*this);
+    for (auto&& val : container) {
+        result.pushBack(std::move(val));
+    }
+    return result;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, Type>
+List<Type> List<Type>::operator+(const T &data) const {
+    List<Type> result(*this);
+    result.pushBack(data);
+    return result;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, Type>
+List<Type> List<Type>::operator+(T &&data) const {
+    List<Type> result(*this);
+    result.pushBack(std::move(data));
+    return result;
+}
+
+template <typename Type, typename T>
+requires Convertible<T, Type>
+List<Type> operator+(const T& value, const List<Type>& container) {
+    List<Type> result;
+    result.pushBack(value);
+    for (const auto& val : container) {
+        result.pushBack(val);
+    }
+    return result;
+}
+
+template <typename Type, typename T>
+requires Convertible<T, Type>
+List<Type> operator+(T&& value, const List<Type>& container) {
+    List<Type> result;
+    result.pushBack(std::move(value));
+    for (const auto& val : container) {
+        result.pushBack(val);
+    }
+    return result;
+}
+
+template <typename Type>
+void List<Type>::reverse() noexcept {
+    if (csize <= 1) {
+        return;
+    }
+    
+    std::shared_ptr<ListNode> prevNode = nullptr;
+    auto currentNode = head;
+    auto nextNode = head->GetNext();
+    
+    tail = head;
+    
+    while (nextNode) {
+        currentNode->SetNext(prevNode);
+        
+        prevNode = currentNode;
+        currentNode = nextNode;
+        nextNode = nextNode->GetNext();
+    }
+    
+    currentNode->SetNext(prevNode);
+    
+    head = currentNode;
+}
+
+template <typename Type>
+void List<Type>::remove(const_iterator pos) {
+    if (pos == cend()) {
+        popBack();
+        return;
     }
 
-    return s;
-}
-
-template <typename T>
-bool List<T>::isEqual(const List<T> &someList) const
-{
-    return isNodesEqual(someList);
-}
-
-template <typename T>
-bool List<T>::operator==(const List &someList) const
-{
-    return isNodesEqual(someList);
-}
-
-template <typename T>
-bool List<T>::isNotEqual(const List<T> &someList) const
-{
-    return !isNodesEqual(someList);
-}
-
-template <typename T>
-bool List<T>::operator!=(const List &someList) const
-{
-    return !isNodesEqual(someList);
-}
-
-template <typename T>
-Iterator<T> List<T>::begin()
-{
-    return Iterator<T>(head);
-}
-
-template <typename T>
-Iterator<T> List<T>::end()
-{
-    return Iterator<T>(tail);
-}
-
-template <typename T>
-const Iterator<T> List<T>::c_begin() const
-{
-    return Iterator<T>(head);
-}
-
-template <typename T>
-const Iterator<T> List<T>::c_end() const
-{
-    return Iterator<T>(tail);
-}
-
-template <typename T>
-std::shared_ptr<ListNode<T>> List<T>::initNode(const T &data, std::shared_ptr<ListNode<T>> ptrNode)
-{
-    time_t t_time = time(NULL);
-    std::shared_ptr<ListNode<T>> newNode;
-    newNode = std::make_shared<ListNode<T>>();
-    if (!newNode)
-        throw ListMemoryError(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-
-    newNode->setData(data);
-    newNode->setNext(ptrNode);
-
-    return newNode;
-}
-
-template <typename T>
-void List<T>::addList(const List &ListToAdd)
-{
-    T data = ListToAdd.head->getData();
-    std::shared_ptr<ListNode<T>> nextNode = ListToAdd.head->getNext();
-    std::shared_ptr<ListNode<T>> nodeToAdd = initNode(data, nextNode);
-    std::shared_ptr<ListNode<T>> cur = this->head;
-
-    if (this->isEmpty())
-    {
-        cur = nodeToAdd;
-        this->head = cur;
-    }
-    else
-    {
-        for (; cur->getNext(); cur = cur->getNext())
-            ;
-        cur->setNext(nodeToAdd);
-        cur = cur->getNext();
+    if (pos == cbegin()) {
+        popFront();
+        return;
     }
 
-    std::shared_ptr<ListNode<T>> curToAdd = nextNode;
+    auto prevNode = head;
+    auto currentNode = head->GetNext();
 
-    for (; curToAdd; curToAdd = curToAdd->getNext(), cur = cur->getNext())
-    {
-        data = curToAdd->getData();
-        nextNode = curToAdd->getNext();
-        nodeToAdd = initNode(data, nextNode);
-        cur->setNext(nodeToAdd);
-    }
-    this->tail = nodeToAdd;
-}
-
-template <typename T>
-bool List<T>::isNodesEqual(const List<T> &someList) const
-{
-    std::shared_ptr<ListNode<T>> curL = this->head;
-    std::shared_ptr<ListNode<T>> curR = someList.head;
-    for (; curL && curR && curL->getData() == curR->getData();)
-    {
-        curL = curL->getNext();
-        curR = curR->getNext();
+    while (currentNode != pos.getNode()) {
+        prevNode = currentNode;
+        currentNode = currentNode->GetNext();
     }
 
-    return (curL == nullptr && curR == nullptr) ? true : false;
+    prevNode->SetNext(currentNode->GetNext());
+    --csize;
+
+    if (pos.getNode() == tail) {
+        tail = prevNode;
+    }
 }
 
-template <typename T>
-bool List<T>::isEmpty() const
-{
-    return (this->head == nullptr) ? true : false;
+template <typename Type>
+void List<Type>::clear() noexcept {
+    head.reset();
+    tail.reset();
+    csize = 0;
 }
 
-template <typename T>
-std::ostream &operator<<(std::ostream &stream, List<T> &list)
-{
-    stream << "List";
-    Iterator<T> iter = list.begin();
-    if (!iter.checkRange())
-        stream << " is empty";
-    else
-    {
-        stream << ":";
-        for (; iter.checkRange(); iter.next())
-            stream << " " << iter.getCur();
+template <typename Type>
+bool List<Type>::isEmpty() const noexcept {
+    return csize == 0;
+}
+
+template <typename Type>
+bool List<Type>::operator==(const List<Type>& someList) const {
+    if (csize != someList.csize) {
+        return false;
     }
 
-    return stream;
+    auto thisNode = head;
+    auto otherNode = someList.head;
+
+   
+    while (thisNode && otherNode) {
+        if (thisNode->GetData() != otherNode->GetData()) {
+            return false;
+        }
+        thisNode = thisNode->GetNext();
+        otherNode = otherNode->GetNext();
+    }
+
+   
+    return true;
+}
+
+template <typename Type>
+bool List<Type>::operator!=(const List<Type>& someList) const {
+    return !(*this == someList);
 }
 
 #endif

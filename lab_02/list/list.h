@@ -1,74 +1,205 @@
-#pragma once
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef LIST_H
+#define LIST_H
 
-#include <iostream>
-#include <stdarg.h>
-#include <iterator>
+#include <memory>
+#include "iterator.h"
+#include "const_iterator.h"
+#include "concepts.h"
 
-#include "errors.h"
-#include "baselist.h"
-#include "listnode.h"
-#include "listiterator.h"
-
-template <typename T>
-class List : public ListBase
+template <typename Type>
+class List
 {
 public:
-    List();
-    explicit List(const List<T>& someList);
-    explicit List(List<T>&& someList);
-    explicit List(std::initializer_list<T> someList);
-    List(const T* arr, const int size);
-    template <typename T_>
-    List(T_ begin, T_ end);
-    virtual ~List() = default;
+	using value_type = Type;
+	using iterator = ListIterator<Type>;
+	using const_iterator = ConstListIterator<Type>;
+	using size_type = size_t;
 
-    List<T>& operator=(const List<T>& someList); // копирования
-    List<T>& operator=(List<T>&& someList); // перемещения
-    List<T>& operator=(std::initializer_list<T> someList);
+	friend class ListIterator<Type>;
+	friend class ConstListIterator<Type>;
 
-    List<T>& append(const T& data);
-    List<T>& operator+=(const T& data);
-    List<T>& add(const T& data) const;
-    List<T> operator+(const T& data) const;
+	List() = default;
+	explicit List(const List<Type>& someList) noexcept;
+	List(List<Type>&& someList) = default;
+	List(size_type n) noexcept;
 
-    List<T>& insert(const T& data, const Iterator<T>& iter) noexcept;
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	List(size_type n, const T& value) noexcept;
 
-    List<T>& extend(const List<T>& listToAdd);
-    List<T>& operator+=(const List<T>& someList);
-    List<T>& addlist(const List<T>& someList) const;
-    List<T> operator+(const List<T>& somelist) const;
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	List(std::initializer_list<T> initList) noexcept;
 
-    const T pop();
+	template <Container C>
+	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+			 ForwardIterator<typename C::iterator>
+	explicit List(const C& container) noexcept;
 
-    const T remove(const Iterator<T>& iter);
+	template <Container C>
+	requires Convertible<typename C::value_type, typename List<Type>::value_type>
+	List(const C&& container) noexcept;
 
-    List<T>& clear();
+	template <ForwardIterator Iter>
+	requires Convertible<typename Iter::value_type, typename List<Type>::value_type>
+	explicit List(const Iter& begin, const Iter& end) noexcept;
+	
+	~List() = default;
 
-    constexpr size_t size() const noexcept;
+	size_type size() const noexcept;
 
-    bool isEqual(const List<T>& someList) const;
-    bool operator==(const List<T>& someList) const;
-    bool isNotEqual(const List<T>& someList) const;
-    bool operator!=(const List<T>& someList) const;
+	iterator begin() noexcept;
+	const_iterator begin() const noexcept;
+	const_iterator cbegin() const noexcept;
+	
+	iterator end() noexcept;
+	const_iterator end() const noexcept;
+	const_iterator cend() const noexcept;
 
-    Iterator<T> begin();
-    Iterator<T> end();
+	List<Type>& operator=(const List<Type>& someList);
+	List<Type>& operator=(List<Type>&& someList);
 
-    const Iterator<T> c_begin() const;
-    const Iterator<T> c_end() const;
-private:
-    std::shared_ptr<ListNode<T>> head;
-    std::shared_ptr<ListNode<T>> tail;
+	template <Container C>
+	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+			 ForwardIterator<typename C::iterator>
+	List<Type>& operator=(const C& container);
 
-    std::shared_ptr<ListNode<T>> initNode(const T& data, std::shared_ptr<ListNode<T>> ptrNode = nullptr);
-    void addList(const List<T>& ListToAdd);
-    bool isNodesEqual(const List<T>& someList) const;
-    bool isEmpty() const;
+	template <Container C>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type>
+	List<Type>& operator=(C&& container);
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	List<Type>& operator=(std::initializer_list<T> someList);
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	void pushFront(const T& data);
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	void pushFront(T&& data);
+
+	void popFront() noexcept;
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	void pushBack(const T& data);
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	void pushBack(T&& data);
+
+	void popBack() noexcept;
+
+	iterator getFront();
+	iterator getBack();
+	const_iterator getFront() const;
+	const_iterator getBack() const;
+
+	iterator get(size_t index);
+	const_iterator get(size_t index) const;
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	iterator insert(const_iterator pos, const T& data);
+
+	template <typename T>
+	requires Convertible<T, typename List<Type>::value_type>
+	iterator insert(const_iterator pos, T&& data);
+
+	template <Container C>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+             ForwardIterator<typename C::iterator>
+	List<Type>& operator+=(const C &container);
+
+	template <Container C>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+             ForwardIterator<typename C::iterator>
+	List<Type>& operator+=(C &&container);
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	List<Type>& operator+=(const T &data);
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	List<Type>& operator+=(T &&data);
+
+	template <Container C>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+             ForwardIterator<typename C::iterator>
+	List<Type> operator+(const C &container) const;
+
+	template <Container C>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+             ForwardIterator<typename C::iterator>
+	List<Type> operator+(C &&container) const;
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	List<Type> operator+(const T &data) const;
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	List<Type> operator+(T &&data) const;
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	friend List<Type> operator+(const T& value, const List<Type>& container);
+
+	template <typename T>
+    requires Convertible<T, typename List<Type>::value_type>
+	friend List<Type> operator+(T&& value, const List<Type>& container);
+
+	void reverse() noexcept;
+
+	void remove(const_iterator pos);
+
+	void clear() noexcept;
+
+	bool isEmpty() const noexcept;
+
+	bool operator==(const List<Type>& someList) const;
+	bool operator!=(const List<Type>& someList) const;
+
+protected:
+	class ListNode 
+	{
+	public:
+		ListNode() = default;
+		ListNode(const value_type &data) noexcept;
+		ListNode(value_type &&data) noexcept;
+		ListNode(const value_type &data, const std::shared_ptr<ListNode> &next) noexcept;
+		ListNode(value_type &&data, const std::shared_ptr<ListNode> &next) noexcept;
+		ListNode(const ListNode &node) noexcept;
+		ListNode(ListNode &&node) noexcept;
+		~ListNode() = default;
+
+		void SetNext(const std::shared_ptr<ListNode> &node);
+		void SetData(const value_type &data);
+		void SetData(value_type &&data);
+		void SetNextNull();
+
+		value_type &GetData();
+		const value_type &GetData() const;
+		std::shared_ptr<ListNode> GetNext() const;
+
+		bool operator==(const ListNode &node) const;
+		bool operator!=(const ListNode &node) const;
+	
+	protected:
+		value_type data;
+		std::shared_ptr<ListNode> next;
+	};
+
+protected:
+	std::shared_ptr<ListNode> head = nullptr;
+	std::shared_ptr<ListNode> tail = nullptr;
+	size_t csize = 0;
 };
 
-template <typename T>
-std::ostream& operator<<(std::ostream& stream, List<T>& list);
+#include "list.hpp"
+#include "list_node.hpp"
 
 #endif
