@@ -38,7 +38,7 @@ public:
 
 	template <Container C>
 	requires Convertible<typename C::value_type, typename List<Type>::value_type>
-	List(const C&& container) noexcept;
+	List(C&& container) noexcept;
 
 	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, typename List<Type>::value_type>
@@ -201,5 +201,7 @@ protected:
 
 #include "list.hpp"
 #include "list_node.hpp"
+#include "iterator.hpp"
+#include "const_iterator.hpp"
 
 #endif

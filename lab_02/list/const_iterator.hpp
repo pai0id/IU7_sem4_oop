@@ -4,7 +4,7 @@
 #include "const_iterator.h"
 
 template<typename Type>
-ConstListIterator<Type>::ConstListIterator(std::shared_ptr<typename List<Type>::ListNode>& node)
+ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<typename List<Type>::ListNode>& node)
     : currentNode(node) {}
 
 template<typename Type>
@@ -22,13 +22,13 @@ ConstListIterator<Type> ConstListIterator<Type>::operator=(const ConstListIterat
 template<typename Type>
 typename ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const {
     checkValid(__LINE__);
-    return currentNode->data;
+    return currentNode->GetData();
 }
 
 template<typename Type>
 typename ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const {
     checkValid(__LINE__);
-    return &(currentNode->data);
+    return &(currentNode->GetData());
 }
 
 template<typename Type>
@@ -39,7 +39,7 @@ ConstListIterator<Type>::operator bool() const {
 template<typename Type>
 ConstListIterator<Type>& ConstListIterator<Type>::operator++() {
     checkValid(__LINE__);
-    currentNode = currentNode->next;
+    currentNode = currentNode->GetNext();
     return *this;
 }
 

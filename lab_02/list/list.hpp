@@ -13,7 +13,7 @@ List<Type>::List(size_type n) noexcept : csize(n) {
 
 template <typename Type>
 List<Type>::List(const List<Type>& list) noexcept {
-    for (const auto& elem : list) {
+    for (auto elem : list) {
         pushBack(elem);
     }
 }
@@ -49,7 +49,7 @@ List<Type>::List(const C& container) noexcept {
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type>
-List<Type>::List(const C&& container) noexcept {
+List<Type>::List(C&& container) noexcept {
     for (auto&& val : container) {
         pushBack(std::move(val));
     }

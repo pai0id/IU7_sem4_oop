@@ -1,7 +1,7 @@
 #ifndef CONST_ITER_H
 #define CONST_ITER_H
 
-# include <memory>
+#include <memory>
 
 template <typename Type>
 class List;
@@ -40,7 +40,7 @@ private:
 
     void checkValid(size_t line) const;
     std::shared_ptr<typename List<Type>::ListNode> getNode() const;
-    ConstListIterator(std::shared_ptr<typename List<Type>::ListNode> &node);
+    ConstListIterator(const std::shared_ptr<typename List<Type>::ListNode> &node);
 };
 
 #endif

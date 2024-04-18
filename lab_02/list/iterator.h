@@ -20,7 +20,7 @@ public:
 	using reference = Type&;
 
     ListIterator(const ListIterator<Type>& other);
-	ListIterator<Type> operator=(const ListIterator<Type> &other);
+	ListIterator<Type>& operator=(const ListIterator<Type>& other);
 
     ~ListIterator() = default;
 

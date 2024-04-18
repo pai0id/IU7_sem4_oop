@@ -25,28 +25,28 @@ template <typename Type>
 typename ListIterator<Type>::reference ListIterator<Type>::operator*()
 {
     checkValid(__LINE__);
-    return currentNode->data;
+    return currentNode->GetData();
 }
 
 template <typename Type>
 const ListIterator<Type>::reference ListIterator<Type>::operator*() const
 {
     checkValid(__LINE__);
-    return currentNode->data;
+    return currentNode->GetData();
 }
 
 template <typename Type>
 ListIterator<Type>::pointer ListIterator<Type>::operator->()
 {
     checkValid(__LINE__);
-    return &(currentNode->data);
+    return &(currentNode->GetData());
 }
 
 template <typename Type>
 const ListIterator<Type>::pointer ListIterator<Type>::operator->() const
 {
     checkValid(__LINE__);
-    return &(currentNode->data);
+    return &(currentNode->GetData());
 }
 
 template <typename Type>
@@ -59,7 +59,7 @@ template <typename Type>
 ListIterator<Type>& ListIterator<Type>::operator++()
 {
     checkValid(__LINE__);
-    currentNode = currentNode->next;
+    currentNode = currentNode->GetNext();
     return *this;
 }
 
