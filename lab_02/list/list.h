@@ -1,5 +1,4 @@
-#ifndef LIST_H
-#define LIST_H
+#pragma once
 
 #include <memory>
 #include "iterator.h"
@@ -21,7 +20,7 @@ public:
 	List() = default;
 	explicit List(const List<Type>& someList) noexcept;
 	List(List<Type>&& someList) = default;
-	List(size_type n) noexcept;
+	explicit List(size_type n) noexcept;
 
 	template <typename T>
 	requires Convertible<T, typename List<Type>::value_type>
@@ -203,5 +202,3 @@ protected:
 #include "list_node.hpp"
 #include "iterator.hpp"
 #include "const_iterator.hpp"
-
-#endif

@@ -1,19 +1,24 @@
-#ifndef LIST_IMPL_H
-#define LIST_IMPL_H
+#pragma once
 
 #include <iostream>
+#include <ctime>
 #include "list.h"
+#include "exceptions.h"
 
 template <typename Type>
-List<Type>::List(size_type n) noexcept : csize(n) {
-    for (size_type i = 0; i < n; ++i) {
+List<Type>::List(size_type n) noexcept : csize(n)
+{
+    for (size_type i = 0; i < n; ++i)
+    {
         pushBack(value_type());
     }
 }
 
 template <typename Type>
-List<Type>::List(const List<Type>& list) noexcept {
-    for (auto elem : list) {
+List<Type>::List(const List<Type>& list) noexcept
+{
+    for (auto elem : list)
+    {
         pushBack(elem);
     }
 }
@@ -21,8 +26,10 @@ List<Type>::List(const List<Type>& list) noexcept {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-List<Type>::List(size_type n, const T& value) noexcept : csize(n) {
-    for (size_type i = 0; i < n; ++i) {
+List<Type>::List(size_type n, const T& value) noexcept : csize(n)
+{
+    for (size_type i = 0; i < n; ++i)
+    {
         pushBack(value);
     }
 }
@@ -30,8 +37,10 @@ List<Type>::List(size_type n, const T& value) noexcept : csize(n) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-List<Type>::List(std::initializer_list<T> initList) noexcept : csize(initList.size()) {
-    for (const auto& elem : initList) {
+List<Type>::List(std::initializer_list<T> initList) noexcept : csize(initList.size())
+{
+    for (const auto& elem : initList)
+    {
         pushBack(elem);
     }
 }
@@ -40,8 +49,10 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
          ForwardIterator<typename C::iterator>
-List<Type>::List(const C& container) noexcept {
-    for (const auto& elem : container) {
+List<Type>::List(const C& container) noexcept
+{
+    for (const auto& elem : container)
+    {
         pushBack(elem);
     }
 }
@@ -49,8 +60,10 @@ List<Type>::List(const C& container) noexcept {
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type>
-List<Type>::List(C&& container) noexcept {
-    for (auto&& val : container) {
+List<Type>::List(C&& container) noexcept
+{
+    for (auto&& val : container)
+    {
         pushBack(std::move(val));
     }
 }
@@ -58,64 +71,79 @@ List<Type>::List(C&& container) noexcept {
 template <typename Type>
 template <ForwardIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
-List<Type>::List(const Iter& begin, const Iter& end) noexcept {
-    for (auto it = begin; it != end; ++it) {
+List<Type>::List(const Iter& begin, const Iter& end) noexcept
+{
+    for (auto it = begin; it != end; ++it)
+    {
         pushBack(*it);
     }
 }
 
 template <typename Type>
-typename List<Type>::size_type List<Type>::size() const noexcept {
+typename List<Type>::size_type List<Type>::size() const noexcept
+{
     return csize;
 }
 
 template <typename Type>
-typename List<Type>::iterator List<Type>::begin() noexcept {
+typename List<Type>::iterator List<Type>::begin() noexcept
+{
     return iterator(head);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::begin() const noexcept {
+typename List<Type>::const_iterator List<Type>::begin() const noexcept
+{
     return const_iterator(head);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::cbegin() const noexcept {
+typename List<Type>::const_iterator List<Type>::cbegin() const noexcept
+{
     return const_iterator(head);
 }
 
 template <typename Type>
-typename List<Type>::iterator List<Type>::end() noexcept {
+typename List<Type>::iterator List<Type>::end() noexcept
+{
     return iterator(tail);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::end() const noexcept {
+typename List<Type>::const_iterator List<Type>::end() const noexcept
+{
     return const_iterator(tail);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::cend() const noexcept {
+typename List<Type>::const_iterator List<Type>::cend() const noexcept
+{
     return const_iterator(tail);
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator=(const List<Type>& someList) {
-    if (this == &someList) {
+List<Type>& List<Type>::operator=(const List<Type>& someList)
+{
+    if (this == &someList)
+    {
         return *this;
     }
-    for (const auto& elem : someList) {
+    for (const auto& elem : someList)
+    {
         pushBack(elem);
     }
     return *this;
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator=(List<Type>&& someList) {
-    if (this == &someList) {
+List<Type>& List<Type>::operator=(List<Type>&& someList)
+{
+    if (this == &someList)
+    {
         return *this;
     }
-    for (auto&& elem : someList) {
+    for (auto&& elem : someList)
+    {
         pushBack(std::move(elem));
     }
     return *this;
@@ -125,9 +153,11 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
-List<Type>& List<Type>::operator=(const C& container) {
+List<Type>& List<Type>::operator=(const C& container)
+{
     clear();
-    for (const auto& val : container) {
+    for (const auto& val : container)
+    {
         pushBack(val);
     }
     return *this;
@@ -136,9 +166,11 @@ List<Type>& List<Type>::operator=(const C& container) {
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type>
-List<Type>& List<Type>::operator=(C&& container) {
+List<Type>& List<Type>::operator=(C&& container)
+{
     clear();
-    for (auto&& val : container) {
+    for (auto&& val : container)
+    {
         pushBack(std::move(val));
     }
     return *this;
@@ -147,9 +179,11 @@ List<Type>& List<Type>::operator=(C&& container) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, Type>
-List<Type>& List<Type>::operator=(std::initializer_list<T> someList) {
+List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
+{
     clear();
-    for (const auto& val : someList) {
+    for (const auto& val : someList)
+    {
         pushBack(val);
     }
     return *this;
@@ -158,11 +192,15 @@ List<Type>& List<Type>::operator=(std::initializer_list<T> someList) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-void List<Type>::pushFront(const T& data) {
+void List<Type>::pushFront(const T& data) 
+{
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
-    if (!head) {
+    if (!head)
+    {
         head = tail = newNode;
-    } else {
+    }
+    else
+    {
         newNode->SetNext(head);
         head = newNode;
     }
@@ -172,11 +210,15 @@ void List<Type>::pushFront(const T& data) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-void List<Type>::pushFront(T&& data) {
+void List<Type>::pushFront(T&& data)
+{
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
-    if (!head) {
+    if (!head)
+    {
         head = tail = newNode;
-    } else {
+    }
+    else
+    {
         newNode->SetNext(head);
         head = newNode;
     }
@@ -184,14 +226,19 @@ void List<Type>::pushFront(T&& data) {
 }
 
 template <typename Type>
-void List<Type>::popFront() noexcept {
-    if (!head) {
+void List<Type>::popFront() noexcept
+{
+    if (!head)
+    {
         return;
     }
-    if (head == tail) {
+    if (head == tail)
+    {
         head.reset();
         tail.reset();
-    } else {
+    }
+    else
+    {
         head = head->GetNext();
     }
     --csize;
@@ -200,11 +247,15 @@ void List<Type>::popFront() noexcept {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-void List<Type>::pushBack(const T& data) {
+void List<Type>::pushBack(const T& data)
+{
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
-    if (!head) {
+    if (!head)
+    {
         head = tail = newNode;
-    } else {
+    }
+    else
+    {
         tail->SetNext(newNode);
         tail = newNode;
     }
@@ -214,11 +265,15 @@ void List<Type>::pushBack(const T& data) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-void List<Type>::pushBack(T&& data) {
+void List<Type>::pushBack(T&& data)
+{
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
-    if (!head) {
+    if (!head)
+    {
         head = tail = newNode;
-    } else {
+    }
+    else
+    {
         tail->SetNext(newNode);
         tail = newNode;
     }
@@ -226,18 +281,22 @@ void List<Type>::pushBack(T&& data) {
 }
 
 template <typename Type>
-void List<Type>::popBack() noexcept {
-    if (!head) {
+void List<Type>::popBack() noexcept
+{
+    if (!head)
+    {
         return;
     }
-    if (head == tail) {
+    if (head == tail)
+    {
         head.reset();
         tail.reset();
         csize = 0;
         return;
     }
     auto currentNode = head;
-    while (currentNode->GetNext() != tail) {
+    while (currentNode->GetNext() != tail)
+    {
         currentNode = currentNode->GetNext();
     }
     tail = currentNode;
@@ -246,44 +305,86 @@ void List<Type>::popBack() noexcept {
 }
 
 template <typename Type>
-typename List<Type>::iterator List<Type>::getFront() {
+typename List<Type>::iterator List<Type>::getFront()
+{
+    if (!head)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
     return iterator(head);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::getFront() const {
+typename List<Type>::const_iterator List<Type>::getFront() const
+{
+    if (!head)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
     return const_iterator(head);
 }
 
 template <typename Type>
-typename List<Type>::iterator List<Type>::getBack() {
+typename List<Type>::iterator List<Type>::getBack()
+{
+    if (!tail)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
     return iterator(tail);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::getBack() const {
+typename List<Type>::const_iterator List<Type>::getBack() const
+{
+    if (!tail)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
     return const_iterator(tail);
 }
 
 template <typename Type>
-typename List<Type>::iterator List<Type>::get(size_t index) {
-    if (index >= csize) {
-        throw std::out_of_range("Index out of range");
+typename List<Type>::iterator List<Type>::get(size_t index)
+{
+    if (index >= csize)
+    {
+        time_t t_time = time(NULL);
+        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    if (csize == 0)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
     auto currentNode = head;
-    for (size_t i = 0; i < index; ++i) {
+    for (size_t i = 0; i < index; ++i)
+    {
         currentNode = currentNode->GetNext();
     }
     return iterator(currentNode);
 }
 
 template <typename Type>
-typename List<Type>::const_iterator List<Type>::get(size_t index) const {
-    if (index >= csize) {
-        throw std::out_of_range("Index out of range");
+typename List<Type>::const_iterator List<Type>::get(size_t index) const
+{
+    if (index >= csize)
+    {
+        time_t t_time = time(NULL);
+        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    if (csize == 0)
+    {
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
     auto currentNode = head;
-    for (size_t i = 0; i < index; ++i) {
+    for (size_t i = 0; i < index; ++i)
+    {
         currentNode = currentNode->GetNext();
     }
     return const_iterator(currentNode);
@@ -292,16 +393,23 @@ typename List<Type>::const_iterator List<Type>::get(size_t index) const {
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data) {
-    if (pos == cbegin()) {
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data)
+{
+    if (pos == cbegin())
+    {
         pushFront(data);
         return begin();
-    } else if (pos == cend()) {
+    }
+    else if (pos == cend())
+    {
         pushBack(data);
         return iterator(tail);
-    } else {
+    }
+    else
+    {
         auto currentNode = head;
-        while (currentNode->GetNext() != pos.getNode()) {
+        while (currentNode->GetNext() != pos.getNode())
+        {
             currentNode = currentNode->GetNext();
         }
         std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data, currentNode->GetNext());
@@ -314,16 +422,23 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
 template <typename Type>
 template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data) {
-    if (pos == cbegin()) {
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
+{
+    if (pos == cbegin())
+    {
         pushFront(std::move(data));
         return begin();
-    } else if (pos == cend()) {
+    }
+    else if (pos == cend())
+    {
         pushBack(std::move(data));
         return iterator(tail);
-    } else {
+    }
+    else
+    {
         auto currentNode = head;
-        while (currentNode->GetNext() != pos.getNode()) {
+        while (currentNode->GetNext() != pos.getNode())
+        {
             currentNode = currentNode->GetNext();
         }
         std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data), currentNode->GetNext());
@@ -337,8 +452,10 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
-List<Type>& List<Type>::operator+=(const C &container) {
-    for (const auto& val : container) {
+List<Type>& List<Type>::operator+=(const C &container)
+{
+    for (const auto& val : container)
+    {
         pushBack(val);
     }
     return *this;
@@ -348,8 +465,10 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
-List<Type>& List<Type>::operator+=(C &&container) {
-    for (auto&& val : container) {
+List<Type>& List<Type>::operator+=(C &&container)
+{
+    for (auto&& val : container)
+    {
         pushBack(std::move(val));
     }
     return *this;
@@ -358,7 +477,8 @@ List<Type>& List<Type>::operator+=(C &&container) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, Type>
-List<Type>& List<Type>::operator+=(const T &data) {
+List<Type>& List<Type>::operator+=(const T &data)
+{
     pushBack(data);
     return *this;
 }
@@ -366,7 +486,8 @@ List<Type>& List<Type>::operator+=(const T &data) {
 template <typename Type>
 template <typename T>
 requires Convertible<T, Type>
-List<Type>& List<Type>::operator+=(T &&data) {
+List<Type>& List<Type>::operator+=(T &&data)
+{
     pushBack(std::move(data));
     return *this;
 }
@@ -375,9 +496,11 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
-List<Type> List<Type>::operator+(const C &container) const {
+List<Type> List<Type>::operator+(const C &container) const
+{
     List<Type> result(*this);
-    for (const auto& val : container) {
+    for (const auto& val : container)
+    {
         result.pushBack(val);
     }
     return result;
@@ -387,9 +510,11 @@ template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
-List<Type> List<Type>::operator+(C &&container) const {
+List<Type> List<Type>::operator+(C &&container) const
+{
     List<Type> result(*this);
-    for (auto&& val : container) {
+    for (auto&& val : container)
+    {
         result.pushBack(std::move(val));
     }
     return result;
@@ -398,7 +523,8 @@ List<Type> List<Type>::operator+(C &&container) const {
 template <typename Type>
 template <typename T>
 requires Convertible<T, Type>
-List<Type> List<Type>::operator+(const T &data) const {
+List<Type> List<Type>::operator+(const T &data) const
+{
     List<Type> result(*this);
     result.pushBack(data);
     return result;
@@ -407,7 +533,8 @@ List<Type> List<Type>::operator+(const T &data) const {
 template <typename Type>
 template <typename T>
 requires Convertible<T, Type>
-List<Type> List<Type>::operator+(T &&data) const {
+List<Type> List<Type>::operator+(T &&data) const
+{
     List<Type> result(*this);
     result.pushBack(std::move(data));
     return result;
@@ -415,10 +542,12 @@ List<Type> List<Type>::operator+(T &&data) const {
 
 template <typename Type, typename T>
 requires Convertible<T, Type>
-List<Type> operator+(const T& value, const List<Type>& container) {
+List<Type> operator+(const T& value, const List<Type>& container)
+{
     List<Type> result;
     result.pushBack(value);
-    for (const auto& val : container) {
+    for (const auto& val : container)
+    {
         result.pushBack(val);
     }
     return result;
@@ -426,18 +555,22 @@ List<Type> operator+(const T& value, const List<Type>& container) {
 
 template <typename Type, typename T>
 requires Convertible<T, Type>
-List<Type> operator+(T&& value, const List<Type>& container) {
+List<Type> operator+(T&& value, const List<Type>& container)
+{
     List<Type> result;
     result.pushBack(std::move(value));
-    for (const auto& val : container) {
+    for (const auto& val : container)
+    {
         result.pushBack(val);
     }
     return result;
 }
 
 template <typename Type>
-void List<Type>::reverse() noexcept {
-    if (csize <= 1) {
+void List<Type>::reverse() noexcept
+{
+    if (csize <= 1)
+    {
         return;
     }
     
@@ -447,7 +580,8 @@ void List<Type>::reverse() noexcept {
     
     tail = head;
     
-    while (nextNode) {
+    while (nextNode)
+    {
         currentNode->SetNext(prevNode);
         
         prevNode = currentNode;
@@ -461,13 +595,16 @@ void List<Type>::reverse() noexcept {
 }
 
 template <typename Type>
-void List<Type>::remove(const_iterator pos) {
-    if (pos == cend()) {
+void List<Type>::remove(const_iterator pos)
+{
+    if (pos == cend())
+    {
         popBack();
         return;
     }
 
-    if (pos == cbegin()) {
+    if (pos == cbegin())
+    {
         popFront();
         return;
     }
@@ -475,7 +612,8 @@ void List<Type>::remove(const_iterator pos) {
     auto prevNode = head;
     auto currentNode = head->GetNext();
 
-    while (currentNode != pos.getNode()) {
+    while (currentNode != pos.getNode())
+    {
         prevNode = currentNode;
         currentNode = currentNode->GetNext();
     }
@@ -483,26 +621,31 @@ void List<Type>::remove(const_iterator pos) {
     prevNode->SetNext(currentNode->GetNext());
     --csize;
 
-    if (pos.getNode() == tail) {
+    if (pos.getNode() == tail)
+    {
         tail = prevNode;
     }
 }
 
 template <typename Type>
-void List<Type>::clear() noexcept {
+void List<Type>::clear() noexcept
+{
     head.reset();
     tail.reset();
     csize = 0;
 }
 
 template <typename Type>
-bool List<Type>::isEmpty() const noexcept {
+bool List<Type>::isEmpty() const noexcept
+{
     return csize == 0;
 }
 
 template <typename Type>
-bool List<Type>::operator==(const List<Type>& someList) const {
-    if (csize != someList.csize) {
+bool List<Type>::operator==(const List<Type>& someList) const
+{
+    if (csize != someList.csize)
+    {
         return false;
     }
 
@@ -510,8 +653,10 @@ bool List<Type>::operator==(const List<Type>& someList) const {
     auto otherNode = someList.head;
 
    
-    while (thisNode && otherNode) {
-        if (thisNode->GetData() != otherNode->GetData()) {
+    while (thisNode && otherNode)
+    {
+        if (thisNode->GetData() != otherNode->GetData())
+        {
             return false;
         }
         thisNode = thisNode->GetNext();
@@ -523,8 +668,7 @@ bool List<Type>::operator==(const List<Type>& someList) const {
 }
 
 template <typename Type>
-bool List<Type>::operator!=(const List<Type>& someList) const {
+bool List<Type>::operator!=(const List<Type>& someList) const
+{
     return !(*this == someList);
 }
-
-#endif

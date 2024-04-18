@@ -1,5 +1,4 @@
-#ifndef ITER_H
-#define ITER_H
+#pragma once
 
 #include <memory>
 
@@ -45,5 +44,3 @@ private:
     std::shared_ptr<typename List<Type>::ListNode> getNode() const;
     ListIterator(std::shared_ptr<typename List<Type>::ListNode>& node);
 };
-
-#endif

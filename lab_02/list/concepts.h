@@ -1,5 +1,4 @@
-#ifndef CONCEPTS_H
-#define CONCEPTS_H
+#pragma once
 
 #include <concepts>
 #include <iterator>
@@ -62,5 +61,3 @@ Incrementable<I> &&
 DerivedFrom<typename I::iterator_category, std::forward_iterator_tag>;
 
 # pragma endregion
-
-#endif

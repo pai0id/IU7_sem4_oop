@@ -1,5 +1,4 @@
-#ifndef CONST_ITER_H
-#define CONST_ITER_H
+#pragma once
 
 #include <memory>
 
@@ -42,5 +41,3 @@ private:
     std::shared_ptr<typename List<Type>::ListNode> getNode() const;
     ConstListIterator(const std::shared_ptr<typename List<Type>::ListNode> &node);
 };
-
-#endif

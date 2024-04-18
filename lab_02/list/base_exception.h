@@ -1,5 +1,4 @@
-#ifndef BASE_EXCEPTION_H
-#define BASE_EXCEPTION_H
+#pragma once
 
 #include <exception>
 #include <string>
@@ -7,12 +6,22 @@
 class BaseException : public std::exception
 {
 public:
-    BaseException(const std::string &time, const std::string &filename,
-                  const size_t line, const std::string &class_name,
-                  const std::string &method_name, const std::string &info);
-    virtual const char* what() const noexcept override;
-protected:
-    std::string errMsg;
-};
+    explicit BaseException(
+                           const std::string& filename,
+                           const std::string& classname,
+                           const int line,
+                           const char *time,
+                           const std::string& info) {
+        m_msg = "In: "          + filename             +
+                "\ninside: "    + classname            +
+                "\nat line: "   + std::to_string(line) +
+                "\nat: "        + time                 +
+                "­\noccured: "   + info;
+    }
 
-#endif
+    const char *what() const noexcept override {
+        return m_msg.c_str();
+    }
+private:
+    std::string m_msg;
+};

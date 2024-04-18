@@ -1,7 +1,9 @@
-#ifndef ITER_IMPL_H
-#define ITER_IMPL_H
+#pragma once
 
+#include "iterator.h"
+#include "exceptions.h"
 #include <memory>
+#include <ctime>
 
 template <typename Type>
 ListIterator<Type>::ListIterator(const ListIterator& other) : currentNode(other.currentNode) {}
@@ -89,7 +91,8 @@ void ListIterator<Type>::checkValid(size_t line) const
 {
     if (!IsValid())
     {
-        throw std::runtime_error("Iterator is not valid at line " + std::to_string(line));
+        time_t t_time = time(NULL);
+        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
 }
 
@@ -101,5 +104,3 @@ std::shared_ptr<typename List<Type>::ListNode> ListIterator<Type>::getNode() con
 
 template <typename Type>
 ListIterator<Type>::ListIterator(std::shared_ptr<typename List<Type>::ListNode>& node) : currentNode(node) {}
-
-#endif
