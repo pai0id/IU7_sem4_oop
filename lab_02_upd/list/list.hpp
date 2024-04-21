@@ -1,23 +1,15 @@
 #pragma once
 
-#include <iostream>
 #include <ctime>
+#include <iostream>
+
 #include "list.h"
 #include "exceptions.h"
 
 template <typename Type>
-List<Type>::List(size_type n)
+List<Type>::List(const List<Type>& someList)
 {
-    for (size_type i = 0; i < n; ++i)
-    {
-        pushBack(value_type());
-    }
-}
-
-template <typename Type>
-List<Type>::List(const List<Type>& list)
-{
-    for (auto elem : list)
+    for (const auto& elem : container)
     {
         pushBack(elem);
     }
@@ -646,34 +638,11 @@ bool List<Type>::isEmpty() const noexcept
     return csize == 0;
 }
 
-template <typename Type>
-bool List<Type>::operator==(const List<Type>& someList) const
+template <typename T>
+std::ostream& operator <<(std::ostream & os, const List<T> & list)
 {
-    if (csize != someList.csize)
-    {
-        return false;
-    }
+	for (auto& elem : list)
+		std::cout << elem << " ";
 
-    auto thisNode = head;
-    auto otherNode = someList.head;
-
-   
-    while (thisNode && otherNode)
-    {
-        if (thisNode->GetData() != otherNode->GetData())
-        {
-            return false;
-        }
-        thisNode = thisNode->GetNext();
-        otherNode = otherNode->GetNext();
-    }
-
-   
-    return true;
-}
-
-template <typename Type>
-bool List<Type>::operator!=(const List<Type>& someList) const
-{
-    return !(*this == someList);
+	return os;
 }

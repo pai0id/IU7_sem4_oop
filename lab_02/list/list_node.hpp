@@ -4,19 +4,19 @@
 #include "list.h"
 
 template <typename Type>
-List<Type>::ListNode::ListNode(const typename List<Type>::value_type &data) noexcept : data(data), next(nullptr) {}
+List<Type>::ListNode::ListNode(const typename List<Type>::value_type &data) : data(data), next(nullptr) {}
 
 template <typename Type>
-List<Type>::ListNode::ListNode(typename List<Type>::value_type &&data) noexcept : data(std::move(data)), next(nullptr) {}
+List<Type>::ListNode::ListNode(typename List<Type>::value_type &&data) : data(std::move(data)), next(nullptr) {}
 
 template <typename Type>
-List<Type>::ListNode::ListNode(const typename List<Type>::value_type &data, const std::shared_ptr<ListNode> &next) noexcept : data(data), next(next) {}
+List<Type>::ListNode::ListNode(const typename List<Type>::value_type &data, const std::shared_ptr<ListNode> &next) : data(data), next(next) {}
 
 template <typename Type>
-List<Type>::ListNode::ListNode(typename List<Type>::value_type &&data, const std::shared_ptr<ListNode> &next) noexcept : data(std::move(data)), next(next) {}
+List<Type>::ListNode::ListNode(typename List<Type>::value_type &&data, const std::shared_ptr<ListNode> &next) : data(std::move(data)), next(next) {}
 
 template <typename Type>
-List<Type>::ListNode::ListNode(const ListNode &node) noexcept : data(node.data), next(node.next) {}
+List<Type>::ListNode::ListNode(const ListNode &node) : data(node.data), next(node.next) {}
 
 template <typename Type>
 List<Type>::ListNode::ListNode(ListNode &&node) noexcept : data(std::move(node.data)), next(std::move(node.next)) {}

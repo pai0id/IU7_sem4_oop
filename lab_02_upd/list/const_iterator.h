@@ -4,7 +4,6 @@
 #include "concepts.h"
 
 template <typename Type>
-requires EqualityComparable<Type>
 class List;
 
 template <typename Type>

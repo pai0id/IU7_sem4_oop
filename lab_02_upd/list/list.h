@@ -7,7 +7,6 @@
 #include "base_list.h"
 
 template <typename Type>
-requires EqualityComparable<Type>
 class List : public BaseList
 {
 public:
@@ -22,7 +21,6 @@ public:
 	List() = default;
 	explicit List(const List<Type>& someList);
 	List(List<Type>&& someList) = default;
-	explicit List(size_type n);
 
 	template <typename T>
 	requires Convertible<T, typename List<Type>::value_type>
@@ -57,13 +55,13 @@ public:
 	const_iterator end() const noexcept;
 	const_iterator cend() const noexcept;
 
-	List<Type>& operator=(const List<Type>& someList);
+	explicit List<Type>& operator=(const List<Type>& someList);
 	List<Type>& operator=(List<Type>&& someList);
 
 	template <Container C>
 	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
 			 ForwardIterator<typename C::iterator>
-	List<Type>& operator=(const C& container);
+	explicit List<Type>& operator=(const C& container);
 
 	template <Container C>
     requires Convertible<typename C::value_type, typename List<Type>::value_type>
@@ -153,42 +151,46 @@ public:
 
 	bool isEmpty() const noexcept;
 
-	bool operator==(const List<Type>& someList) const;
-	bool operator!=(const List<Type>& someList) const;
-
 protected:
 	class ListNode 
 	{
 	public:
-		ListNode() = default;
-		ListNode(const value_type &data);
-		ListNode(value_type &&data);
-		ListNode(const value_type &data, const std::shared_ptr<ListNode> &next);
-		ListNode(value_type &&data, const std::shared_ptr<ListNode> &next);
-		ListNode(const ListNode &node);
-		ListNode(ListNode &&node) noexcept;
+		using node_ptr = std::shared_ptr<ListNode>;
+		using data_ptr = std::shared_ptr<value_type>;
+
+		ListNode(const ListNode&) = delete;
+		ListNode(ListNode&&) = delete;
+		ListNode& operator=(const ListNode&) = delete;
+		ListNode& operator=(ListNode&&) = delete;
+
+		static node_ptr initNode(const value_type &data);
+		static node_ptr initNode(value_type &&data);
+		static node_ptr initNode(const value_type &data, const node_ptr &next);
+		static node_ptr initNode(value_type &&data, const node_ptr &next);
+		static node_ptr initNode(const ListNode &node);
+		static node_ptr initNode(ListNode &&node);
 		~ListNode() = default;
 
-		void SetNext(const std::shared_ptr<ListNode> &node);
+		void SetNext(const node_ptr &node);
 		void SetData(const value_type &data);
 		void SetData(value_type &&data);
 		void SetNextNull();
 
-		value_type &GetData();
-		const value_type &GetData() const;
-		std::shared_ptr<ListNode> GetNext() const;
-
-		bool operator==(const ListNode &node) const;
-		bool operator!=(const ListNode &node) const;
+		data_ptr GetData();
+		const data_ptr GetData() const;
+		node_ptr GetNext() const;
 	
 	protected:
 		value_type data;
-		std::shared_ptr<ListNode> next;
+		node_ptr next = nullptr;
+
+	private:
+		ListNode() = default;
 	};
 
 protected:
-	std::shared_ptr<ListNode> head = nullptr;
-	std::shared_ptr<ListNode> tail = nullptr;
+	ListNode::node_ptr head = nullptr;
+	ListNode::node_ptr tail = nullptr;
 	size_t csize = 0;
 };
 
@@ -199,6 +201,9 @@ List<Type> operator+(const T& value, const List<Type>& container);
 template <typename Type, typename T>
 requires Convertible<T, Type>
 List<Type> operator+(T&& value, const List<Type>& container);
+
+template <typename T>
+std::ostream& operator <<(std::ostream & os, const List<T> & list);
 
 #include "list.hpp"
 #include "list_node.hpp"

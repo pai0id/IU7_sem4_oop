@@ -3,15 +3,6 @@
 #include <list>
 #include "list.h"
 
-template <typename T>
-std::ostream& operator <<(std::ostream & os, const List<T> & list)
-{
-	for (auto& elem : list)
-		std::cout << elem << " ";
-
-	return os;
-}
-
 int main() {
     List<int> list1;
     std::cout << "List1: " << list1 << std::endl;

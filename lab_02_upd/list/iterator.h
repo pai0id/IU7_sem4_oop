@@ -4,7 +4,6 @@
 #include "concepts.h"
 
 template <typename Type>
-requires EqualityComparable<Type>
 class List;
 
 template <typename Type>
@@ -20,6 +19,7 @@ public:
 	using pointer = Type*;
 	using reference = Type&;
 
+	ListIterator() = delete;
     ListIterator(const ListIterator<Type>& other);
 	ListIterator<Type>& operator=(const ListIterator<Type>& other);
 
