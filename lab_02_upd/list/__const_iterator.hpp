@@ -5,12 +5,10 @@
 #include <ctime>
 
 template<typename Type>
-ConstListIterator<Type>::ConstListIterator(const std::shared_ptr<typename List<Type>::ListNode>& node)
-    : currentNode(node) {}
+ConstListIterator<Type>::ConstListIterator(const List<Type>::ListNode::node_ptr node) : currentNode(node) {}
 
 template<typename Type>
-ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type>& other)
-    : currentNode(other.currentNode) {}
+ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type>& other) : currentNode(other.currentNode) {}
 
 template<typename Type>
 ConstListIterator<Type> ConstListIterator<Type>::operator=(const ConstListIterator<Type>& other)
@@ -26,14 +24,14 @@ template<typename Type>
 typename ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const
 {
     checkValid(__LINE__);
-    return currentNode->GetData();
+    return *currentNode->GetData();
 }
 
 template<typename Type>
 typename ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const
 {
     checkValid(__LINE__);
-    return &(currentNode->GetData());
+    return currentNode->GetData();
 }
 
 template<typename Type>
@@ -80,7 +78,7 @@ bool ConstListIterator<Type>::IsValid() const
 
 
 template<typename Type>
-std::shared_ptr<typename List<Type>::ListNode> ConstListIterator<Type>::getNode() const
+List<Type>::ListNode::node_ptr ConstListIterator<Type>::getNode() const
 {
     return currentNode;
 }

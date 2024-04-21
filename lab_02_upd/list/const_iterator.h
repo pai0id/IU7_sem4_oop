@@ -15,7 +15,7 @@ public:
 
 	using value_type = Type;
 	using difference_type = std::ptrdiff_t;
-	using pointer = const Type*;
+	using pointer = const std::shared_ptr<Type>;
 	using reference = const Type&;
 
     ConstListIterator(const ConstListIterator<Type>& other);
@@ -36,9 +36,9 @@ public:
     bool operator!=(const ConstListIterator<Type> &other) const;
 
 private:
-    std::shared_ptr<typename List<Type>::ListNode> currentNode;
+    List<Type>::ListNode::node_ptr currentNode;
 
     void checkValid(size_t line) const;
-    std::shared_ptr<typename List<Type>::ListNode> getNode() const;
-    ConstListIterator(const std::shared_ptr<typename List<Type>::ListNode> &node);
+    List<Type>::ListNode::node_ptr getNode() const;
+    ConstListIterator(const List<Type>::ListNode::node_ptr node);
 };

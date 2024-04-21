@@ -16,10 +16,6 @@ int main() {
     std::cout << "List3: " << list3 << std::endl;
     std::cout << "Size of list3: " << list3.size() << std::endl;
 
-    List<int> list4(5);
-    std::cout << "List4: " << list4 << std::endl;
-    std::cout << "Size of list4: " << list4.size() << std::endl;
-
     List<int> list5(3, 10);
     std::cout << "List5: " << list5 << std::endl;
     std::cout << "Size of list5: " << list5.size() << std::endl;

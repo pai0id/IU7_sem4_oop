@@ -27,28 +27,28 @@ template <typename Type>
 typename ListIterator<Type>::reference ListIterator<Type>::operator*()
 {
     checkValid(__LINE__);
-    return currentNode->GetData();
+    return *currentNode->GetData();
 }
 
 template <typename Type>
 const ListIterator<Type>::reference ListIterator<Type>::operator*() const
 {
     checkValid(__LINE__);
-    return currentNode->GetData();
+    return *currentNode->GetData();
 }
 
 template <typename Type>
 ListIterator<Type>::pointer ListIterator<Type>::operator->()
 {
     checkValid(__LINE__);
-    return &(currentNode->GetData());
+    return currentNode->GetData();
 }
 
 template <typename Type>
 const ListIterator<Type>::pointer ListIterator<Type>::operator->() const
 {
     checkValid(__LINE__);
-    return &(currentNode->GetData());
+    return currentNode->GetData();
 }
 
 template <typename Type>
@@ -97,10 +97,10 @@ void ListIterator<Type>::checkValid(size_t line) const
 }
 
 template <typename Type>
-std::shared_ptr<typename List<Type>::ListNode> ListIterator<Type>::getNode() const
+List<Type>::ListNode::node_ptr ListIterator<Type>::getNode() const
 {
     return currentNode;
 }
 
 template <typename Type>
-ListIterator<Type>::ListIterator(std::shared_ptr<typename List<Type>::ListNode>& node) : currentNode(node) {}
+ListIterator<Type>::ListIterator(List<Type>::ListNode::node_ptr node) : currentNode(node) {}

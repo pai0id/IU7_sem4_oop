@@ -4,7 +4,7 @@
 #include "list.h"
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value_type &data)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value_type &data)
 {
     auto node = std::make_shared<ListNode>();
     node->data = data;
@@ -13,7 +13,7 @@ static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value
 }
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type &&data)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type &&data)
 {
     auto node = std::make_shared<ListNode>();
     node->data = std::move(data);
@@ -22,7 +22,7 @@ static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type 
 }
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value_type &data, const node_ptr &next)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value_type &data, const node_ptr &next)
 {
     auto node = std::make_shared<ListNode>();
     node->data = data;
@@ -31,7 +31,7 @@ static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value
 }
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type &&data, const node_ptr &next)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type &&data, const node_ptr &next)
 {
     auto node = std::make_shared<ListNode>();
     node->data = std::move(data);
@@ -40,7 +40,7 @@ static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type 
 }
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const ListNode &node)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const ListNode &node)
 {
     auto newNode = std::make_shared<ListNode>();
     newNode->data = node.data;
@@ -49,7 +49,7 @@ static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const ListN
 }
 
 template <typename Type>
-static List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(ListNode &&node)
+List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(ListNode &&node)
 {
     auto newNode = std::make_shared<ListNode>();
     newNode->data = std::move(node.data);
@@ -84,13 +84,13 @@ void List<Type>::ListNode::SetNextNull()
 template <typename Type>
 List<Type>::ListNode::data_ptr List<Type>::ListNode::GetData()
 {
-    return std::make_shared<List::value_type>(this->data);
+    return std::shared_ptr<List::value_type>(ListNode::node_ptr(), &this->data);
 }
 
 template <typename Type>
 const List<Type>::ListNode::data_ptr List<Type>::ListNode::GetData() const
 {
-    return std::make_shared<List::value_type>(this->data);
+    return std::shared_ptr<List::value_type>(ListNode::node_ptr(), &this->data);
 }
 
 template <typename Type>

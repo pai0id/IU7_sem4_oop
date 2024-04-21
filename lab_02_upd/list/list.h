@@ -55,13 +55,13 @@ public:
 	const_iterator end() const noexcept;
 	const_iterator cend() const noexcept;
 
-	explicit List<Type>& operator=(const List<Type>& someList);
+	List<Type>& operator=(const List<Type>& someList);
 	List<Type>& operator=(List<Type>&& someList);
 
 	template <Container C>
 	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
 			 ForwardIterator<typename C::iterator>
-	explicit List<Type>& operator=(const C& container);
+	List<Type>& operator=(const C& container);
 
 	template <Container C>
     requires Convertible<typename C::value_type, typename List<Type>::value_type>
@@ -155,6 +155,8 @@ protected:
 	class ListNode 
 	{
 	public:
+		ListNode() = default;
+		
 		using node_ptr = std::shared_ptr<ListNode>;
 		using data_ptr = std::shared_ptr<value_type>;
 
@@ -183,9 +185,6 @@ protected:
 	protected:
 		value_type data;
 		node_ptr next = nullptr;
-
-	private:
-		ListNode() = default;
 	};
 
 protected:
@@ -205,7 +204,7 @@ List<Type> operator+(T&& value, const List<Type>& container);
 template <typename T>
 std::ostream& operator <<(std::ostream & os, const List<T> & list);
 
-#include "list.hpp"
-#include "list_node.hpp"
-#include "iterator.hpp"
-#include "const_iterator.hpp"
+#include "__list.hpp"
+#include "__list_node.hpp"
+#include "__iterator.hpp"
+#include "__const_iterator.hpp"

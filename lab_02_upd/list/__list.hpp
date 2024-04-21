@@ -2,14 +2,13 @@
 
 #include <ctime>
 #include <iostream>
-
 #include "list.h"
 #include "exceptions.h"
 
 template <typename Type>
 List<Type>::List(const List<Type>& someList)
 {
-    for (const auto& elem : container)
+    for (const auto& elem : someList)
     {
         pushBack(elem);
     }
@@ -191,7 +190,7 @@ template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
 void List<Type>::pushFront(const T& data) 
 {
-    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
+    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
         head = tail = newNode;
@@ -209,7 +208,7 @@ template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
 void List<Type>::pushFront(T&& data)
 {
-    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
+    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
         head = tail = newNode;
@@ -246,7 +245,7 @@ template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
 void List<Type>::pushBack(const T& data)
 {
-    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
+    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
         head = tail = newNode;
@@ -264,7 +263,7 @@ template <typename T>
 requires Convertible<T, typename List<Type>::value_type>
 void List<Type>::pushBack(T&& data)
 {
-    std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
+    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
         head = tail = newNode;
@@ -409,7 +408,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
         {
             currentNode = currentNode->GetNext();
         }
-        std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data, currentNode->GetNext());
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
         currentNode->SetNext(newNode);
         ++csize;
         return iterator(newNode);
@@ -438,7 +437,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
         {
             currentNode = currentNode->GetNext();
         }
-        std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data), currentNode->GetNext());
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
         currentNode->SetNext(newNode);
         ++csize;
         return iterator(newNode);
