@@ -11,8 +11,7 @@ public:
     using iterator = Iter;
     using const_iterator = const Iter;
 
-    Range() = delete;
-    Range(const_iterator &fst, const_iterator &lst);
+    Range(Iter fst, Iter lst);
     ~Range() = default;
 
     size_t size() const noexcept;

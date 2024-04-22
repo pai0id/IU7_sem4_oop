@@ -164,6 +164,19 @@ List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
 }
 
 template <typename Type>
+template <ForwardIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+List<Type>& List<Type>::operator=(Range<Iter> range)
+{
+    clear();
+    for (auto it = range.begin(); it != range.end(); ++it)
+    {
+        pushBack(*it);
+    }
+    return *this;
+}
+
+template <typename Type>
 typename List<Type>::size_type List<Type>::size() const noexcept
 {
     return csize;
@@ -639,11 +652,13 @@ void List<Type>::remove(const_iterator st, size_type n)
     remove(st, end);
 }
 
-// template <typename Type>
-// void List<Type>::remove(Range<List<Type>::const_iterator> range)
-// {
-//     remove(range.begin(), range.end());
-// }
+template <typename Type>
+template <ForwardIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+void List<Type>::remove(Range<Iter> range)
+{
+    remove(range.begin(), range.end());
+}
 
 template <typename Type>
 void List<Type>::clear() noexcept

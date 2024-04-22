@@ -72,6 +72,10 @@ public:
 	requires Convertible<T, Type>
 	List<Type>& operator=(std::initializer_list<T> someList);
 
+	template <ForwardIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
+	List<Type>& operator=(Range<Iter> range);
+
 	size_type size() const noexcept;
 
 	iterator begin() noexcept;
@@ -156,7 +160,10 @@ public:
 	void remove(const_iterator pos);
 	void remove(const_iterator st, const_iterator end);
 	void remove(const_iterator st, size_type n);
-	// void remove(Range<const_iterator> range);
+
+	template <ForwardIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
+	void remove(Range<Iter> range);
 
 	void clear() noexcept;
 

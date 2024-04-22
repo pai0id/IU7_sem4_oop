@@ -19,6 +19,7 @@ public:
 	using pointer = const std::shared_ptr<Type>;
 	using reference = const Type&;
 
+	ConstListIterator() = default;
     ConstListIterator(const ConstListIterator<Type>& other);
 	ConstListIterator<Type> operator=(const ConstListIterator<Type> &other);
 
@@ -36,7 +37,7 @@ public:
     bool operator==(const ConstListIterator<Type> &other) const;
     bool operator!=(const ConstListIterator<Type> &other) const;
 
-private:
+protected:
     List<Type>::ListNode::node_ptr currentNode;
 
     void checkValid(size_t line) const;
