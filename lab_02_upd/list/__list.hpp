@@ -39,7 +39,7 @@ List<Type>::List(std::initializer_list<T> initList)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type>::List(const C& container)
 {
     for (const auto& elem : container)
@@ -51,7 +51,7 @@ List<Type>::List(const C& container)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type>::List(C&& container)
 {
     for (auto&& val : container)
@@ -61,7 +61,7 @@ List<Type>::List(C&& container)
 }
 
 template <typename Type>
-template <ForwardIterator Iter>
+template <InputIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
 List<Type>::List(const Iter& begin, const Iter& end)
 {
@@ -71,15 +71,97 @@ List<Type>::List(const Iter& begin, const Iter& end)
     }
 }
 
-// template <typename Type>
-// template <Range R>
-// List<Type>::List(const R& range)
-// {
-//     for (const auto& elem : range)
-//     {
-//         pushBack(elem);
-//     }
-// }
+template <typename Type>
+template <InputIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+List<Type>::List(Range<Iter> range)
+{
+    for (auto it = range.begin(); it != range.end(); ++it)
+    {
+        pushBack(*it);
+    }
+}
+
+template <typename Type>
+template <InputIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+List<Type>::List(const Iter& begin, const size_t size)
+{
+    auto it = begin;
+    for (size_t i = 0; i < size; ++i)
+    {
+        pushBack(*it);
+        ++it;
+    }
+}
+
+template <typename Type>
+List<Type>& List<Type>::operator=(const List<Type>& someList)
+{
+    if (this == &someList)
+    {
+        return *this;
+    }
+    for (const auto& elem : someList)
+    {
+        pushBack(elem);
+    }
+    return *this;
+}
+
+template <typename Type>
+List<Type>& List<Type>::operator=(List<Type>&& someList)
+{
+    if (this == &someList)
+    {
+        return *this;
+    }
+    head = std::move(someList.head);
+    tail = std::move(someList.tail);
+    csize = std::move(someList.csize);
+    return *this;
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         InputIterator<typename C::iterator>
+List<Type>& List<Type>::operator=(const C& container)
+{
+    clear();
+    for (const auto& val : container)
+    {
+        pushBack(val);
+    }
+    return *this;
+}
+
+template <typename Type>
+template <Container C>
+requires Convertible<typename C::value_type, Type> &&
+         InputIterator<typename C::iterator>
+List<Type>& List<Type>::operator=(C&& container)
+{
+    clear();
+    for (auto&& val : container)
+    {
+        pushBack(std::move(val));
+    }
+    return *this;
+}
+
+template <typename Type>
+template <typename T>
+requires Convertible<T, Type>
+List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
+{
+    clear();
+    for (const auto& val : someList)
+    {
+        pushBack(val);
+    }
+    return *this;
+}
 
 template <typename Type>
 typename List<Type>::size_type List<Type>::size() const noexcept
@@ -130,71 +212,47 @@ typename List<Type>::const_iterator List<Type>::cend() const noexcept
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator=(const List<Type>& someList)
+typename List<Type>::iterator List<Type>::getFront()
 {
-    if (this == &someList)
+    if (!head)
     {
-        return *this;
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
-    for (const auto& elem : someList)
-    {
-        pushBack(elem);
-    }
-    return *this;
+    return iterator(head);
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator=(List<Type>&& someList)
+typename List<Type>::const_iterator List<Type>::getFront() const
 {
-    if (this == &someList)
+    if (!head)
     {
-        return *this;
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
-    head = std::move(someList.head);
-    tail = std::move(someList.tail);
-    csize = std::move(someList.csize);
-    return *this;
+    return const_iterator(head);
 }
 
 template <typename Type>
-template <Container C>
-requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
-List<Type>& List<Type>::operator=(const C& container)
+typename List<Type>::iterator List<Type>::getBack()
 {
-    clear();
-    for (const auto& val : container)
+    if (!tail)
     {
-        pushBack(val);
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
-    return *this;
+    return iterator(tail);
 }
 
 template <typename Type>
-template <Container C>
-requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
-List<Type>& List<Type>::operator=(C&& container)
+typename List<Type>::const_iterator List<Type>::getBack() const
 {
-    clear();
-    for (auto&& val : container)
+    if (!tail)
     {
-        pushBack(std::move(val));
+        time_t t_time = time(NULL);
+        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
     }
-    return *this;
-}
-
-template <typename Type>
-template <typename T>
-requires Convertible<T, Type>
-List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
-{
-    clear();
-    for (const auto& val : someList)
-    {
-        pushBack(val);
-    }
-    return *this;
+    return const_iterator(tail);
 }
 
 template <typename Type>
@@ -373,7 +431,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(const C &container)
 {
     for (const auto& val : container)
@@ -386,7 +444,7 @@ List<Type>& List<Type>::operator+=(const C &container)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(C &&container)
 {
     for (auto&& val : container)
@@ -417,7 +475,7 @@ List<Type>& List<Type>::operator+=(T &&data)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type> List<Type>::operator+(const C &container) const
 {
     List<Type> result(*this);
@@ -431,7 +489,7 @@ List<Type> List<Type>::operator+(const C &container) const
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         ForwardIterator<typename C::iterator>
+         InputIterator<typename C::iterator>
 List<Type> List<Type>::operator+(C &&container) const
 {
     List<Type> result(*this);

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <memory>
+#include "base_list.h"
 #include "iterator.h"
 #include "const_iterator.h"
+#include "range.h"
 #include "__concepts.hpp"
-#include "base_list.h"
 
 template <typename Type>
 class List : public BaseList
@@ -23,31 +24,53 @@ public:
 	List(List<Type>&& someList) = default;
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	List(size_type n, const T& value);
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	List(std::initializer_list<T> initList);
 
 	template <Container C>
-	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-			 ForwardIterator<typename C::iterator>
+	requires Convertible<typename C::value_type, Type> &&
+			 InputIterator<typename C::iterator>
 	explicit List(const C& container);
 
 	template <Container C>
-	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-			 ForwardIterator<typename C::iterator>
+	requires Convertible<typename C::value_type, Type> &&
+			 InputIterator<typename C::iterator>
 	List(C&& container);
 
-	template <ForwardIterator Iter>
-	requires Convertible<typename Iter::value_type, typename List<Type>::value_type>
+	template <InputIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
 	explicit List(const Iter& begin, const Iter& end);
 
-	// template <Range R>
-    // List(const R& range);
+	template <InputIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
+	explicit List(Range<Iter> range);
+
+	template <InputIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
+	explicit List(const Iter& begin, const size_t size);
 	
 	~List() override = default;
+
+	List<Type>& operator=(const List<Type>& someList);
+	List<Type>& operator=(List<Type>&& someList);
+
+	template <Container C>
+	requires Convertible<typename C::value_type, Type> &&
+			 InputIterator<typename C::iterator>
+	List<Type>& operator=(const C& container);
+
+	template <Container C>
+    requires Convertible<typename C::value_type, Type> &&
+			 InputIterator<typename C::iterator>
+	List<Type>& operator=(C&& container);
+
+	template <typename T>
+	requires Convertible<T, Type>
+	List<Type>& operator=(std::initializer_list<T> someList);
 
 	size_type size() const noexcept;
 
@@ -59,90 +82,81 @@ public:
 	const_iterator end() const noexcept;
 	const_iterator cend() const noexcept;
 
-	List<Type>& operator=(const List<Type>& someList);
-	List<Type>& operator=(List<Type>&& someList);
-
-	template <Container C>
-	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-			 ForwardIterator<typename C::iterator>
-	List<Type>& operator=(const C& container);
-
-	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-			 ForwardIterator<typename C::iterator>
-	List<Type>& operator=(C&& container);
+	iterator getFront();
+	iterator getBack();
+	const_iterator getFront() const;
+	const_iterator getBack() const;
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
-	List<Type>& operator=(std::initializer_list<T> someList);
-
-	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	void pushFront(const T& data);
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	void pushFront(T&& data);
 
 	void popFront() noexcept;
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	void pushBack(const T& data);
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	void pushBack(T&& data);
 
 	void popBack() noexcept;
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	iterator insert(const_iterator pos, const T& data);
 
 	template <typename T>
-	requires Convertible<T, typename List<Type>::value_type>
+	requires Convertible<T, Type>
 	iterator insert(const_iterator pos, T&& data);
 
 	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-             ForwardIterator<typename C::iterator>
+    requires Convertible<typename C::value_type, Type> &&
+             InputIterator<typename C::iterator>
 	List<Type>& operator+=(const C &container);
 
 	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-             ForwardIterator<typename C::iterator>
+    requires Convertible<typename C::value_type, Type> &&
+             InputIterator<typename C::iterator>
 	List<Type>& operator+=(C &&container);
 
 	template <typename T>
-    requires Convertible<T, typename List<Type>::value_type>
+    requires Convertible<T, Type>
 	List<Type>& operator+=(const T &data);
 
 	template <typename T>
-    requires Convertible<T, typename List<Type>::value_type>
+    requires Convertible<T, Type>
 	List<Type>& operator+=(T &&data);
 
 	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-             ForwardIterator<typename C::iterator>
+    requires Convertible<typename C::value_type, Type> &&
+             InputIterator<typename C::iterator>
 	List<Type> operator+(const C &container) const;
 
 	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
-             ForwardIterator<typename C::iterator>
+    requires Convertible<typename C::value_type, Type> &&
+             InputIterator<typename C::iterator>
 	List<Type> operator+(C &&container) const;
 
 	template <typename T>
-    requires Convertible<T, typename List<Type>::value_type>
+    requires Convertible<T, Type>
 	List<Type> operator+(const T &data) const;
 
 	template <typename T>
-    requires Convertible<T, typename List<Type>::value_type>
+    requires Convertible<T, Type>
 	List<Type> operator+(T &&data) const;
 
 	void reverse() noexcept;
 
 	void remove(const_iterator pos);
+	// void remove(const_iterator st, const_iterator end);
+	// void remove(const_iterator st, size_type n);
+	// void remove(Range<const_iterator> range);
 
 	void clear() noexcept;
 
@@ -198,5 +212,3 @@ std::ostream& operator <<(std::ostream & os, const List<T> & list);
 
 #include "__list.hpp"
 #include "__list_node.hpp"
-#include "__iterator.hpp"
-#include "__const_iterator.hpp"

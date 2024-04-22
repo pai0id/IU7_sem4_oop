@@ -1,13 +1,14 @@
 #pragma once
 
 #include <memory>
+#include "base_iterator.h"
 #include "__concepts.hpp"
 
 template <typename Type>
 class List;
 
 template <typename Type>
-class ListIterator
+class ListIterator : public BaseIterator<Type>
 {
 public:
 	friend class List<Type>;
@@ -46,3 +47,5 @@ private:
     List<Type>::ListNode::node_ptr getNode() const;
     ListIterator(List<Type>::ListNode::node_ptr node);
 };
+
+#include "__iterator.hpp"
