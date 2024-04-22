@@ -8,7 +8,6 @@ List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(const value_type &
 {
     auto node = std::make_shared<ListNode>();
     node->data = data;
-    node->next = nullptr;
     return node;
 }
 
@@ -17,7 +16,6 @@ List<Type>::ListNode::node_ptr List<Type>::ListNode::initNode(value_type &&data)
 {
     auto node = std::make_shared<ListNode>();
     node->data = std::move(data);
-    node->next = nullptr;
     return node;
 }
 

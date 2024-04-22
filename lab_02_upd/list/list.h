@@ -152,13 +152,13 @@ public:
 	bool isEmpty() const noexcept;
 
 protected:
-	class ListNode 
+	class ListNode
 	{
 	public:
-		ListNode() = default;
-		
 		using node_ptr = std::shared_ptr<ListNode>;
 		using data_ptr = std::shared_ptr<value_type>;
+
+		ListNode() = default;
 
 		ListNode(const ListNode&) = delete;
 		ListNode(ListNode&&) = delete;
