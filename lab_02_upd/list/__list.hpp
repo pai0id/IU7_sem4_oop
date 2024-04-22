@@ -16,7 +16,7 @@ List<Type>::List(const List<Type>& someList)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 List<Type>::List(size_type n, const T& value)
 {
     for (size_type i = 0; i < n; ++i)
@@ -27,7 +27,7 @@ List<Type>::List(size_type n, const T& value)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 List<Type>::List(std::initializer_list<T> initList)
 {
     for (const auto& elem : initList)
@@ -38,7 +38,7 @@ List<Type>::List(std::initializer_list<T> initList)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+requires Convertible<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type>::List(const C& container)
 {
@@ -50,7 +50,8 @@ List<Type>::List(const C& container)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
 List<Type>::List(C&& container)
 {
     for (auto&& val : container)
@@ -161,7 +162,8 @@ List<Type>& List<Type>::operator=(const C& container)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type>
+requires Convertible<typename C::value_type, Type> &&
+         ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator=(C&& container)
 {
     clear();
@@ -187,7 +189,7 @@ List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 void List<Type>::pushFront(const T& data) 
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data);
@@ -205,7 +207,7 @@ void List<Type>::pushFront(const T& data)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 void List<Type>::pushFront(T&& data)
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data);
@@ -242,7 +244,7 @@ void List<Type>::popFront() noexcept
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 void List<Type>::pushBack(const T& data)
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data);
@@ -260,7 +262,7 @@ void List<Type>::pushBack(const T& data)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 void List<Type>::pushBack(T&& data)
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data);
@@ -388,7 +390,7 @@ typename List<Type>::const_iterator List<Type>::get(size_t index) const
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data)
 {
     if (pos == cbegin())
@@ -417,7 +419,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertible<T, Type>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 {
     if (pos == cbegin())

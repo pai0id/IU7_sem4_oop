@@ -3,7 +3,7 @@
 #include <memory>
 #include "iterator.h"
 #include "const_iterator.h"
-#include "concepts.h"
+#include "__concepts.hpp"
 #include "base_list.h"
 
 template <typename Type>
@@ -36,7 +36,8 @@ public:
 	explicit List(const C& container);
 
 	template <Container C>
-	requires Convertible<typename C::value_type, typename List<Type>::value_type>
+	requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+			 ForwardIterator<typename C::iterator>
 	List(C&& container);
 
 	template <ForwardIterator Iter>
@@ -64,7 +65,8 @@ public:
 	List<Type>& operator=(const C& container);
 
 	template <Container C>
-    requires Convertible<typename C::value_type, typename List<Type>::value_type>
+    requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+			 ForwardIterator<typename C::iterator>
 	List<Type>& operator=(C&& container);
 
 	template <typename T>
