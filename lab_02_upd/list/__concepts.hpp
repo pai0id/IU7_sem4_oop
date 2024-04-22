@@ -13,15 +13,6 @@ concept EqualityComparable = requires(T a, T b)
     { a != b } -> std::same_as<bool>;
 };
 
-// template <typename R>
-// concept Range = requires(R range)
-// {
-//     { range.begin() } -> std::same_as<decltype(range.end())>;
-    
-//     requires std::input_or_output_iterator<decltype(range.begin())>;
-//     requires std::input_or_output_iterator<decltype(range.end())>;
-// };
-
 template <typename T, typename U>
 concept DerivedFrom = std::is_base_of<U, T>::value;
 

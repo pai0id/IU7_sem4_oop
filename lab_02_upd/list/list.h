@@ -33,23 +33,23 @@ public:
 
 	template <Container C>
 	requires Convertible<typename C::value_type, Type> &&
-			 InputIterator<typename C::iterator>
+			 ForwardIterator<typename C::iterator>
 	explicit List(const C& container);
 
 	template <Container C>
 	requires Convertible<typename C::value_type, Type> &&
-			 InputIterator<typename C::iterator>
+			 ForwardIterator<typename C::iterator>
 	List(C&& container);
 
-	template <InputIterator Iter>
+	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, Type>
 	explicit List(const Iter& begin, const Iter& end);
 
-	template <InputIterator Iter>
+	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, Type>
 	explicit List(Range<Iter> range);
 
-	template <InputIterator Iter>
+	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, Type>
 	explicit List(const Iter& begin, const size_t size);
 	
@@ -60,12 +60,12 @@ public:
 
 	template <Container C>
 	requires Convertible<typename C::value_type, Type> &&
-			 InputIterator<typename C::iterator>
+			 ForwardIterator<typename C::iterator>
 	List<Type>& operator=(const C& container);
 
 	template <Container C>
     requires Convertible<typename C::value_type, Type> &&
-			 InputIterator<typename C::iterator>
+			 ForwardIterator<typename C::iterator>
 	List<Type>& operator=(C&& container);
 
 	template <typename T>
@@ -117,12 +117,12 @@ public:
 
 	template <Container C>
     requires Convertible<typename C::value_type, Type> &&
-             InputIterator<typename C::iterator>
+             ForwardIterator<typename C::iterator>
 	List<Type>& operator+=(const C &container);
 
 	template <Container C>
     requires Convertible<typename C::value_type, Type> &&
-             InputIterator<typename C::iterator>
+             ForwardIterator<typename C::iterator>
 	List<Type>& operator+=(C &&container);
 
 	template <typename T>
@@ -135,12 +135,12 @@ public:
 
 	template <Container C>
     requires Convertible<typename C::value_type, Type> &&
-             InputIterator<typename C::iterator>
+             ForwardIterator<typename C::iterator>
 	List<Type> operator+(const C &container) const;
 
 	template <Container C>
     requires Convertible<typename C::value_type, Type> &&
-             InputIterator<typename C::iterator>
+             ForwardIterator<typename C::iterator>
 	List<Type> operator+(C &&container) const;
 
 	template <typename T>
@@ -154,8 +154,8 @@ public:
 	void reverse() noexcept;
 
 	void remove(const_iterator pos);
-	// void remove(const_iterator st, const_iterator end);
-	// void remove(const_iterator st, size_type n);
+	void remove(const_iterator st, const_iterator end);
+	void remove(const_iterator st, size_type n);
 	// void remove(Range<const_iterator> range);
 
 	void clear() noexcept;

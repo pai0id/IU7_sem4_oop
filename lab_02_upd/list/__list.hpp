@@ -39,7 +39,7 @@ List<Type>::List(std::initializer_list<T> initList)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>::List(const C& container)
 {
     for (const auto& elem : container)
@@ -51,7 +51,7 @@ List<Type>::List(const C& container)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>::List(C&& container)
 {
     for (auto&& val : container)
@@ -61,7 +61,7 @@ List<Type>::List(C&& container)
 }
 
 template <typename Type>
-template <InputIterator Iter>
+template <ForwardIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
 List<Type>::List(const Iter& begin, const Iter& end)
 {
@@ -72,7 +72,7 @@ List<Type>::List(const Iter& begin, const Iter& end)
 }
 
 template <typename Type>
-template <InputIterator Iter>
+template <ForwardIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
 List<Type>::List(Range<Iter> range)
 {
@@ -83,7 +83,7 @@ List<Type>::List(Range<Iter> range)
 }
 
 template <typename Type>
-template <InputIterator Iter>
+template <ForwardIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
 List<Type>::List(const Iter& begin, const size_t size)
 {
@@ -125,7 +125,7 @@ List<Type>& List<Type>::operator=(List<Type>&& someList)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator=(const C& container)
 {
     clear();
@@ -139,7 +139,7 @@ List<Type>& List<Type>::operator=(const C& container)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator=(C&& container)
 {
     clear();
@@ -431,7 +431,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(const C &container)
 {
     for (const auto& val : container)
@@ -444,7 +444,7 @@ List<Type>& List<Type>::operator+=(const C &container)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(C &&container)
 {
     for (auto&& val : container)
@@ -475,7 +475,7 @@ List<Type>& List<Type>::operator+=(T &&data)
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type> List<Type>::operator+(const C &container) const
 {
     List<Type> result(*this);
@@ -489,7 +489,7 @@ List<Type> List<Type>::operator+(const C &container) const
 template <typename Type>
 template <Container C>
 requires Convertible<typename C::value_type, Type> &&
-         InputIterator<typename C::iterator>
+         ForwardIterator<typename C::iterator>
 List<Type> List<Type>::operator+(C &&container) const
 {
     List<Type> result(*this);
@@ -606,6 +606,44 @@ void List<Type>::remove(const_iterator pos)
         tail = prevNode;
     }
 }
+
+template <typename Type>
+void List<Type>::remove(const_iterator st, const_iterator end)
+{
+    if (st == cbegin() && end == cend())
+    {
+        clear();
+        return;
+    }
+
+    auto prevNode = head;
+    auto currentNode = head->GetNext();
+
+    while (currentNode != end.getNode())
+    {
+        if (currentNode == st.getNode())
+        {
+            prevNode->SetNext(end.getNode());
+            csize -= std::distance(st, end);
+            return;
+        }
+        prevNode = currentNode;
+        currentNode = currentNode->GetNext();
+    }
+}
+
+template <typename Type>
+void List<Type>::remove(const_iterator st, size_type n)
+{
+    auto end = std::next(st, n);
+    remove(st, end);
+}
+
+// template <typename Type>
+// void List<Type>::remove(Range<List<Type>::const_iterator> range)
+// {
+//     remove(range.begin(), range.end());
+// }
 
 template <typename Type>
 void List<Type>::clear() noexcept

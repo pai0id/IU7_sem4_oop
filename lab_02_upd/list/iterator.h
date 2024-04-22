@@ -20,7 +20,6 @@ public:
 	using pointer = std::shared_ptr<Type>;
 	using reference = Type&;
 
-	ListIterator() = delete;
     ListIterator(const ListIterator<Type>& other);
 	ListIterator<Type>& operator=(const ListIterator<Type>& other);
 

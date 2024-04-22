@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include "list.h"
+#include "range.h"
 
 int main() {
     List<int> list1;
@@ -29,10 +30,14 @@ int main() {
     std::cout << "List7(from vec): " << list7 << std::endl;
     std::cout << "Size of list7: " << list7.size() << std::endl;
 
-    std::list<int> list8 = {7, 8, 9};
+    List<int> list8({7, 8, 9});
     List<int> list9(list8.begin(), list8.end());
     std::cout << "List9(from list): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;
+
+    // List<int> list9_1(Range<typename ConstListIterator>(list8.cbegin(), list8.cend()));
+    // std::cout << "List9(from range): " << list9 << std::endl;
+    // std::cout << "Size of list9: " << list9.size() << std::endl;
 
     List<int> listTmp = 1.2 + list9;
     std::cout << "Tmp: " << listTmp << std::endl;

@@ -2,7 +2,7 @@
 
 #include "__concepts.hpp"
 
-template <InputIterator Iter>
+template <ForwardIterator Iter>
 class Range
 {
 public:
@@ -12,7 +12,7 @@ public:
     using const_iterator = const Iter;
 
     Range() = delete;
-    Range(Iter fst, Iter lst);
+    Range(const_iterator &fst, const_iterator &lst);
     ~Range() = default;
 
     size_t size() const noexcept;
