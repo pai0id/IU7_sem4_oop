@@ -62,9 +62,6 @@ int main() {
     list11.insert(list11.cbegin(), 5);
     std::cout << "Size of list11 after insert: " << list11.size() << std::endl;
 
-    list11.reverse();
-    std::cout << "Is list11 reversed? " << (list11.begin() == list11.getBack() ? "Yes" : "No") << std::endl;
-
     list11.clear();
     std::cout << "Is list11 empty? " << (list11.isEmpty() ? "Yes" : "No") << std::endl;
 

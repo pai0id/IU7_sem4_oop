@@ -43,6 +43,9 @@ public:
 	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, typename List<Type>::value_type>
 	explicit List(const Iter& begin, const Iter& end);
+
+	// template <Range R>
+    // List(const R& range);
 	
 	~List() override = default;
 
@@ -92,14 +95,6 @@ public:
 	void pushBack(T&& data);
 
 	void popBack() noexcept;
-
-	iterator getFront();
-	iterator getBack();
-	const_iterator getFront() const;
-	const_iterator getBack() const;
-
-	iterator get(size_t index);
-	const_iterator get(size_t index) const;
 
 	template <typename T>
 	requires Convertible<T, typename List<Type>::value_type>
@@ -154,42 +149,37 @@ public:
 	bool isEmpty() const noexcept;
 
 protected:
-	class ListNode
+	class ListNode : public std::enable_shared_from_this<List<Type>::ListNode>
 	{
 	public:
 		using node_ptr = std::shared_ptr<ListNode>;
 		using data_ptr = std::shared_ptr<value_type>;
 
-		ListNode() = default;
-
+		ListNode() = delete;
 		ListNode(const ListNode&) = delete;
 		ListNode(ListNode&&) = delete;
-		ListNode& operator=(const ListNode&) = delete;
-		ListNode& operator=(ListNode&&) = delete;
 
-		static node_ptr initNode(const value_type &data);
-		static node_ptr initNode(value_type &&data);
-		static node_ptr initNode(const value_type &data, const node_ptr &next);
-		static node_ptr initNode(value_type &&data, const node_ptr &next);
-		static node_ptr initNode(const ListNode &node);
-		static node_ptr initNode(ListNode &&node);
+		template <typename... Args>
+    	static node_ptr initNode(Args&&... params);
 		~ListNode() = default;
 
-		void SetNext(const node_ptr &node);
+		node_ptr GetNext() const noexcept;
+    	data_ptr GetData();
+    	const data_ptr GetData() const;
+
+		void SetNext(node_ptr &node);
 		void SetData(const value_type &data);
 		void SetData(value_type &&data);
 		void SetNextNull();
-
-		data_ptr GetData();
-		const data_ptr GetData() const;
-		node_ptr GetNext() const;
 	
-	protected:
+	private:
 		value_type data;
 		node_ptr next = nullptr;
+
+		ListNode(value_type data, node_ptr next);
 	};
 
-protected:
+private:
 	ListNode::node_ptr head = nullptr;
 	ListNode::node_ptr tail = nullptr;
 	size_t csize = 0;

@@ -71,6 +71,16 @@ List<Type>::List(const Iter& begin, const Iter& end)
     }
 }
 
+// template <typename Type>
+// template <Range R>
+// List<Type>::List(const R& range)
+// {
+//     for (const auto& elem : range)
+//     {
+//         pushBack(elem);
+//     }
+// }
+
 template <typename Type>
 typename List<Type>::size_type List<Type>::size() const noexcept
 {
@@ -192,14 +202,14 @@ template <typename T>
 requires Convertible<T, Type>
 void List<Type>::pushFront(const T& data) 
 {
-    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
         head = tail = newNode;
     }
     else
     {
-        newNode->SetNext(head);
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, head);
         head = newNode;
     }
     ++csize;
@@ -210,14 +220,14 @@ template <typename T>
 requires Convertible<T, Type>
 void List<Type>::pushFront(T&& data)
 {
-    typename ListNode::node_ptr newNode = ListNode::initNode(data);
     if (!head)
     {
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
         head = tail = newNode;
     }
     else
     {
-        newNode->SetNext(head);
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, head);
         head = newNode;
     }
     ++csize;
@@ -247,7 +257,7 @@ template <typename T>
 requires Convertible<T, Type>
 void List<Type>::pushBack(const T& data)
 {
-    typename ListNode::node_ptr newNode = ListNode::initNode(data);
+    typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
     if (!head)
     {
         head = tail = newNode;
@@ -265,7 +275,7 @@ template <typename T>
 requires Convertible<T, Type>
 void List<Type>::pushBack(T&& data)
 {
-    typename ListNode::node_ptr newNode = ListNode::initNode(data);
+    typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
     if (!head)
     {
         head = tail = newNode;
@@ -300,92 +310,6 @@ void List<Type>::popBack() noexcept
     tail = currentNode;
     tail->SetNextNull();
     --csize;
-}
-
-template <typename Type>
-typename List<Type>::iterator List<Type>::getFront()
-{
-    if (!head)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    return iterator(head);
-}
-
-template <typename Type>
-typename List<Type>::const_iterator List<Type>::getFront() const
-{
-    if (!head)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    return const_iterator(head);
-}
-
-template <typename Type>
-typename List<Type>::iterator List<Type>::getBack()
-{
-    if (!tail)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    return iterator(tail);
-}
-
-template <typename Type>
-typename List<Type>::const_iterator List<Type>::getBack() const
-{
-    if (!tail)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    return const_iterator(tail);
-}
-
-template <typename Type>
-typename List<Type>::iterator List<Type>::get(size_t index)
-{
-    if (index >= csize)
-    {
-        time_t t_time = time(NULL);
-        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    if (csize == 0)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    auto currentNode = head;
-    for (size_t i = 0; i < index; ++i)
-    {
-        currentNode = currentNode->GetNext();
-    }
-    return iterator(currentNode);
-}
-
-template <typename Type>
-typename List<Type>::const_iterator List<Type>::get(size_t index) const
-{
-    if (index >= csize)
-    {
-        time_t t_time = time(NULL);
-        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    if (csize == 0)
-    {
-        time_t t_time = time(NULL);
-        throw EmptyList(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
-    auto currentNode = head;
-    for (size_t i = 0; i < index; ++i)
-    {
-        currentNode = currentNode->GetNext();
-    }
-    return const_iterator(currentNode);
 }
 
 template <typename Type>
