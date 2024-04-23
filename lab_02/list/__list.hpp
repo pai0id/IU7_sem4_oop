@@ -90,6 +90,40 @@ List<Type>::List(Range<I> range)
 }
 
 template <typename Type>
+List<Type>& List<Type>::SubList(iterator begin, iterator end)
+{
+    validateListIterartorRange(begin, end, __LINE__);
+
+    return List<Type>(begin, end);
+}
+
+template <typename Type>
+List<Type>& List<Type>::SubList(iterator begin, size_type size)
+{
+    auto end = std::next(begin, size);
+    validateListIterartorRange(begin, end, __LINE__);
+
+    return List<Type>(begin, end);
+}
+
+template <typename Type>
+List<Type>& List<Type>::SubList(const_iterator begin, const_iterator end) const
+{
+    validateListIterartorRange(begin, end, __LINE__);
+
+    return List<Type>(begin, end);
+}
+
+template <typename Type>
+List<Type>& List<Type>::SubList(const_iterator begin, size_type size) const
+{
+    auto end = std::next(begin, size);
+    validateListIterartorRange(begin, end, __LINE__);
+
+    return List<Type>(begin, end);
+}
+
+template <typename Type>
 List<Type>& List<Type>::operator=(const List<Type>& someList)
 {
     if (this == &someList)
@@ -408,6 +442,28 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
         currentNode->SetNext(newNode);
         ++csize;
         return iterator(newNode);
+    }
+}
+
+template <typename Type>
+template <ConvertableForwardContainer<Type> C>
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, const C &container)
+{
+    auto curr_pos = pos;
+    for (const auto &val : container)
+    {
+        curr_pos = insert(curr_pos, val);
+    }
+}
+
+template <typename Type>
+template <ConvertableForwardContainer<Type> C>
+typename List<Type>::iterator List<Type>::insert(const_iterator pos, C &&container)
+{
+    auto curr_pos = pos;
+    for (auto &&val : container)
+    {
+        curr_pos = insert(curr_pos, val);
     }
 }
 

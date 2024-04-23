@@ -35,7 +35,7 @@ int main() {
     std::cout << "List9(from list): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;
 
-    Range<List<int>::const_iterator> range(list8.cend(), list8.cbegin());
+    Range<List<int>::const_iterator> range(list8.cbegin(), list8.cend());
     List<int> list9_1(range);
     std::cout << "List9(from range): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;

@@ -50,6 +50,15 @@ public:
 	
 	// Деструктор
 	~List() override = default;
+
+	// Подсписки ================================
+
+	List<Type>& SubList(iterator begin, iterator end);
+	List<Type>& SubList(iterator begin, size_type size);
+	List<Type>& SubList(const_iterator begin, const_iterator end) const;
+	List<Type>& SubList(const_iterator begin, size_type size) const;
+
+	// ~Подсписки ===============================
 	
 	// Операторы присваивания ===================
 
@@ -107,6 +116,12 @@ public:
 
 	template <Convertable<Type> T>
 	iterator insert(const_iterator pos, T&& data);
+
+	template <ConvertableForwardContainer<Type> C>
+	iterator insert(const_iterator pos, const C &container);
+
+	template <ConvertableForwardContainer<Type> C>
+	iterator insert(const_iterator pos, C &&container);
 
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(const C &container);
