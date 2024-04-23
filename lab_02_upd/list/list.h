@@ -19,6 +19,8 @@ public:
 	friend class ListIterator<Type>;
 	friend class ConstListIterator<Type>;
 
+	// Конструкторы =============================
+
 	List() = default;
 	explicit List(const List<Type>& someList);
 	List(List<Type>&& someList) = default;
@@ -43,8 +45,13 @@ public:
 
 	template <ConvertableForwardIterator<Type> I>
 	explicit List(Range<I> range);
+
+	// ~Конструкторы ============================
 	
+	// Деструктор
 	~List() override = default;
+	
+	// Операторы присваивания ===================
 
 	List<Type>& operator=(const List<Type>& someList);
 	List<Type>& operator=(List<Type>&& someList);
@@ -61,7 +68,13 @@ public:
 	template <ConvertableForwardIterator<Type> I>
 	List<Type>& operator=(Range<I> range);
 
+	// ~Операторы присваивания ==================
+
+	// Размер
 	size_type size() const noexcept;
+	bool isEmpty() const noexcept;
+
+	// Получение позиций ========================
 
 	iterator begin() noexcept;
 	const_iterator begin() const noexcept;
@@ -76,21 +89,21 @@ public:
 	const_iterator getFront() const;
 	const_iterator getBack() const;
 
+	// ~Получение позиций =======================
+
+	// Добавление ===============================
+
 	template <Convertible<Type> T>
 	void pushFront(const T& data);
 
 	template <Convertible<Type> T>
 	void pushFront(T&& data);
 
-	void popFront() noexcept;
-
 	template <Convertible<Type> T>
 	void pushBack(const T& data);
 
 	template <Convertible<Type> T>
 	void pushBack(T&& data);
-
-	void popBack() noexcept;
 
 	template <Convertible<Type> T>
 	iterator insert(const_iterator pos, const T& data);
@@ -122,7 +135,13 @@ public:
 	template <Convertible<Type> T>
 	List<Type> operator+(T &&data) const;
 
-	void reverse() noexcept;
+	// ~Добавление ==============================
+
+	// Удаление =================================
+
+	void popFront() noexcept;
+
+	void popBack() noexcept;
 
 	void remove(const_iterator pos);
 	void remove(const_iterator st, const_iterator end);
@@ -130,14 +149,20 @@ public:
 
 	void clear() noexcept;
 
-	bool isEmpty() const noexcept;
+	// ~Удаление =================================
+
+	// Инвертирование
+	void reverse() noexcept;
 
 protected:
+	// Узел списка
 	class ListNode : public std::enable_shared_from_this<List<Type>::ListNode>
 	{
 	public:
 		using node_ptr = std::shared_ptr<ListNode>;
 		using data_ptr = std::shared_ptr<value_type>;
+
+		// Создание =============================
 
 		ListNode() = delete;
 		ListNode(const ListNode&) = delete;
@@ -147,21 +172,34 @@ protected:
     	static node_ptr initNode(Args&&... params);
 		~ListNode() = default;
 
+		// ~Создание ============================
+
+		// Получение ===========================
+
 		node_ptr GetNext() const noexcept;
     	data_ptr GetData();
     	const data_ptr GetData() const;
+
+		// ~Получение ==========================
+
+		// Установка ===========================
 
 		void SetNext(node_ptr &node);
 		void SetData(const value_type &data);
 		void SetData(value_type &&data);
 		void SetNextNull();
+
+		// ~Установка ==========================
 	
 	private:
+		// Данные
 		value_type data;
 		node_ptr next = nullptr;
 
 		ListNode(value_type data, node_ptr next);
 	};
+
+	// Проверки ==========================
 
 	void validateListIterartor(const ListIterator<Type> &iterator, size_t line);
 	void validateListIterartorRange(const ListIterator<Type> &begin, const ListIterator<Type> &end, size_t line);
@@ -169,17 +207,24 @@ protected:
 	template <ConvertableForwardIterator<Type> I>
 	void validateAnyIterartorRange(const I &begin, const I &end, size_t line);
 
+	// ~Проверки =========================
+
 private:
+    // Данные
 	ListNode::node_ptr head = nullptr;
 	ListNode::node_ptr tail = nullptr;
 	size_t csize = 0;
 };
+
+// Операторы сложения данных со списком
 
 template <typename Type, Convertible<Type> T>
 List<Type> operator+(const T& value, const List<Type>& container);
 
 template <typename Type, Convertible<Type> T>
 List<Type> operator+(T&& value, const List<Type>& container);
+
+// Вывод
 
 template <typename Type>
 std::ostream& operator <<(std::ostream & os, const List<Type> & list);
