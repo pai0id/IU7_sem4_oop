@@ -8,7 +8,7 @@ template <typename Type>
 class List;
 
 template <typename Type>
-class ConstListIterator : BaseIterator<Type>
+class ConstListIterator : public BaseIterator<Type>
 {
 public:
 	friend class List<Type>;

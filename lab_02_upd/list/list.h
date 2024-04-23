@@ -47,11 +47,11 @@ public:
 
 	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, Type>
-	explicit List(Range<Iter> range);
+	explicit List(const Iter& begin, const size_t size);
 
 	template <ForwardIterator Iter>
 	requires Convertible<typename Iter::value_type, Type>
-	explicit List(const Iter& begin, const size_t size);
+	explicit List(Range<Iter> range);
 	
 	~List() override = default;
 
@@ -161,10 +161,6 @@ public:
 	void remove(const_iterator st, const_iterator end);
 	void remove(const_iterator st, size_type n);
 
-	template <ForwardIterator Iter>
-	requires Convertible<typename Iter::value_type, Type>
-	void remove(Range<Iter> range);
-
 	void clear() noexcept;
 
 	bool isEmpty() const noexcept;
@@ -199,6 +195,13 @@ protected:
 
 		ListNode(value_type data, node_ptr next);
 	};
+
+	void validateListIterartor(const ListIterator<Type> &iterator, size_t line);
+	void validateListIterartorRange(const ListIterator<Type> &begin, const ListIterator<Type> &end, size_t line);
+
+	template <ForwardIterator Iter>
+	requires Convertible<typename Iter::value_type, Type>
+	void validateAnyIterartorRange(const Iter &begin, const Iter &end, size_t line);
 
 private:
 	ListNode::node_ptr head = nullptr;

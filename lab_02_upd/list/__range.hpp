@@ -5,6 +5,11 @@
 template <ForwardIterator Iter>
 Range<Iter>::Range(Iter fst, Iter lst)
 {
+    if (fst < lst)
+    {
+        time_t now = time(NULL);
+        throw InvalidRange(ctime(&now), __FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+    }
     first = fst;
     last = lst;
 }

@@ -15,12 +15,34 @@ public:
 };
 
 class EmptyList : public BaseException {
- public:
+public:
     EmptyList(
               const char *filename,
               const char *classname,
               const int line,
               const char *time,
               const char *info = "Empty list access")
+    : BaseException(filename, classname, line, time, info) { }
+};
+
+class InvalidIterator : public BaseException {
+public:
+    InvalidIterator(
+              const char *filename,
+              const char *classname,
+              const int line,
+              const char *time,
+              const char *info = "Invalid iterator")
+    : BaseException(filename, classname, line, time, info) { }
+};
+
+class InvalidRange : public BaseException {
+public:
+    InvalidRange(
+              const char *filename,
+              const char *classname,
+              const int line,
+              const char *time,
+              const char *info = "Invalid range")
     : BaseException(filename, classname, line, time, info) { }
 };

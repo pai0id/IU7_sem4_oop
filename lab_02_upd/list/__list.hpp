@@ -65,18 +65,8 @@ template <ForwardIterator Iter>
 requires Convertible<typename Iter::value_type, Type>
 List<Type>::List(const Iter& begin, const Iter& end)
 {
+    validateAnyIterartorRange(begin, end, __LINE__);
     for (auto it = begin; it != end; ++it)
-    {
-        pushBack(*it);
-    }
-}
-
-template <typename Type>
-template <ForwardIterator Iter>
-requires Convertible<typename Iter::value_type, Type>
-List<Type>::List(Range<Iter> range)
-{
-    for (auto it = range.begin(); it != range.end(); ++it)
     {
         pushBack(*it);
     }
@@ -92,6 +82,17 @@ List<Type>::List(const Iter& begin, const size_t size)
     {
         pushBack(*it);
         ++it;
+    }
+}
+
+template <typename Type>
+template <ForwardIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+List<Type>::List(Range<Iter> range)
+{
+    for (auto it = range.begin(); it != range.end(); ++it)
+    {
+        pushBack(*it);
     }
 }
 
@@ -590,6 +591,7 @@ void List<Type>::reverse() noexcept
 template <typename Type>
 void List<Type>::remove(const_iterator pos)
 {
+    validateListIterartor(pos, __LINE__);
     if (pos == cend())
     {
         popBack();
@@ -623,6 +625,7 @@ void List<Type>::remove(const_iterator pos)
 template <typename Type>
 void List<Type>::remove(const_iterator st, const_iterator end)
 {
+    validateListIterartorRange(st, end, __LINE__);
     if (st == cbegin() && end == cend())
     {
         clear();
@@ -649,15 +652,8 @@ template <typename Type>
 void List<Type>::remove(const_iterator st, size_type n)
 {
     auto end = std::next(st, n);
+    validateListIterartorRange(st, end, __LINE__);
     remove(st, end);
-}
-
-template <typename Type>
-template <ForwardIterator Iter>
-requires Convertible<typename Iter::value_type, Type>
-void List<Type>::remove(Range<Iter> range)
-{
-    remove(range.begin(), range.end());
 }
 
 template <typename Type>
@@ -672,6 +668,44 @@ template <typename Type>
 bool List<Type>::isEmpty() const noexcept
 {
     return csize == 0;
+}
+
+template <typename Type>
+void List<Type>::validateListIterartor(const ListIterator<Type> &iterator, size_t line)
+{
+    auto it = begin();
+    for (; it != end() && it != iterator; ++it);
+    if (it == end())
+    {
+        time_t now = time(NULL);
+        throw InvalidIterator(ctime(&now), __FILE__, line, typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+void List<Type>::validateListIterartorRange(const ListIterator<Type> &begin, const ListIterator<Type> &end, size_t line)
+{
+    validateListIterartor(begin, line);
+    validateListIterartor(end, line);
+    auto it = this->begin();
+    for (; it != end && it != begin; ++it);
+    if (it == end)
+    {
+        time_t now = time(NULL);
+        throw InvalidRange(ctime(&now), __FILE__, line, typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+template <ForwardIterator Iter>
+requires Convertible<typename Iter::value_type, Type>
+void List<Type>::validateAnyIterartorRange(const Iter &begin, const Iter &end, size_t line)
+{
+    if (begin < end)
+    {
+        time_t now = time(NULL);
+        throw InvalidRange(ctime(&now), __FILE__, line, typeid(*this).name(), __FUNCTION__);
+    }
 }
 
 template <typename T>
