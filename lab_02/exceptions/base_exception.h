@@ -1,27 +1,31 @@
 #pragma once
 
 #include <exception>
-#include <string>
+#include <cstring>
 
 class BaseException : public std::exception
 {
-public:
-    explicit BaseException(
-                           const std::string& filename,
-                           const std::string& classname,
-                           const int line,
-                           const char *time,
-                           const std::string& info) {
-        m_msg = "In: "          + filename             +
-                "\ninside: "    + classname            +
-                "\nat line: "   + std::to_string(line) +
-                "\nat: "        + time                 +
-                "­\noccured: "   + info;
-    }
+protected:
+	static const size_t sizebuff = 256;
+	char errormsg[sizebuff]{};
 
-    const char *what() const noexcept override {
-        return m_msg.c_str();
-    }
-private:
-    std::string m_msg;
+public:
+	BaseException() noexcept = default;
+	BaseException(const char *filename,
+                   const char *classname,
+                   const int line,
+                   const char *time,
+                   const char *info) noexcept
+	{
+		snprintf(errormsg,
+                 sizebuff,
+                 "\nIn: %s\n"
+                 "inside: %s\n"
+                 "at line: %d\n"
+                 "at: %s\n"
+                 "occured: %s", filename, classname, line, time, info);
+	}
+	~BaseException() override {}
+
+	const char* what() const noexcept override { return errormsg; }
 };
