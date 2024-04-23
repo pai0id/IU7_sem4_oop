@@ -90,7 +90,7 @@ List<Type>::List(Range<I> range)
 }
 
 template <typename Type>
-List<Type>& List<Type>::SubList(iterator begin, iterator end)
+List<Type> List<Type>::SubList(iterator &begin, iterator &end)
 {
     validateListIterartorRange(begin, end, __LINE__);
 
@@ -98,7 +98,7 @@ List<Type>& List<Type>::SubList(iterator begin, iterator end)
 }
 
 template <typename Type>
-List<Type>& List<Type>::SubList(iterator begin, size_type size)
+List<Type> List<Type>::SubList(iterator &begin, const size_type size)
 {
     auto end = std::next(begin, size);
     validateListIterartorRange(begin, end, __LINE__);
@@ -107,7 +107,7 @@ List<Type>& List<Type>::SubList(iterator begin, size_type size)
 }
 
 template <typename Type>
-List<Type>& List<Type>::SubList(const_iterator begin, const_iterator end) const
+List<Type> List<Type>::SubList(const_iterator &begin, const_iterator &end) const
 {
     validateListIterartorRange(begin, end, __LINE__);
 
@@ -115,7 +115,7 @@ List<Type>& List<Type>::SubList(const_iterator begin, const_iterator end) const
 }
 
 template <typename Type>
-List<Type>& List<Type>::SubList(const_iterator begin, size_type size) const
+List<Type> List<Type>::SubList(const_iterator &begin, const size_type size) const
 {
     auto end = std::next(begin, size);
     validateListIterartorRange(begin, end, __LINE__);
@@ -391,7 +391,7 @@ void List<Type>::popBack() noexcept
 
 template <typename Type>
 template <Convertable<Type> T>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data)
+typename List<Type>::iterator List<Type>::insert(iterator pos, const T& data)
 {
     if (pos == cbegin())
     {
@@ -419,7 +419,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
 
 template <typename Type>
 template <Convertable<Type> T>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
+typename List<Type>::iterator List<Type>::insert(iterator pos, T&& data)
 {
     if (pos == cbegin())
     {
@@ -447,24 +447,26 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 
 template <typename Type>
 template <ConvertableForwardContainer<Type> C>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, const C &container)
+typename List<Type>::iterator List<Type>::insert(iterator pos, const C &container)
 {
     auto curr_pos = pos;
     for (const auto &val : container)
     {
         curr_pos = insert(curr_pos, val);
     }
+    return curr_pos;
 }
 
 template <typename Type>
 template <ConvertableForwardContainer<Type> C>
-typename List<Type>::iterator List<Type>::insert(const_iterator pos, C &&container)
+typename List<Type>::iterator List<Type>::insert(iterator pos, C &&container)
 {
     auto curr_pos = pos;
     for (auto &&val : container)
     {
         curr_pos = insert(curr_pos, val);
     }
+    return curr_pos;
 }
 
 template <typename Type>

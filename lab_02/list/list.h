@@ -53,10 +53,10 @@ public:
 
 	// Подсписки ================================
 
-	List<Type>& SubList(iterator begin, iterator end);
-	List<Type>& SubList(iterator begin, size_type size);
-	List<Type>& SubList(const_iterator begin, const_iterator end) const;
-	List<Type>& SubList(const_iterator begin, size_type size) const;
+	List<Type> SubList(iterator &begin, iterator &end);
+	List<Type> SubList(iterator &begin, const size_type size);
+	List<Type> SubList(const_iterator &begin, const_iterator &end) const;
+	List<Type> SubList(const_iterator &begin, const size_type size) const;
 
 	// ~Подсписки ===============================
 	
@@ -112,16 +112,16 @@ public:
 	void pushBack(T&& data);
 
 	template <Convertable<Type> T>
-	iterator insert(const_iterator pos, const T& data);
+	iterator insert(iterator pos, const T& data);
 
 	template <Convertable<Type> T>
-	iterator insert(const_iterator pos, T&& data);
+	iterator insert(iterator pos, T&& data);
 
 	template <ConvertableForwardContainer<Type> C>
-	iterator insert(const_iterator pos, const C &container);
+	iterator insert(iterator pos, const C &container);
 
 	template <ConvertableForwardContainer<Type> C>
-	iterator insert(const_iterator pos, C &&container);
+	iterator insert(iterator pos, C &&container);
 
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(const C &container);

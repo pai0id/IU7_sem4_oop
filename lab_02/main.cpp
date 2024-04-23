@@ -31,14 +31,14 @@ int main() {
     std::cout << "Size of list7: " << list7.size() << std::endl;
 
     List<int> list8({7, 8, 9});
-    List<int> list9(list8.begin(), list8.end());
+    List<int> list9(++list8.begin(), list8.end());
     std::cout << "List9(from list): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;
 
     Range<List<int>::const_iterator> range(list8.cbegin(), list8.cend());
     List<int> list9_1(range);
-    std::cout << "List9(from range): " << list9 << std::endl;
-    std::cout << "Size of list9: " << list9.size() << std::endl;
+    std::cout << "List9(from range): " << list9_1 << std::endl;
+    std::cout << "Size of list9: " << list9_1.size() << std::endl;
 
     List<int> listTmp = 1.2 + list9;
     std::cout << "Tmp: " << listTmp << std::endl;
@@ -65,7 +65,11 @@ int main() {
     list11.popBack();
     std::cout << "Size of list11 after popBack: " << list11.size() << std::endl;
 
-    list11.insert(list11.cbegin(), 5);
+    list11.insert(list11.begin(), 5);
+    std::cout << "Size of list11 after insert: " << list11.size() << std::endl;
+
+    list11.insert(list11.begin(), list8);
+    std::cout << "List11: " << list11 << std::endl;
     std::cout << "Size of list11 after insert: " << list11.size() << std::endl;
 
     list11.clear();
