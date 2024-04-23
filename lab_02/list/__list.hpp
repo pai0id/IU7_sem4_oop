@@ -141,18 +141,6 @@ List<Type>& List<Type>::operator=(C&& container)
 }
 
 template <typename Type>
-template <Convertable<Type> T>
-List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
-{
-    clear();
-    for (const auto& val : someList)
-    {
-        pushBack(val);
-    }
-    return *this;
-}
-
-template <typename Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>& List<Type>::operator=(Range<I> range)
 {
@@ -556,7 +544,7 @@ void List<Type>::reverse() noexcept
 }
 
 template <typename Type>
-void List<Type>::remove(const_iterator pos)
+void List<Type>::remove(iterator pos)
 {
     validateListIterartor(pos, __LINE__);
     if (pos == cend())
@@ -590,7 +578,7 @@ void List<Type>::remove(const_iterator pos)
 }
 
 template <typename Type>
-void List<Type>::remove(const_iterator st, const_iterator end)
+void List<Type>::remove(iterator st, iterator end)
 {
     validateListIterartorRange(st, end, __LINE__);
     if (st == cbegin() && end == cend())
@@ -616,7 +604,7 @@ void List<Type>::remove(const_iterator st, const_iterator end)
 }
 
 template <typename Type>
-void List<Type>::remove(const_iterator st, size_type n)
+void List<Type>::remove(iterator st, size_type n)
 {
     auto end = std::next(st, n);
     validateListIterartorRange(st, end, __LINE__);

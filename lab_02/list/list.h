@@ -62,9 +62,6 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator=(C&& container);
 
-	template <Convertable<Type> T>
-	List<Type>& operator=(std::initializer_list<T> someList);
-
 	template <ConvertableForwardIterator<Type> I>
 	List<Type>& operator=(Range<I> range);
 
@@ -143,9 +140,9 @@ public:
 
 	void popBack() noexcept;
 
-	void remove(const_iterator pos);
-	void remove(const_iterator st, const_iterator end);
-	void remove(const_iterator st, size_type n);
+	void remove(iterator pos);
+	void remove(iterator st, iterator end);
+	void remove(iterator st, size_type n);
 
 	void clear() noexcept;
 
