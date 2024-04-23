@@ -4,7 +4,7 @@
 #include <iterator>
 
 template <typename From, typename To>
-concept Convertible = requires(From from){ To(from);};
+concept Convertable = requires(From from){ To(from);};
 
 template<typename T>
 concept EqualityComparable = requires(T a, T b)

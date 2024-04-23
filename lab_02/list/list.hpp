@@ -25,7 +25,7 @@ List<Type>::List(const List<Type>& list)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 List<Type>::List(size_type n, const T& value)
 {
     for (size_type i = 0; i < n; ++i)
@@ -36,7 +36,7 @@ List<Type>::List(size_type n, const T& value)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 List<Type>::List(std::initializer_list<T> initList)
 {
     for (const auto& elem : initList)
@@ -47,7 +47,7 @@ List<Type>::List(std::initializer_list<T> initList)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, typename List<Type>::value_type> &&
+requires Convertable<typename C::value_type, typename List<Type>::value_type> &&
          ForwardIterator<typename C::iterator>
 List<Type>::List(const C& container)
 {
@@ -59,7 +59,7 @@ List<Type>::List(const C& container)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type>
+requires Convertable<typename C::value_type, Type>
 List<Type>::List(C&& container)
 {
     for (auto&& val : container)
@@ -70,7 +70,7 @@ List<Type>::List(C&& container)
 
 template <typename Type>
 template <ForwardIterator Iter>
-requires Convertible<typename Iter::value_type, Type>
+requires Convertable<typename Iter::value_type, Type>
 List<Type>::List(const Iter& begin, const Iter& end)
 {
     for (auto it = begin; it != end; ++it)
@@ -156,7 +156,7 @@ List<Type>& List<Type>::operator=(List<Type>&& someList)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type> &&
+requires Convertable<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator=(const C& container)
 {
@@ -170,7 +170,7 @@ List<Type>& List<Type>::operator=(const C& container)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type>
+requires Convertable<typename C::value_type, Type>
 List<Type>& List<Type>::operator=(C&& container)
 {
     clear();
@@ -183,7 +183,7 @@ List<Type>& List<Type>::operator=(C&& container)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
 {
     clear();
@@ -196,7 +196,7 @@ List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 void List<Type>::pushFront(const T& data) 
 {
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
@@ -214,7 +214,7 @@ void List<Type>::pushFront(const T& data)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 void List<Type>::pushFront(T&& data)
 {
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
@@ -251,7 +251,7 @@ void List<Type>::popFront() noexcept
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 void List<Type>::pushBack(const T& data)
 {
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(data);
@@ -269,7 +269,7 @@ void List<Type>::pushBack(const T& data)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 void List<Type>::pushBack(T&& data)
 {
     std::shared_ptr<ListNode> newNode = std::make_shared<ListNode>(std::move(data));
@@ -397,7 +397,7 @@ typename List<Type>::const_iterator List<Type>::get(size_t index) const
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data)
 {
     if (pos == cbegin())
@@ -426,7 +426,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, typename List<Type>::value_type>
+requires Convertable<T, typename List<Type>::value_type>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 {
     if (pos == cbegin())
@@ -455,7 +455,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type> &&
+requires Convertable<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(const C &container)
 {
@@ -468,7 +468,7 @@ List<Type>& List<Type>::operator+=(const C &container)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type> &&
+requires Convertable<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type>& List<Type>::operator+=(C &&container)
 {
@@ -481,7 +481,7 @@ List<Type>& List<Type>::operator+=(C &&container)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type>& List<Type>::operator+=(const T &data)
 {
     pushBack(data);
@@ -490,7 +490,7 @@ List<Type>& List<Type>::operator+=(const T &data)
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type>& List<Type>::operator+=(T &&data)
 {
     pushBack(std::move(data));
@@ -499,7 +499,7 @@ List<Type>& List<Type>::operator+=(T &&data)
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type> &&
+requires Convertable<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type> List<Type>::operator+(const C &container) const
 {
@@ -513,7 +513,7 @@ List<Type> List<Type>::operator+(const C &container) const
 
 template <typename Type>
 template <Container C>
-requires Convertible<typename C::value_type, Type> &&
+requires Convertable<typename C::value_type, Type> &&
          ForwardIterator<typename C::iterator>
 List<Type> List<Type>::operator+(C &&container) const
 {
@@ -527,7 +527,7 @@ List<Type> List<Type>::operator+(C &&container) const
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type> List<Type>::operator+(const T &data) const
 {
     List<Type> result(*this);
@@ -537,7 +537,7 @@ List<Type> List<Type>::operator+(const T &data) const
 
 template <typename Type>
 template <typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type> List<Type>::operator+(T &&data) const
 {
     List<Type> result(*this);
@@ -546,7 +546,7 @@ List<Type> List<Type>::operator+(T &&data) const
 }
 
 template <typename Type, typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type> operator+(const T& value, const List<Type>& container)
 {
     List<Type> result;
@@ -559,7 +559,7 @@ List<Type> operator+(const T& value, const List<Type>& container)
 }
 
 template <typename Type, typename T>
-requires Convertible<T, Type>
+requires Convertable<T, Type>
 List<Type> operator+(T&& value, const List<Type>& container)
 {
     List<Type> result;

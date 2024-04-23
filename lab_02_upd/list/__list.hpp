@@ -17,7 +17,7 @@ List<Type>::List(const List<Type>& someList)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type>::List(size_type n, const T& value)
 {
     for (size_type i = 0; i < n; ++i)
@@ -27,7 +27,7 @@ List<Type>::List(size_type n, const T& value)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type>::List(std::initializer_list<T> initList)
 {
     for (const auto& elem : initList)
@@ -141,7 +141,7 @@ List<Type>& List<Type>::operator=(C&& container)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type>& List<Type>::operator=(std::initializer_list<T> someList)
 {
     clear();
@@ -257,7 +257,7 @@ typename List<Type>::const_iterator List<Type>::getBack() const
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 void List<Type>::pushFront(const T& data) 
 {
     if (!head)
@@ -274,7 +274,7 @@ void List<Type>::pushFront(const T& data)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 void List<Type>::pushFront(T&& data)
 {
     if (!head)
@@ -310,7 +310,7 @@ void List<Type>::popFront() noexcept
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 void List<Type>::pushBack(const T& data)
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
@@ -327,7 +327,7 @@ void List<Type>::pushBack(const T& data)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 void List<Type>::pushBack(T&& data)
 {
     typename ListNode::node_ptr newNode = ListNode::initNode(data, nullptr);
@@ -368,7 +368,7 @@ void List<Type>::popBack() noexcept
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& data)
 {
     if (pos == cbegin())
@@ -396,7 +396,7 @@ typename List<Type>::iterator List<Type>::insert(const_iterator pos, const T& da
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(const_iterator pos, T&& data)
 {
     if (pos == cbegin())
@@ -446,7 +446,7 @@ List<Type>& List<Type>::operator+=(C &&container)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type>& List<Type>::operator+=(const T &data)
 {
     pushBack(data);
@@ -454,7 +454,7 @@ List<Type>& List<Type>::operator+=(const T &data)
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type>& List<Type>::operator+=(T &&data)
 {
     pushBack(std::move(data));
@@ -486,7 +486,7 @@ List<Type> List<Type>::operator+(C &&container) const
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type> List<Type>::operator+(const T &data) const
 {
     List<Type> result(*this);
@@ -495,7 +495,7 @@ List<Type> List<Type>::operator+(const T &data) const
 }
 
 template <typename Type>
-template <Convertible<Type> T>
+template <Convertable<Type> T>
 List<Type> List<Type>::operator+(T &&data) const
 {
     List<Type> result(*this);
@@ -503,7 +503,7 @@ List<Type> List<Type>::operator+(T &&data) const
     return result;
 }
 
-template <typename Type, Convertible<Type> T>
+template <typename Type, Convertable<Type> T>
 List<Type> operator+(const T& value, const List<Type>& container)
 {
     List<Type> result;
@@ -515,7 +515,7 @@ List<Type> operator+(const T& value, const List<Type>& container)
     return result;
 }
 
-template <typename Type, Convertible<Type> T>
+template <typename Type, Convertable<Type> T>
 List<Type> operator+(T&& value, const List<Type>& container)
 {
     List<Type> result;

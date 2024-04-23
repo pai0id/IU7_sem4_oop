@@ -25,10 +25,10 @@ public:
 	explicit List(const List<Type>& someList);
 	List(List<Type>&& someList) = default;
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List(size_type n, const T& value);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List(std::initializer_list<T> initList);
 
 	template <ConvertableForwardContainer<Type> C>
@@ -62,7 +62,7 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator=(C&& container);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List<Type>& operator=(std::initializer_list<T> someList);
 
 	template <ConvertableForwardIterator<Type> I>
@@ -93,22 +93,22 @@ public:
 
 	// Добавление ===============================
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	void pushFront(const T& data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	void pushFront(T&& data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	void pushBack(const T& data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	void pushBack(T&& data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	iterator insert(const_iterator pos, const T& data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	iterator insert(const_iterator pos, T&& data);
 
 	template <ConvertableForwardContainer<Type> C>
@@ -117,10 +117,10 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(C &&container);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List<Type>& operator+=(const T &data);
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List<Type>& operator+=(T &&data);
 
 	template <ConvertableForwardContainer<Type> C>
@@ -129,10 +129,10 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	List<Type> operator+(C &&container) const;
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List<Type> operator+(const T &data) const;
 
-	template <Convertible<Type> T>
+	template <Convertable<Type> T>
 	List<Type> operator+(T &&data) const;
 
 	// ~Добавление ==============================
@@ -218,10 +218,10 @@ private:
 
 // Операторы сложения данных со списком
 
-template <typename Type, Convertible<Type> T>
+template <typename Type, Convertable<Type> T>
 List<Type> operator+(const T& value, const List<Type>& container);
 
-template <typename Type, Convertible<Type> T>
+template <typename Type, Convertable<Type> T>
 List<Type> operator+(T&& value, const List<Type>& container);
 
 // Вывод

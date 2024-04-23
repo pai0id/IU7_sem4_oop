@@ -4,7 +4,7 @@
 #include <iterator>
 
 template <typename T1, typename T2>
-concept Convertible = requires(T1 t1){ T2(t1);} &&
+concept Convertable = requires(T1 t1){ T2(t1);} &&
                       requires(T2 t2){ T1(t2);};
 
 template<typename T>
@@ -50,7 +50,7 @@ concept ForwardIterator = InputIterator<I> &&
 
 template <typename I, typename T>
 concept ConvertableForwardIterator = ForwardIterator<I> &&
-                                     Convertible<typename I::value_type, T>;
+                                     Convertable<typename I::value_type, T>;
 
 # pragma endregion
 
@@ -70,7 +70,7 @@ concept Container = requires(Type t)
 
 template <typename C, typename T>
 concept ConvertableForwardContainer = Container<C> &&
-                                     Convertible<typename C::value_type, T> &&
+                                     Convertable<typename C::value_type, T> &&
                                      ForwardIterator<typename C::iterator>;
 
 # pragma endregion
