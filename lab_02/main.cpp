@@ -2,15 +2,7 @@
 #include <vector>
 #include <list>
 #include "list.h"
-
-template <typename T>
-std::ostream& operator <<(std::ostream & os, const List<T> & list)
-{
-	for (auto& elem : list)
-		std::cout << elem << " ";
-
-	return os;
-}
+#include "range.h"
 
 int main() {
     List<int> list1;
@@ -25,10 +17,6 @@ int main() {
     std::cout << "List3: " << list3 << std::endl;
     std::cout << "Size of list3: " << list3.size() << std::endl;
 
-    List<int> list4(5);
-    std::cout << "List4: " << list4 << std::endl;
-    std::cout << "Size of list4: " << list4.size() << std::endl;
-
     List<int> list5(3, 10);
     std::cout << "List5: " << list5 << std::endl;
     std::cout << "Size of list5: " << list5.size() << std::endl;
@@ -42,9 +30,14 @@ int main() {
     std::cout << "List7(from vec): " << list7 << std::endl;
     std::cout << "Size of list7: " << list7.size() << std::endl;
 
-    std::list<int> list8 = {7, 8, 9};
+    List<int> list8({7, 8, 9});
     List<int> list9(list8.begin(), list8.end());
     std::cout << "List9(from list): " << list9 << std::endl;
+    std::cout << "Size of list9: " << list9.size() << std::endl;
+
+    Range<List<int>::const_iterator> range(list8.cbegin(), list8.cend());
+    List<int> list9_1(range);
+    std::cout << "List9(from range): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;
 
     List<int> listTmp = 1.2 + list9;
@@ -74,9 +67,6 @@ int main() {
 
     list11.insert(list11.cbegin(), 5);
     std::cout << "Size of list11 after insert: " << list11.size() << std::endl;
-
-    list11.reverse();
-    std::cout << "Is list11 reversed? " << (list11.begin() == list11.getBack() ? "Yes" : "No") << std::endl;
 
     list11.clear();
     std::cout << "Is list11 empty? " << (list11.isEmpty() ? "Yes" : "No") << std::endl;

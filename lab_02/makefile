@@ -1,5 +1,7 @@
+INC_DIRS := -Iexceptions -Ilist -Iiterators -Iconcepts
+
 build:
-	g++ -I list -std=c++20 -o app.exe main.cpp
+	g++ $(INC_DIRS) -std=c++20 -o app.exe main.cpp
 
 run:
 	./app.exe
