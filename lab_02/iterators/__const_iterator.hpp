@@ -4,13 +4,13 @@
 #include <memory>
 #include <ctime>
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type>::ConstListIterator(const List<Type>::ListNode::node_ptr node) : currentNode(node) {}
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type>::ConstListIterator(const ConstListIterator<Type>& other) : currentNode(other.currentNode) {}
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type> ConstListIterator<Type>::operator=(const ConstListIterator<Type>& other)
 {
     if (this != &other)
@@ -20,27 +20,27 @@ ConstListIterator<Type> ConstListIterator<Type>::operator=(const ConstListIterat
     return *this;
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 typename ConstListIterator<Type>::reference ConstListIterator<Type>::operator*() const
 {
     checkValid(__LINE__);
     return *currentNode->GetData();
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 typename ConstListIterator<Type>::pointer ConstListIterator<Type>::operator->() const
 {
     checkValid(__LINE__);
     return currentNode->GetData();
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type>::operator bool() const
 {
     return IsValid();
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type>& ConstListIterator<Type>::operator++()
 {
     checkValid(__LINE__);
@@ -48,7 +48,7 @@ ConstListIterator<Type>& ConstListIterator<Type>::operator++()
     return *this;
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 ConstListIterator<Type> ConstListIterator<Type>::operator++(int)
 {
     checkValid(__LINE__);
@@ -57,34 +57,34 @@ ConstListIterator<Type> ConstListIterator<Type>::operator++(int)
     return temp;
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 bool ConstListIterator<Type>::operator==(const ConstListIterator<Type>& other) const
 {
     return currentNode == other.currentNode;
 }
 
-template<typename Type>
+template<CopyNMoveable Type>
 bool ConstListIterator<Type>::operator!=(const ConstListIterator<Type>& other) const
 {
     return !(*this == other);
 }
 
 
-template<typename Type>
+template<CopyNMoveable Type>
 bool ConstListIterator<Type>::IsValid() const
 {
     return currentNode != nullptr;
 }
 
 
-template<typename Type>
+template<CopyNMoveable Type>
 List<Type>::ListNode::node_ptr ConstListIterator<Type>::getNode() const
 {
     return currentNode;
 }
 
 
-template<typename Type>
+template<CopyNMoveable Type>
 void ConstListIterator<Type>::checkValid(size_t line) const
 {
     if (!IsValid())

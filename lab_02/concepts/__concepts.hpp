@@ -8,6 +8,9 @@ concept Convertable = requires(T1 t1){ T2(t1);} &&
                       requires(T2 t2){ T1(t2);};
 
 template<typename T>
+concept CopyNMoveable = std::copyable<T> && std::movable<T>;
+
+template<typename T>
 concept EqualityComparable = requires(T a, T b)
 {
     { a == b } -> std::same_as<bool>;

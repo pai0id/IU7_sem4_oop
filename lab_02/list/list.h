@@ -7,7 +7,7 @@
 #include "range.h"
 #include "__concepts.hpp"
 
-template <typename Type>
+template <CopyNMoveable Type>
 class List : public BaseList
 {
 public:
@@ -230,15 +230,15 @@ private:
 
 // Операторы сложения данных со списком
 
-template <typename Type, Convertable<Type> T>
+template <CopyNMoveable Type, Convertable<Type> T>
 List<Type> operator+(const T& value, const List<Type>& container);
 
-template <typename Type, Convertable<Type> T>
+template <CopyNMoveable Type, Convertable<Type> T>
 List<Type> operator+(T&& value, const List<Type>& container);
 
 // Вывод
 
-template <typename Type>
+template <CopyNMoveable Type>
 std::ostream& operator <<(std::ostream & os, const List<Type> & list);
 
 #include "__list.hpp"

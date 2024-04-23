@@ -7,7 +7,7 @@
 #include "iterator_exceptions.h"
 #include "range_exceptions.h"
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type>::List(const List<Type>& someList)
 {
     for (const auto& elem : someList)
@@ -16,7 +16,7 @@ List<Type>::List(const List<Type>& someList)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>::List(size_type n, const T& value)
 {
@@ -26,7 +26,7 @@ List<Type>::List(size_type n, const T& value)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>::List(std::initializer_list<T> initList)
 {
@@ -36,7 +36,7 @@ List<Type>::List(std::initializer_list<T> initList)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>::List(const C& container)
 {
@@ -46,7 +46,7 @@ List<Type>::List(const C& container)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>::List(C&& container)
 {
@@ -56,7 +56,7 @@ List<Type>::List(C&& container)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(const I& begin, const I& end)
 {
@@ -67,7 +67,7 @@ List<Type>::List(const I& begin, const I& end)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(const I& begin, const size_t size)
 {
@@ -79,7 +79,7 @@ List<Type>::List(const I& begin, const size_t size)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(Range<I> range)
 {
@@ -89,7 +89,7 @@ List<Type>::List(Range<I> range)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type> List<Type>::SubList(iterator &begin, iterator &end)
 {
     validateListIterartorRange(begin, end, __LINE__);
@@ -97,7 +97,7 @@ List<Type> List<Type>::SubList(iterator &begin, iterator &end)
     return List<Type>(begin, end);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type> List<Type>::SubList(iterator &begin, const size_type size)
 {
     auto end = std::next(begin, size);
@@ -106,7 +106,7 @@ List<Type> List<Type>::SubList(iterator &begin, const size_type size)
     return List<Type>(begin, end);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type> List<Type>::SubList(const_iterator &begin, const_iterator &end) const
 {
     validateListIterartorRange(begin, end, __LINE__);
@@ -114,7 +114,7 @@ List<Type> List<Type>::SubList(const_iterator &begin, const_iterator &end) const
     return List<Type>(begin, end);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type> List<Type>::SubList(const_iterator &begin, const size_type size) const
 {
     auto end = std::next(begin, size);
@@ -123,7 +123,7 @@ List<Type> List<Type>::SubList(const_iterator &begin, const size_type size) cons
     return List<Type>(begin, end);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type>& List<Type>::operator=(const List<Type>& someList)
 {
     if (this == &someList)
@@ -137,7 +137,7 @@ List<Type>& List<Type>::operator=(const List<Type>& someList)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 List<Type>& List<Type>::operator=(List<Type>&& someList)
 {
     if (this == &someList)
@@ -150,7 +150,7 @@ List<Type>& List<Type>::operator=(List<Type>&& someList)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator=(const C& container)
 {
@@ -162,7 +162,7 @@ List<Type>& List<Type>::operator=(const C& container)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator=(C&& container)
 {
@@ -174,7 +174,7 @@ List<Type>& List<Type>::operator=(C&& container)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>& List<Type>::operator=(Range<I> range)
 {
@@ -186,31 +186,31 @@ List<Type>& List<Type>::operator=(Range<I> range)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::size_type List<Type>::size() const noexcept
 {
     return csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::iterator List<Type>::begin() noexcept
 {
     return iterator(head);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::begin() const noexcept
 {
     return const_iterator(head);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::cbegin() const noexcept
 {
     return const_iterator(head);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::iterator List<Type>::end() noexcept
 {
     if (tail)
@@ -218,7 +218,7 @@ typename List<Type>::iterator List<Type>::end() noexcept
     return iterator(tail);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::end() const noexcept
 {
     if (tail)
@@ -226,7 +226,7 @@ typename List<Type>::const_iterator List<Type>::end() const noexcept
     return const_iterator(tail);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::cend() const noexcept
 {
     if (tail)
@@ -234,7 +234,7 @@ typename List<Type>::const_iterator List<Type>::cend() const noexcept
     return const_iterator(tail);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::iterator List<Type>::getFront()
 {
     if (!head)
@@ -245,7 +245,7 @@ typename List<Type>::iterator List<Type>::getFront()
     return iterator(head);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::getFront() const
 {
     if (!head)
@@ -256,7 +256,7 @@ typename List<Type>::const_iterator List<Type>::getFront() const
     return const_iterator(head);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::iterator List<Type>::getBack()
 {
     if (!tail)
@@ -267,7 +267,7 @@ typename List<Type>::iterator List<Type>::getBack()
     return iterator(tail);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 typename List<Type>::const_iterator List<Type>::getBack() const
 {
     if (!tail)
@@ -278,7 +278,7 @@ typename List<Type>::const_iterator List<Type>::getBack() const
     return const_iterator(tail);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 void List<Type>::pushFront(const T& data) 
 {
@@ -295,7 +295,7 @@ void List<Type>::pushFront(const T& data)
     ++csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 void List<Type>::pushFront(T&& data)
 {
@@ -312,7 +312,7 @@ void List<Type>::pushFront(T&& data)
     ++csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::popFront() noexcept
 {
     if (!head)
@@ -331,7 +331,7 @@ void List<Type>::popFront() noexcept
     --csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 void List<Type>::pushBack(const T& data)
 {
@@ -348,7 +348,7 @@ void List<Type>::pushBack(const T& data)
     ++csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 void List<Type>::pushBack(T&& data)
 {
@@ -365,7 +365,7 @@ void List<Type>::pushBack(T&& data)
     ++csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::popBack() noexcept
 {
     if (!head)
@@ -389,7 +389,7 @@ void List<Type>::popBack() noexcept
     --csize;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(iterator pos, const T& data)
 {
@@ -417,7 +417,7 @@ typename List<Type>::iterator List<Type>::insert(iterator pos, const T& data)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(iterator pos, T&& data)
 {
@@ -445,7 +445,7 @@ typename List<Type>::iterator List<Type>::insert(iterator pos, T&& data)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 typename List<Type>::iterator List<Type>::insert(iterator pos, const C &container)
 {
@@ -457,7 +457,7 @@ typename List<Type>::iterator List<Type>::insert(iterator pos, const C &containe
     return curr_pos;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 typename List<Type>::iterator List<Type>::insert(iterator pos, C &&container)
 {
@@ -469,7 +469,7 @@ typename List<Type>::iterator List<Type>::insert(iterator pos, C &&container)
     return curr_pos;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator+=(const C &container)
 {
@@ -480,7 +480,7 @@ List<Type>& List<Type>::operator+=(const C &container)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator+=(C &&container)
 {
@@ -491,7 +491,7 @@ List<Type>& List<Type>::operator+=(C &&container)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>& List<Type>::operator+=(const T &data)
 {
@@ -499,7 +499,7 @@ List<Type>& List<Type>::operator+=(const T &data)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>& List<Type>::operator+=(T &&data)
 {
@@ -507,7 +507,7 @@ List<Type>& List<Type>::operator+=(T &&data)
     return *this;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type> List<Type>::operator+(const C &container) const
 {
@@ -519,7 +519,7 @@ List<Type> List<Type>::operator+(const C &container) const
     return result;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type> List<Type>::operator+(C &&container) const
 {
@@ -531,7 +531,7 @@ List<Type> List<Type>::operator+(C &&container) const
     return result;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type> List<Type>::operator+(const T &data) const
 {
@@ -540,7 +540,7 @@ List<Type> List<Type>::operator+(const T &data) const
     return result;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type> List<Type>::operator+(T &&data) const
 {
@@ -549,7 +549,7 @@ List<Type> List<Type>::operator+(T &&data) const
     return result;
 }
 
-template <typename Type, Convertable<Type> T>
+template <CopyNMoveable Type, Convertable<Type> T>
 List<Type> operator+(const T& value, const List<Type>& container)
 {
     List<Type> result;
@@ -561,7 +561,7 @@ List<Type> operator+(const T& value, const List<Type>& container)
     return result;
 }
 
-template <typename Type, Convertable<Type> T>
+template <CopyNMoveable Type, Convertable<Type> T>
 List<Type> operator+(T&& value, const List<Type>& container)
 {
     List<Type> result;
@@ -573,7 +573,7 @@ List<Type> operator+(T&& value, const List<Type>& container)
     return result;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::reverse() noexcept
 {
     if (csize <= 1)
@@ -601,7 +601,7 @@ void List<Type>::reverse() noexcept
     head = currentNode;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::remove(iterator pos)
 {
     validateListIterartor(pos, __LINE__);
@@ -635,7 +635,7 @@ void List<Type>::remove(iterator pos)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::remove(iterator st, iterator end)
 {
     validateListIterartorRange(st, end, __LINE__);
@@ -661,7 +661,7 @@ void List<Type>::remove(iterator st, iterator end)
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::remove(iterator st, size_type n)
 {
     auto end = std::next(st, n);
@@ -669,7 +669,7 @@ void List<Type>::remove(iterator st, size_type n)
     remove(st, end);
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::clear() noexcept
 {
     head.reset();
@@ -677,13 +677,13 @@ void List<Type>::clear() noexcept
     csize = 0;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 bool List<Type>::isEmpty() const noexcept
 {
     return csize == 0;
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::validateListIterartor(const ListIterator<Type> &iterator, size_t line)
 {
     auto it = begin();
@@ -695,7 +695,7 @@ void List<Type>::validateListIterartor(const ListIterator<Type> &iterator, size_
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 void List<Type>::validateListIterartorRange(const ListIterator<Type> &begin, const ListIterator<Type> &end, size_t line)
 {
     validateListIterartor(begin, line);
@@ -709,7 +709,7 @@ void List<Type>::validateListIterartorRange(const ListIterator<Type> &begin, con
     }
 }
 
-template <typename Type>
+template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 void List<Type>::validateAnyIterartorRange(const I &begin, const I &end, size_t line)
 {
@@ -720,7 +720,7 @@ void List<Type>::validateAnyIterartorRange(const I &begin, const I &end, size_t 
     }
 }
 
-template <typename T>
+template <CopyNMoveable T>
 std::ostream& operator <<(std::ostream & os, const List<T> & list)
 {
 	for (auto& elem : list)

@@ -4,10 +4,10 @@
 #include "base_iterator.h"
 #include "__concepts.hpp"
 
-template <typename Type>
+template <CopyNMoveable Type>
 class List;
 
-template <typename Type>
+template <CopyNMoveable Type>
 class ListIterator : public BaseIterator<Type>
 {
 public:
