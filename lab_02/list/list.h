@@ -129,6 +129,8 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	iterator insert(const iterator &pos, const C &container);
 
+	List<Type>& operator+=(List<Type> &&someLsit);
+
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(const C &container);
 

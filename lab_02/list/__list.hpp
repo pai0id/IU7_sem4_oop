@@ -392,49 +392,90 @@ void List<Type>::popBack() noexcept
     --csize;
 }
 
+// TODO ==
+
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(const iterator &pos, const T& data)
 {
-    auto currentNode = head;
-    while (currentNode->GetNext() != pos.getNode())
+    if (pos == cbegin())
     {
-        currentNode = currentNode->GetNext();
+        pushFront(data);
+        return begin();
     }
-    typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
-    currentNode->SetNext(newNode);
-    ++csize;
-    return iterator(newNode);
+    else if (pos == cend())
+    {
+        pushBack(data);
+        return iterator(tail);
+    }
+    else
+    {
+        auto currentNode = head;
+        while (currentNode->GetNext() != pos.getNode())
+        {
+            currentNode = currentNode->GetNext();
+        }
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
+        currentNode->SetNext(newNode);
+        ++csize;
+        return iterator(newNode);
+    }
 }
 
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(const iterator &pos, T&& data)
 {
-    auto currentNode = head;
-    while (currentNode->GetNext() != pos.getNode())
+    if (pos == cbegin())
     {
-        currentNode = currentNode->GetNext();
+        pushFront(std::move(data));
+        return begin();
     }
-    typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
-    currentNode->SetNext(newNode);
-    ++csize;
-    return iterator(newNode);
+    else if (pos == cend())
+    {
+        pushBack(std::move(data));
+        return iterator(tail);
+    }
+    else
+    {
+        auto currentNode = head;
+        while (currentNode->GetNext() != pos.getNode())
+        {
+            currentNode = currentNode->GetNext();
+        }
+        typename ListNode::node_ptr newNode = ListNode::initNode(data, currentNode->GetNext());
+        currentNode->SetNext(newNode);
+        ++csize;
+        return iterator(newNode);
+    }
 }
 
 template <CopyNMoveable Type>
 typename List<Type>::iterator List<Type>::insert(const iterator &pos, List<Type>&& someList)
 {
-    auto currentNode = head;
-    while (currentNode->GetNext() != pos.getNode())
+    if (pos == cbegin())
     {
-        currentNode = currentNode->GetNext();
+        pushFront(someList);
+        return begin();
     }
-    someList.tail->SetNext(currentNode->GetNext());
-    currentNode->SetNext(std::exchange(someList.head, nullptr));
-    someList.tail = nullptr;
-    csize += std::exchange(someList.csize, 0);
-    return iterator(currentNode->GetNext());
+    else if (pos == cend())
+    {
+        pushBack(someList);
+        return iterator(tail);
+    }
+    else
+    {
+        auto currentNode = head;
+        while (currentNode->GetNext() != pos.getNode())
+        {
+            currentNode = currentNode->GetNext();
+        }
+        someList.tail->SetNext(currentNode->GetNext());
+        currentNode->SetNext(std::exchange(someList.head, nullptr));
+        someList.tail = nullptr;
+        csize += std::exchange(someList.csize, 0);
+        return iterator(currentNode->GetNext());
+    }
 }
 
 template <CopyNMoveable Type>
@@ -445,13 +486,17 @@ typename List<Type>::iterator List<Type>::insert(const iterator &pos, const C &c
 }
 
 template <CopyNMoveable Type>
+List<Type>& List<Type>::operator+=(List<Type> &&someList)
+{
+    pushBack(someList);
+    return *this;
+}
+
+template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator+=(const C &container)
 {
-    for (const auto& val : container)
-    {
-        pushBack(val);
-    }
+    pushBack(container);
     return *this;
 }
 
