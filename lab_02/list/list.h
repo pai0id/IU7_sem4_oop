@@ -60,16 +60,13 @@ public:
 	// Операторы присваивания ===================
 
 	List<Type>& operator=(const List<Type>& someList);
-	List<Type>& operator=(List<Type>&& someList);
+	List<Type>& operator=(List<Type>&& someList) noexcept;
 
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator=(const C& container);
 
-	template <ConvertableForwardContainer<Type> C>
-	List<Type>& operator=(C&& container);
-
 	template <ConvertableForwardIterator<Type> I>
-	List<Type>& operator=(Range<I> range);
+	List<Type>& operator=(Range<I> &range);
 
 	// ~Операторы присваивания ==================
 
@@ -118,13 +115,7 @@ public:
 	iterator insert(iterator pos, const C &container);
 
 	template <ConvertableForwardContainer<Type> C>
-	iterator insert(iterator pos, C &&container);
-
-	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(const C &container);
-
-	template <ConvertableForwardContainer<Type> C>
-	List<Type>& operator+=(C &&container);
 
 	template <Convertable<Type> T>
 	List<Type>& operator+=(const T &data);
@@ -134,9 +125,6 @@ public:
 
 	template <ConvertableForwardContainer<Type> C>
 	List<Type> operator+(const C &container) const;
-
-	template <ConvertableForwardContainer<Type> C>
-	List<Type> operator+(C &&container) const;
 
 	template <Convertable<Type> T>
 	List<Type> operator+(const T &data) const;

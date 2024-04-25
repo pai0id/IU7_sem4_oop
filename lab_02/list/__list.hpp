@@ -20,12 +20,7 @@ template <CopyNMoveable Type>
 List<Type>::List(List<Type>&& someList) noexcept :
     head(std::exchange(someList.head, nullptr)),
     tail(std::exchange(someList.tail, nullptr)),
-    csize(std::exchange(someList.csize, 0))
-{
-    someList.head = nullptr;
-    someList.tail = nullptr;
-    someList.csize = 0;
-}
+    csize(std::exchange(someList.csize, 0)) {}
 
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
@@ -127,10 +122,7 @@ List<Type> List<Type>::SubList(const_iterator &begin, const size_type size) cons
 template <CopyNMoveable Type>
 List<Type>& List<Type>::operator=(const List<Type>& someList)
 {
-    if (this == &someList)
-    {
-        return *this;
-    }
+    clear();
     for (const auto& elem : someList)
     {
         pushBack(elem);
@@ -139,15 +131,11 @@ List<Type>& List<Type>::operator=(const List<Type>& someList)
 }
 
 template <CopyNMoveable Type>
-List<Type>& List<Type>::operator=(List<Type>&& someList)
+List<Type>& List<Type>::operator=(List<Type>&& someList) noexcept
 {
-    if (this == &someList)
-    {
-        return *this;
-    }
-    head = std::move(someList.head);
-    tail = std::move(someList.tail);
-    csize = std::move(someList.csize);
+    head = std::exchange(someList.head, nullptr);
+    tail = std::exchange(someList.tail, nullptr);
+    csize = std::exchange(someList.csize, 0);
     return *this;
 }
 
@@ -164,20 +152,8 @@ List<Type>& List<Type>::operator=(const C& container)
 }
 
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>& List<Type>::operator=(C&& container)
-{
-    clear();
-    for (auto&& val : container)
-    {
-        pushBack(std::move(val));
-    }
-    return *this;
-}
-
-template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
-List<Type>& List<Type>::operator=(Range<I> range)
+List<Type>& List<Type>::operator=(Range<I> &range)
 {
     clear();
     for (auto it = range.begin(); it != range.end(); ++it)
@@ -460,34 +436,11 @@ typename List<Type>::iterator List<Type>::insert(iterator pos, const C &containe
 
 template <CopyNMoveable Type>
 template <ConvertableForwardContainer<Type> C>
-typename List<Type>::iterator List<Type>::insert(iterator pos, C &&container)
-{
-    auto curr_pos = pos;
-    for (auto &&val : container)
-    {
-        curr_pos = insert(curr_pos, val);
-    }
-    return curr_pos;
-}
-
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
 List<Type>& List<Type>::operator+=(const C &container)
 {
     for (const auto& val : container)
     {
         pushBack(val);
-    }
-    return *this;
-}
-
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>& List<Type>::operator+=(C &&container)
-{
-    for (auto&& val : container)
-    {
-        pushBack(std::move(val));
     }
     return *this;
 }
@@ -516,18 +469,6 @@ List<Type> List<Type>::operator+(const C &container) const
     for (const auto& val : container)
     {
         result.pushBack(val);
-    }
-    return result;
-}
-
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type> List<Type>::operator+(C &&container) const
-{
-    List<Type> result(*this);
-    for (auto&& val : container)
-    {
-        result.pushBack(std::move(val));
     }
     return result;
 }

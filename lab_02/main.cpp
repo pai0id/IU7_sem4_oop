@@ -17,6 +17,16 @@ int main() {
     std::cout << "List3: " << list3 << std::endl;
     std::cout << "Size of list3: " << list3.size() << std::endl;
 
+    List<int> list2_1;
+    list2_1 = List<int>({1, 2, 3});
+    std::cout << "List2: " << list2_1 << std::endl;
+    std::cout << "Size of list2: " << list2_1.size() << std::endl;
+
+    List<int> list1_1;
+    list1_1 = list2_1;
+    std::cout << "List1: " << list1_1 << std::endl;
+    std::cout << "Size of list1: " << list1_1.size() << std::endl;
+
     List<int> list5(3, 10);
     std::cout << "List5: " << list5 << std::endl;
     std::cout << "Size of list5: " << list5.size() << std::endl;
