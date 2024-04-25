@@ -23,7 +23,7 @@ public:
 
 	List() = default;
 	explicit List(const List<Type>& someList);
-	List(List<Type>&& someList) = default;
+	List(List<Type>&& someList) noexcept;
 
 	template <Convertable<Type> T>
 	List(size_type n, const T& value);
@@ -34,9 +34,6 @@ public:
 	template <ConvertableForwardContainer<Type> C>
 	explicit List(const C& container);
 
-	template <ConvertableForwardContainer<Type> C>
-	List(C&& container);
-
 	template <ConvertableForwardIterator<Type> I>
 	explicit List(const I& begin, const I& end);
 
@@ -44,7 +41,7 @@ public:
 	explicit List(const I& begin, const size_t size);
 
 	template <ConvertableForwardIterator<Type> I>
-	explicit List(Range<I> range);
+	explicit List(Range<I> &range);
 
 	// ~Конструкторы ============================
 	

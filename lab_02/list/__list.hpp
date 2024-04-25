@@ -17,6 +17,17 @@ List<Type>::List(const List<Type>& someList)
 }
 
 template <CopyNMoveable Type>
+List<Type>::List(List<Type>&& someList) noexcept :
+    head(std::exchange(someList.head, nullptr)),
+    tail(std::exchange(someList.tail, nullptr)),
+    csize(std::exchange(someList.csize, 0))
+{
+    someList.head = nullptr;
+    someList.tail = nullptr;
+    someList.csize = 0;
+}
+
+template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>::List(size_type n, const T& value)
 {
@@ -47,16 +58,6 @@ List<Type>::List(const C& container)
 }
 
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>::List(C&& container)
-{
-    for (auto&& val : container)
-    {
-        pushBack(std::move(val));
-    }
-}
-
-template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(const I& begin, const I& end)
 {
@@ -81,7 +82,7 @@ List<Type>::List(const I& begin, const size_t size)
 
 template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
-List<Type>::List(Range<I> range)
+List<Type>::List(Range<I> &range)
 {
     for (auto it = range.begin(); it != range.end(); ++it)
     {
