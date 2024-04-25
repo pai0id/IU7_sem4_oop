@@ -38,7 +38,7 @@ const List<Type>::ListNode::data_ptr List<Type>::ListNode::GetData() const
 }
 
 template <CopyNMoveable Type>
-void List<Type>::ListNode::SetNext(node_ptr &node)
+void List<Type>::ListNode::SetNext(const node_ptr &node)
 {
     next = node;
 }

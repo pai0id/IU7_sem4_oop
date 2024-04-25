@@ -62,6 +62,9 @@ public:
 	List<Type>& operator=(const List<Type>& someList);
 	List<Type>& operator=(List<Type>&& someList) noexcept;
 
+	template <Convertable<Type> T>
+	List<Type>& operator=(std::initializer_list<T> initList);
+
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator=(const C& container);
 
@@ -84,10 +87,10 @@ public:
 	const_iterator end() const noexcept;
 	const_iterator cend() const noexcept;
 
-	iterator getFront();
-	iterator getBack();
-	const_iterator getFront() const;
-	const_iterator getBack() const;
+	iterator getFront() noexcept;
+	iterator getBack() noexcept;
+	const_iterator getFront() const noexcept;
+	const_iterator getBack() const noexcept;
 
 	// ~Получение позиций =======================
 
@@ -99,20 +102,32 @@ public:
 	template <Convertable<Type> T>
 	void pushFront(T&& data);
 
+	void pushFront(List<Type>&& someList);
+
+	template <ConvertableForwardContainer<Type> C>
+	void pushFront(const C& container);
+
 	template <Convertable<Type> T>
 	void pushBack(const T& data);
 
 	template <Convertable<Type> T>
 	void pushBack(T&& data);
 
-	template <Convertable<Type> T>
-	iterator insert(iterator pos, const T& data);
-
-	template <Convertable<Type> T>
-	iterator insert(iterator pos, T&& data);
+	void pushBack(List<Type>&& someList);
 
 	template <ConvertableForwardContainer<Type> C>
-	iterator insert(iterator pos, const C &container);
+	void pushBack(const C& container);
+
+	template <Convertable<Type> T>
+	iterator insert(const iterator &pos, const T& data);
+
+	template <Convertable<Type> T>
+	iterator insert(const iterator &pos, T&& data);
+
+	iterator insert(const iterator &pos, List<Type>&& someList);
+
+	template <ConvertableForwardContainer<Type> C>
+	iterator insert(const iterator &pos, const C &container);
 
 	template <ConvertableForwardContainer<Type> C>
 	List<Type>& operator+=(const C &container);
@@ -181,7 +196,7 @@ protected:
 
 		// Установка ===========================
 
-		void SetNext(node_ptr &node);
+		void SetNext(const node_ptr &node);
 		void SetData(const value_type &data);
 		void SetData(value_type &&data);
 		void SetNextNull();

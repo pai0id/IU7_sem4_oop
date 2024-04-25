@@ -27,6 +27,10 @@ int main() {
     std::cout << "List1: " << list1_1 << std::endl;
     std::cout << "Size of list1: " << list1_1.size() << std::endl;
 
+    list1_1 = {9.0, 8.1, 7.2};
+    std::cout << "List1: " << list1_1 << std::endl;
+    std::cout << "Size of list1: " << list1_1.size() << std::endl;
+
     List<int> list5(3, 10);
     std::cout << "List5: " << list5 << std::endl;
     std::cout << "Size of list5: " << list5.size() << std::endl;
@@ -34,6 +38,35 @@ int main() {
     List<int> list6({1, 2, 3});
     std::cout << "List6: " << list6 << std::endl;
     std::cout << "Size of list6: " << list6.size() << std::endl;
+
+    list6.pushFront(List<int>({6, 6}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.pushFront(List<double>({8.1, 7.2}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.pushFront(std::vector({8.1, 7.2}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.pushBack(List<int>({6, 6}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.pushBack(List<double>({8.1, 7.2}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.pushBack(std::vector({8.1, 7.2}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    auto pos = ++(list6.begin());
+
+    list6.insert(pos, List<int>({0, 0}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.insert(pos, List<double>({-1.1, -1.2}));
+    std::cout << "List6: " << list6 << std::endl;
+
+    list6.insert(pos, std::vector({-8.1, -7.2}));
+    std::cout << "List6: " << list6 << std::endl;
 
     std::vector<int> vec = {4, 5, 6};
     List<int> list7(vec);
