@@ -1,54 +1,75 @@
 #pragma once
 
 #include "iterator.h"
-#include "list_exceptions.h"
+#include "iterator_exceptions.h"
 #include <memory>
 #include <ctime>
 
 template <CopyNMoveable Type>
-ListIterator<Type>::ListIterator(const ListIterator& other) : currentNode(other.currentNode) {}
+ListIterator<Type>::ListIterator(const ListIterator& other) : wptr(other.wptr.lock()) {}
+
+template <CopyNMoveable Type>
+ListIterator<Type>::ListIterator(List<Type>::ListNode::node_ptr node) : wptr(node) {}
 
 template <CopyNMoveable Type>
 ListIterator<Type>& ListIterator<Type>::operator=(const ListIterator<Type>& other)
 {
-    if (this != &other) {
-        currentNode = other.currentNode;
-    }
+    this->wptr = other.wptr.lock();
     return *this;
 }
 
 template <CopyNMoveable Type>
-bool ListIterator<Type>::IsValid() const
+bool ListIterator<Type>::IsValid() const noexcept
 {
-    return currentNode != nullptr;
+    if (wptr.lock() == nullptr)
+        return false;
+    if (wptr.expired())
+        return false;
+    return true;
 }
 
 template <CopyNMoveable Type>
 typename ListIterator<Type>::reference ListIterator<Type>::operator*()
 {
-    checkValid(__LINE__);
-    return *currentNode->GetData();
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    return *this->wptr.lock()->GetData();
 }
 
 template <CopyNMoveable Type>
 const ListIterator<Type>::reference ListIterator<Type>::operator*() const
 {
-    checkValid(__LINE__);
-    return *currentNode->GetData();
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    return *this->wptr.lock()->GetData();
 }
 
 template <CopyNMoveable Type>
 ListIterator<Type>::pointer ListIterator<Type>::operator->()
 {
-    checkValid(__LINE__);
-    return currentNode->GetData();
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    return this->wptr.lock()->GetData();
 }
 
 template <CopyNMoveable Type>
 const ListIterator<Type>::pointer ListIterator<Type>::operator->() const
 {
-    checkValid(__LINE__);
-    return currentNode->GetData();
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    return this->wptr.lock()->GetData();
 }
 
 template <CopyNMoveable Type>
@@ -60,15 +81,23 @@ ListIterator<Type>::operator bool() const
 template <CopyNMoveable Type>
 ListIterator<Type>& ListIterator<Type>::operator++()
 {
-    checkValid(__LINE__);
-    currentNode = currentNode->GetNext();
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    this->wptr = this->wptr.lock()->GetNext();
     return *this;
 }
 
 template <CopyNMoveable Type>
 ListIterator<Type> ListIterator<Type>::operator++(int)
 {
-    checkValid(__LINE__);
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
     ListIterator<Type> temp(*this);
     ++(*this);
     return temp;
@@ -77,30 +106,22 @@ ListIterator<Type> ListIterator<Type>::operator++(int)
 template <CopyNMoveable Type>
 bool ListIterator<Type>::operator==(const ListIterator<Type>& other) const
 {
-    return currentNode == other.currentNode;
+    return wptr.lock() == other.wptr.lock();
 }
 
 template <CopyNMoveable Type>
 bool ListIterator<Type>::operator!=(const ListIterator<Type>& other) const
 {
-    return !(*this == other);
-}
-
-template <CopyNMoveable Type>
-void ListIterator<Type>::checkValid(size_t line) const
-{
-    if (!IsValid())
-    {
-        time_t t_time = time(NULL);
-        throw ListOutOfBounds(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
-    }
+    return wptr.lock() != other.wptr.lock();
 }
 
 template <CopyNMoveable Type>
 List<Type>::ListNode::node_ptr ListIterator<Type>::getNode() const
 {
-    return currentNode;
+    if (!IsValid())
+    {
+        time_t t_time = time(NULL);
+        throw InvalidIterator(__FILE__, typeid(*this).name(), __LINE__, ctime(&t_time));
+    }
+    return wptr.lock();
 }
-
-template <CopyNMoveable Type>
-ListIterator<Type>::ListIterator(List<Type>::ListNode::node_ptr node) : currentNode(node) {}

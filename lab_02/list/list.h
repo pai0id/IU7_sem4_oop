@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "base_list.h"
+#include "base_iterator.h"
 #include "iterator.h"
 #include "const_iterator.h"
 #include "range.h"
@@ -18,6 +19,7 @@ public:
 
 	friend class ListIterator<Type>;
 	friend class ConstListIterator<Type>;
+	friend class BaseIterator<Type>;
 
 	// Конструкторы =============================
 
@@ -174,6 +176,7 @@ protected:
 	{
 	public:
 		using node_ptr = std::shared_ptr<ListNode>;
+		using node_wptr = std::weak_ptr<ListNode>;
 		using data_ptr = std::shared_ptr<value_type>;
 
 		// Создание =============================

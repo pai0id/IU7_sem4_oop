@@ -392,8 +392,6 @@ void List<Type>::popBack() noexcept
     --csize;
 }
 
-// TODO ==
-
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
 typename List<Type>::iterator List<Type>::insert(const iterator &pos, const T& data)

@@ -25,7 +25,7 @@ public:
 
     ~ConstListIterator() = default;
 
-    bool IsValid() const;
+    bool IsValid() const noexcept;
 
 	reference operator*() const;
 	pointer operator->() const;
@@ -38,9 +38,8 @@ public:
     bool operator!=(const ConstListIterator<Type> &other) const;
 
 protected:
-    List<Type>::ListNode::node_ptr currentNode;
+	List<Type>::ListNode::node_wptr wptr;
 
-    void checkValid(size_t line) const;
     List<Type>::ListNode::node_ptr getNode() const;
     ConstListIterator(const List<Type>::ListNode::node_ptr node);
 };
