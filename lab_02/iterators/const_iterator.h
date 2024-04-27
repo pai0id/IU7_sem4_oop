@@ -2,16 +2,22 @@
 
 #include <memory>
 #include "base_iterator.h"
+#include "iterator.h"
 #include "__concepts.hpp"
 
 template <CopyNMoveable Type>
 class List;
 
 template <CopyNMoveable Type>
+class ListIterator;
+
+template <CopyNMoveable Type>
 class ConstListIterator : public BaseIterator<Type>
 {
 public:
 	friend class List<Type>;
+	friend class ListIterator<Type>;
+
 	using iterator_category = std::forward_iterator_tag;
 
 	using value_type = Type;
@@ -22,6 +28,9 @@ public:
 	ConstListIterator() = default;
     ConstListIterator(const ConstListIterator<Type>& other);
 	ConstListIterator<Type> operator=(const ConstListIterator<Type> &other);
+    ConstListIterator(const ListIterator<Type>& other);
+	ConstListIterator<Type> operator=(const ListIterator<Type> &other);
+
 
     ~ConstListIterator() = default;
 

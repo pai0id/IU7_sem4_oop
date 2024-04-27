@@ -12,7 +12,17 @@ template<CopyNMoveable Type>
 ConstListIterator<Type>::ConstListIterator(const List<Type>::ListNode::node_ptr node) : wptr(node) {}
 
 template<CopyNMoveable Type>
+ConstListIterator<Type>::ConstListIterator(const ListIterator<Type>& other) : wptr(other.wptr.lock()) {}
+
+template<CopyNMoveable Type>
 ConstListIterator<Type> ConstListIterator<Type>::operator=(const ConstListIterator<Type>& other)
+{
+    this->wptr = other.wptr.lock();
+    return *this;
+}
+
+template<CopyNMoveable Type>
+ConstListIterator<Type> ConstListIterator<Type>::operator=(const ListIterator<Type> &other)
 {
     this->wptr = other.wptr.lock();
     return *this;
