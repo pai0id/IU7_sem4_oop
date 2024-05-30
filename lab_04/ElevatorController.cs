@@ -17,7 +17,6 @@ public class ElevatorController
     private readonly Elevator _elevator;
     private readonly bool[] _currRequests;
     private ElevatorControllerState _currState;
-    private int _currTask;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.DynamicInvoke(this, e);
 
@@ -36,7 +35,6 @@ public class ElevatorController
     {
         _currState = state;
         _currState.SetContext(this);
-        _currState.ParseState();
     }
 
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
@@ -72,6 +70,8 @@ public class ElevatorController
                 if (_context._currRequests[i])
                 {
                     _context.TransitionTo(new SearchElevatorControllerState(_context));
+                    _context._currState.ParseState();
+                    return;
                 }
             }
         }
@@ -89,13 +89,13 @@ public class ElevatorController
             {
                 if (left >= 0 && _context._currRequests[left])
                 {
-                    _context._currTask = left;
+                    _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
                     _context.TransitionTo(new BusyElevatorControllerState(_context));
                     return;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right])
                 {
-                    _context._currTask = right;
+                    _context.OnUpdateGoal(new UpdateGoalEventArgs(right));
                     _context.TransitionTo(new BusyElevatorControllerState(_context));
                     return;
                 }
@@ -112,8 +112,9 @@ public class ElevatorController
     {
         public override void ParseState()
         {
-            _context.OnUpdateGoal(new UpdateGoalEventArgs(_context._currTask));
-            _context.TransitionTo(new IdleElevatorControllerState(_context));
+            _context.TransitionTo(new SearchElevatorControllerState(_context));
+            _context._currState.ParseState();
+            return;
         }
     }
 }
