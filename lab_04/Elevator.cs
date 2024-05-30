@@ -1,6 +1,4 @@
 using ElevatorSimulation.Ctrl;
-using System;
-using System.Threading.Tasks;
 
 namespace ElevatorSimulation.Elev;
 
@@ -13,8 +11,6 @@ public class Elevator
 {
     public event EventHandler<GoalReachedEventArgs>? GoalReached;
     public event EventHandler? ActivateDoors;
-
-    private readonly int _id;
     private volatile int _currGoal;
     private int _currFloor;
     private ElevatorState _currState;
@@ -37,7 +33,8 @@ public class Elevator
     private void UpdateGoal(object? sender, UpdateGoalEventArgs e)
     {
         _currGoal = e.Floor;
-        _currState.ParseState();
+        if (_currState is not MovingElevatorState)
+            _currState.ParseState();
     }
 
     private void DoneDoors(object? sender, EventArgs e)
@@ -46,22 +43,22 @@ public class Elevator
         OnGoalReached(new GoalReachedEventArgs(_currGoal));
     }
 
-    protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.Invoke(this, e);
-    protected virtual void OnActivateDoors(EventArgs e) => ActivateDoors?.Invoke(this, e);
+    protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.DynamicInvoke(this, e);
+    protected virtual void OnActivateDoors(EventArgs e) => ActivateDoors?.DynamicInvoke(this, e);
 
     public async Task Move()
     {
-        Console.WriteLine($"Elevator {_id} starting to move from floor {_currFloor} to floor {_currGoal}.");
+        Console.WriteLine($"Elevator starting to move from floor {_currFloor} to floor {_currGoal}.");
 
         while (_currFloor != _currGoal)
         {
             _currFloor += _currFloor < _currGoal ? 1 : -1;
 
             await Task.Delay(1000);
-            Console.WriteLine($"Elevator {_id} at {_currFloor}");
+            Console.WriteLine($"Elevator at {_currFloor}");
         }
 
-        Console.WriteLine($"Elevator {_id} reached floor {_currFloor}");
+        Console.WriteLine($"Elevator reached floor {_currFloor}");
         await _currState.ParseState();
     }
 
@@ -99,7 +96,7 @@ public class Elevator
     {
         public override async Task ParseState()
         {
-            _context.OnActivateDoors(EventArgs.Empty);
+           _context.OnActivateDoors(EventArgs.Empty);
         }
     }
 
