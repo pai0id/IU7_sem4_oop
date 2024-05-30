@@ -1,6 +1,4 @@
-using Cairo;
 using ElevatorSimulation.Elev;
-using System;
 
 namespace ElevatorSimulation.Ctrl;
 
