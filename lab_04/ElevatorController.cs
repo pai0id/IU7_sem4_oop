@@ -18,7 +18,7 @@ public class ElevatorController
     private readonly bool[] _currRequests;
     private ElevatorControllerState _currState;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
-    protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.DynamicInvoke(this, e);
+    protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.Invoke(this, e);
 
     public ElevatorController(int nFloors, out EventHandler<NewRequestEventArgs>? newRequestHandler)
     {
