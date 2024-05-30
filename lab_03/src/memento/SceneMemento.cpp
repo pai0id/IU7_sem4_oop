@@ -17,6 +17,6 @@ void SceneMemento::getState() {
 /**
  * @param BaseObject
  */
-void SceneMemento::setState(void BaseObject) {
+void SceneMemento::setState(BaseObject) {
 
 }

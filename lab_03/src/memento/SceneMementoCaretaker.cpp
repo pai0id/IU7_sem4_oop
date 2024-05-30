@@ -13,7 +13,7 @@
 /**
  * @param Memento
  */
-void SceneMementoCaretaker::add(void Memento) {
+void SceneMementoCaretaker::add(Memento) {
 
 }
 

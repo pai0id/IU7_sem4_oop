@@ -13,21 +13,21 @@
 /**
  * @param Model
  */
-void DrawVisitor::visit(void Model) {
+void DrawVisitor::visit(BaseModel) {
 
 }
 
 /**
  * @param Composite
  */
-void DrawVisitor::visit(void Composite) {
+void DrawVisitor::visit(Composite) {
 
 }
 
 /**
  * @param Camera
  */
-void DrawVisitor::visit(void Camera) {
+void DrawVisitor::visit(Camera) {
 
 }
 

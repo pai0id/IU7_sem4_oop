@@ -8,19 +8,18 @@
 
 #include "Visitor.h"
 
-
 class ScaleVisitor: public Visitor {
 public: 
     
 /**
  * @param Model
  */
-void visit(void Model);
+void visit(BaseModel);
     
 /**
  * @param Composite
  */
-void visit(void Composite);
+void visit(Composite);
 };
 
 #endif //_SCALEVISITOR_H

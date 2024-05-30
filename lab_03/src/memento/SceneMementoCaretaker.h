@@ -15,7 +15,7 @@ public:
 /**
  * @param Memento
  */
-void add(void Memento);
+void add(Memento);
     
 void get();
 };

@@ -13,20 +13,20 @@
 /**
  * @param Model
  */
-void MoveVisitor::visit(void Model) {
+void MoveVisitor::visit(BaseModel) {
 
 }
 
 /**
  * @param Composite
  */
-void MoveVisitor::visit(void Composite) {
+void MoveVisitor::visit(Composite) {
 
 }
 
 /**
  * @param Camera
  */
-void MoveVisitor::visit(void Camera) {
+void MoveVisitor::visit(Camera) {
 
 }

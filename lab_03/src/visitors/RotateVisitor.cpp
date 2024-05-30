@@ -13,20 +13,20 @@
 /**
  * @param Model
  */
-void RotateVisitor::visit(void Model) {
+void RotateVisitor::visit(BaseModel) {
 
 }
 
 /**
  * @param Composite
  */
-void RotateVisitor::visit(void Composite) {
+void RotateVisitor::visit(Composite) {
 
 }
 
 /**
  * @param Camera
  */
-void RotateVisitor::visit(void Camera) {
+void RotateVisitor::visit(Camera) {
 
 }

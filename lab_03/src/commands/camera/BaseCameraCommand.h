@@ -6,7 +6,7 @@
 #ifndef _BASECAMERACOMMAND_H
 #define _BASECAMERACOMMAND_H
 
-#include "BaseCommand.h"
+#include "../BaseCommand.h"
 
 
 class BaseCameraCommand: public BaseCommand {

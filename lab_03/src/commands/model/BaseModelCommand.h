@@ -6,7 +6,7 @@
 #ifndef _BASEMODELCOMMAND_H
 #define _BASEMODELCOMMAND_H
 
-#include "BaseCommand.h"
+#include "../BaseCommand.h"
 
 
 class BaseModelCommand: public BaseCommand {

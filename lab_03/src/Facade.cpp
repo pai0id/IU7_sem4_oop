@@ -1,8 +1,3 @@
-/**
- * Project Untitled
- */
-
-
 #include "Facade.h"
 
 /**
@@ -10,6 +5,6 @@
  */
 
 
-void Facade::execute() {
-
+void Facade::execute(BaseCommand &command) {
+    command.execute();
 }

@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "iS6cPXIUo2cRuIJhbJRob5+mKm8S8pAC1VjceQcDuxdy3gtd0NLkztJn7HXWROJCOPlnXvuihjC2pEt9Arrx6Q==",
+  "success": true,
+  "projectFilePath": "/home/andrey05/Documents/labs_oop/lab_04/lab_04.csproj",
+  "expectedPackageFiles": [
+    "/home/andrey05/.nuget/packages/atksharp/3.24.24.95/atksharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/cairosharp/3.24.24.95/cairosharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/gdksharp/3.24.24.95/gdksharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/giosharp/3.24.24.95/giosharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/glibsharp/3.24.24.95/glibsharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/gtksharp/3.24.24.95/gtksharp.3.24.24.95.nupkg.sha512",
+    "/home/andrey05/.nuget/packages/pangosharp/3.24.24.95/pangosharp.3.24.24.95.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -6,7 +6,7 @@
 #ifndef _BASESCENECOMMAND_H
 #define _BASESCENECOMMAND_H
 
-#include "BaseCommand.h"
+#include "../BaseCommand.h"
 
 
 class BaseSceneCommand: public BaseCommand {

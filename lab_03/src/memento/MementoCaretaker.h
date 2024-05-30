@@ -6,13 +6,15 @@
 #ifndef _MEMENTOCARETAKER_H
 #define _MEMENTOCARETAKER_H
 
+#include "Memento.h"
+
 class MementoCaretaker {
 public: 
     
 /**
  * @param Memento
  */
-void add(void Memento);
+void add(Memento);
     
 void get();
 };
