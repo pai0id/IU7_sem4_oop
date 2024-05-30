@@ -58,7 +58,7 @@ public class Doors
         {
             Console.WriteLine("Doors opening");
             await Task.Delay(1000);
-            context.TransitionToNext();
+            _context.TransitionToNext();
         }
         public override DoorsState GetNextState()
         {
@@ -72,7 +72,7 @@ public class Doors
         {
             Console.WriteLine("Doors opened");
             await Task.Delay(1000);
-            context.TransitionToNext();
+            _context.TransitionToNext();
         }
         public override DoorsState GetNextState()
         {
@@ -86,7 +86,7 @@ public class Doors
         {
             Console.WriteLine("Doors closing");
             await Task.Delay(1000);
-            context.TransitionToNext();
+            _context.TransitionToNext();
         }
         public override DoorsState GetNextState()
         {

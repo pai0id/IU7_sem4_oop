@@ -17,6 +17,7 @@ public class ElevatorController
     private readonly Elevator _elevator;
     private readonly bool[] _currRequests;
     private ElevatorControllerState _currState;
+    private int _currTask;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.DynamicInvoke(this, e);
 
@@ -70,14 +71,13 @@ public class ElevatorController
             {
                 if (_context._currRequests[i])
                 {
-                    _context.TransitionTo(new BusyElevatorControllerState(_context));
-                    break;
+                    _context.TransitionTo(new SearchElevatorControllerState(_context));
                 }
             }
         }
     }
 
-    private class BusyElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
+    private class SearchElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
     {
         public override void ParseState()
         {
@@ -89,12 +89,14 @@ public class ElevatorController
             {
                 if (left >= 0 && _context._currRequests[left])
                 {
-                    _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
+                    _context._currTask = left;
+                    _context.TransitionTo(new BusyElevatorControllerState(_context));
                     return;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right])
                 {
-                    _context.OnUpdateGoal(new UpdateGoalEventArgs(right));
+                    _context._currTask = right;
+                    _context.TransitionTo(new BusyElevatorControllerState(_context));
                     return;
                 }
 
@@ -102,6 +104,15 @@ public class ElevatorController
                 right++;
             }
 
+            _context.TransitionTo(new IdleElevatorControllerState(_context));
+        }
+    }
+
+    private class BusyElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
+    {
+        public override void ParseState()
+        {
+            _context.OnUpdateGoal(new UpdateGoalEventArgs(_context._currTask));
             _context.TransitionTo(new IdleElevatorControllerState(_context));
         }
     }
