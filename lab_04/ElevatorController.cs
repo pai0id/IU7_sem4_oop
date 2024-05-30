@@ -4,14 +4,9 @@ using System;
 
 namespace ElevatorSimulation.Ctrl;
 
-public class UpdateGoalEventArgs : EventArgs
+public class UpdateGoalEventArgs(int floor) : EventArgs
 {
-    public int Floor { get; }
-
-    public UpdateGoalEventArgs(int floor)
-    {
-        Floor = floor;
-    }
+    public int Floor { get; } = floor;
 }
 
 public struct Request
@@ -57,14 +52,9 @@ public class ElevatorController
         _currState.ParseState();
     }
 
-    private abstract class ElevatorControllerState
+    private abstract class ElevatorControllerState(ElevatorController context)
     {
-        protected ElevatorController _context;
-
-        protected ElevatorControllerState(ElevatorController context)
-        {
-            _context = context;
-        }
+        protected ElevatorController _context = context;
 
         public void SetContext(ElevatorController context)
         {
@@ -74,10 +64,8 @@ public class ElevatorController
         public abstract void ParseState();
     }
 
-    private class IdleElevatorControllerState : ElevatorControllerState
+    private class IdleElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
     {
-        public IdleElevatorControllerState(ElevatorController context) : base(context) { }
-
         public override void ParseState()
         {
             for (int i = 0; i < _context._currRequests.Length; i++)
@@ -91,10 +79,8 @@ public class ElevatorController
         }
     }
 
-    private class BusyElevatorControllerState : ElevatorControllerState
+    private class BusyElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
     {
-        public BusyElevatorControllerState(ElevatorController context) : base(context) { }
-
         public override void ParseState()
         {
             int currPos = _context._elevator.GetCurrFloor();

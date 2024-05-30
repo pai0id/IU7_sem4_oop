@@ -7,7 +7,7 @@ public class Doors
 
     DoorsState _currState;
 
-    public Doors(ref EventHandler? e)
+    public Doors( ref EventHandler? e)
     {
         e += ActivateDoors;
         _currState = new ClosedDoorsState(this);

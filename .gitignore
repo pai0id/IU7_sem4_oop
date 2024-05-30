@@ -8,4 +8,6 @@ _notes
 out
 .vscode
 *.m4a
+lab_04/bin
+lab_04/obj
 build-lab_03_qt-home-Debug

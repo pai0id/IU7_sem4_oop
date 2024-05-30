@@ -3,14 +3,9 @@ using Gtk;
 
 namespace ElevatorSimulation;
 
-public class NewRequestEventArgs : EventArgs
+public class NewRequestEventArgs(Ctrl.Request r) : EventArgs
 {
-    public int Floor { get; }
-
-    public NewRequestEventArgs(Ctrl.Request r)
-    {
-        Floor = r.floor;
-    }
+    public int Floor { get; } = r.floor;
 }
 
 public partial class MainForm : Window
@@ -21,8 +16,8 @@ public partial class MainForm : Window
 
     private readonly Ctrl.ElevatorController _elevatorCtrl;
 
-    private Label lblFloors;
-    private Label lblLift1;
+    private Label? lblFloors;
+    private Label? lblLift1;
     private readonly Button?[] floorButtons = new Button?[nFloors];
     private readonly Button?[] liftButtons = new Button?[nFloors];
 
@@ -38,8 +33,8 @@ public partial class MainForm : Window
         Box vboxFloors = CreateFloorButtons();
         hboxButtons.PackStart(vboxFloors, false, false, 5);
 
-        Box hboxLifts = CreateLiftButtons();
-        hboxButtons.PackStart(hboxLifts, false, false, 5);
+        Box hboxLift = CreateliftButtons(1, liftButtons);
+        hboxButtons.PackStart(hboxLift, false, false, 5);
 
         vboxAll.PackStart(hboxButtons, false, false, 5);
 
@@ -64,10 +59,10 @@ public partial class MainForm : Window
         return vboxFloors;
     }
 
-    private Box CreateLiftButtons()
+    private Box CreateliftButtons(int id, Button?[] liftButtons)
     {
         Box vboxLift1 = new(Orientation.Vertical, 1);
-        lblLift1 = new Label("Lift 1");
+        lblLift1 = new Label($"Elevator {id}");
         vboxLift1.PackStart(lblLift1, false, false, 1);
 
         for (int i = 0; i < nFloors; i++)
@@ -111,8 +106,8 @@ public partial class MainForm : Window
         if (sender is Button button)
         {
             int floor = button.Label == " " ? int.Parse(MyRegex().Match(button.Name).Value) : int.Parse(button.Label);
-            var newRequest = new Ctrl.Request { floor = floor };
-            OnNewRequest(new NewRequestEventArgs(newRequest));
+            var NewRequest = new Ctrl.Request { floor = floor };
+            OnNewRequest(new NewRequestEventArgs(NewRequest));
         }
     }
 
