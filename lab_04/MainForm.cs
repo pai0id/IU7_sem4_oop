@@ -21,7 +21,7 @@ public partial class MainForm : Window
     private readonly Button?[] floorButtons = new Button?[nFloors];
     private readonly Button?[] liftButtons = new Button?[nFloors];
 
-    public MainForm() : base("Elevator Simulation")
+    public MainForm() : base("ElSim")
     {
         SetPosition(WindowPosition.Center);
         DeleteEvent += delegate { Application.Quit(); };
@@ -82,7 +82,7 @@ public partial class MainForm : Window
         Label lblFloor = new($"{floor}:");
         hbox.PackStart(lblFloor, false, false, 5);
 
-        button = new Button(" ")
+        button = new Button(" # ")
         {
             Name = floor
         };
@@ -105,7 +105,7 @@ public partial class MainForm : Window
     {
         if (sender is Button button)
         {
-            int floor = button.Label == " " ? int.Parse(MyRegex().Match(button.Name).Value) : int.Parse(button.Label);
+            int floor = button.Label == " # " ? int.Parse(MyRegex().Match(button.Name).Value) : int.Parse(button.Label);
             var NewRequest = new Ctrl.Request { floor = floor };
             OnNewRequest(new NewRequestEventArgs(NewRequest));
         }

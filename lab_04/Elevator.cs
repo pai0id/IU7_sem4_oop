@@ -10,7 +10,9 @@ public class GoalReachedEventArgs(int floor) : EventArgs
 public class Elevator
 {
     public event EventHandler<GoalReachedEventArgs>? GoalReached;
+    protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.DynamicInvoke(this, e);
     public event EventHandler? ActivateDoors;
+    protected virtual void OnActivateDoors(EventArgs e) => ActivateDoors?.DynamicInvoke(this, e);
     private volatile int _currGoal;
     private int _currFloor;
     private ElevatorState _currState;
@@ -42,9 +44,6 @@ public class Elevator
         TransitionTo(new StopElevatorState(this));
         OnGoalReached(new GoalReachedEventArgs(_currGoal));
     }
-
-    protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.DynamicInvoke(this, e);
-    protected virtual void OnActivateDoors(EventArgs e) => ActivateDoors?.DynamicInvoke(this, e);
 
     public async Task Move()
     {
