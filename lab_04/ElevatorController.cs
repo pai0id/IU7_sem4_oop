@@ -116,7 +116,7 @@ public class ElevatorController
             {
                 if (left >= 0 && _context._currRequests[left])
                 {
-                    _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
+                     _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
                     _context.OnGoalFound(EventArgs.Empty);
                     return;
                 }

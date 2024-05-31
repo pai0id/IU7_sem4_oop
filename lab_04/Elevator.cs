@@ -18,7 +18,7 @@ public class Elevator
     private event EventHandler? Need2Wait;
     protected virtual void OnNeed2Wait(EventArgs e) => Need2Wait?.Invoke(this, e);
     private volatile int _currGoal;
-    private int _currFloor;
+    private volatile int _currFloor;
     private ElevatorState _currState;
     private readonly Doors _doors;
 
@@ -38,10 +38,15 @@ public class Elevator
     }
 
     public int GetCurrFloor() => _currFloor;
+    public int GetCurrGoal() => _currGoal;
 
     private void UpdateGoal(object? sender, UpdateGoalEventArgs e)
     {
-        if (_currState is WaitElevatorState && e.Floor == _currFloor)
+        if (_currState is WaitElevatorState && e.Floor == _currGoal)
+        {
+            return;
+        }
+        else if ((_currState is WaitElevatorState || _currState is StopElevatorState) && e.Floor == _currFloor)
         {
             OnActivateDoors(EventArgs.Empty);
         }

@@ -2,18 +2,18 @@
 
 public class Doors
 {
-    public event EventHandler? DoneDoors;
-    protected virtual void OnDoneDoors(EventArgs e) => DoneDoors?.Invoke(this, e);
     private event EventHandler? DoorsOpened;
     protected virtual void OnDoorsOpened(EventArgs e) => DoorsOpened?.Invoke(this, e);
     private event EventHandler? DoorsNeed2Close;
     protected virtual void OnDoorsNeed2Close(EventArgs e) => DoorsNeed2Close?.Invoke(this, e);
     private event EventHandler? DoorsClosed;
     protected virtual void OnDoorsClosed(EventArgs e) => DoorsClosed?.Invoke(this, e);
+    public event EventHandler? DoneDoors;
+    protected virtual void OnDoneDoors(EventArgs e) => DoneDoors?.Invoke(this, e);
 
-    DoorsState _currState;
+    private volatile DoorsState _currState;
 
-    public Doors( ref EventHandler? e)
+    public Doors(ref EventHandler? e)
     {
         e += ActivateDoors;
         _currState = new ClosedDoorsState(this);
@@ -25,35 +25,39 @@ public class Doors
 
     void ActivateDoors(object? sender, EventArgs e)
     {
-        if (_currState is ClosedDoorsState)
-            TransitionTo(new OpeningDoorsState(this));
+        if (_currState is not ClosedDoorsState)
+        {
+            TransitionTo(new ClosedDoorsState(this));
+        }
         else
         {
-            _currState = new ClosedDoorsState(this);
-            _currState.SetContext(this);
+            TransitionTo(new OpeningDoorsState(this));
+            _currState.ParseState();
         }
     }
 
     void AfterDoorsOpened(object? sender, EventArgs e)
     {
         TransitionToNext();
+        _currState.ParseState();
     }
 
     void CloseDoors(object? sender, EventArgs e)
     {
         TransitionToNext();
+        _currState.ParseState();
     }
 
     void AfterDoorsClosed(object? sender, EventArgs e)
     {
         TransitionToNext();
+        _currState.ParseState();
     }
 
     void TransitionTo(DoorsState state)
     {
         _currState = state;
         _currState.SetContext(this);
-        _currState.ParseState();
     }
 
     public void TransitionToNext()
