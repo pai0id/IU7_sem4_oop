@@ -41,9 +41,16 @@ public class Elevator
 
     private void UpdateGoal(object? sender, UpdateGoalEventArgs e)
     {
-        _currGoal = e.Floor;
-        if (_currState is not MovingElevatorState)
-            _currState.ParseState();
+        if (_currState is WaitElevatorState && e.Floor == _currFloor)
+        {
+            OnActivateDoors(EventArgs.Empty);
+        }
+        else
+        {
+            _currGoal = e.Floor;
+            if (_currState is StopElevatorState)
+                _currState.ParseState();
+        }
     }
 
     private void DoneDoors(object? sender, EventArgs e)
