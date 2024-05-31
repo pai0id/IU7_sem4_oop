@@ -17,6 +17,7 @@ public class ElevatorController
     private readonly Elevator _elevator;
     private readonly bool[] _currRequests;
     private ElevatorControllerState _currState;
+    private int _latestReq;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.Invoke(this, e);
     private event EventHandler? GoalFound;
@@ -25,6 +26,8 @@ public class ElevatorController
     protected virtual void OnGoalListNotEmpty(EventArgs e) => GoalListNotEmpty?.Invoke(this, e);
     private event EventHandler? GoalNotFound;
     protected virtual void OnGoalNotFound(EventArgs e) => GoalNotFound?.Invoke(this, e);
+    private event EventHandler? ReturnToBusy;
+    protected virtual void OnReturnToBusy(EventArgs e) => ReturnToBusy?.Invoke(this, e);
 
     public ElevatorController(int nFloors, out EventHandler<NewRequestEventArgs>? newRequestHandler)
     {
@@ -36,6 +39,7 @@ public class ElevatorController
         GoalFound += ProcessGoal;
         GoalListNotEmpty += StartSearch;
         GoalNotFound += EndSearch;
+        ReturnToBusy += NewGoalNotFound;
 
         _currRequests = new bool[nFloors];
         _currState = new IdleElevatorControllerState(this);
@@ -50,8 +54,12 @@ public class ElevatorController
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
     {
         _currRequests[e.Floor] = true;
-        TransitionTo(new SearchElevatorControllerState(this));
+        if (_currState is IdleElevatorControllerState)
+            TransitionTo(new SearchElevatorControllerState(this));
+        else
+            TransitionTo(new SearchWhileBusyElevatorControllerState(this));
         _currState.ParseState();
+        _latestReq = e.Floor;
     }
 
     private void GoalReached(object? sender, GoalReachedEventArgs e)
@@ -75,6 +83,11 @@ public class ElevatorController
     private void EndSearch(object? sender, EventArgs e)
     {
         TransitionTo(new IdleElevatorControllerState(this));
+    }
+
+    private void NewGoalNotFound(object? sender, EventArgs e)
+    {
+        TransitionTo(new BusyElevatorControllerState(this));
     }
 
     private abstract class ElevatorControllerState(ElevatorController context)
@@ -140,6 +153,43 @@ public class ElevatorController
         public override void ParseState()
         {
             return;
+        }
+    }
+
+    private class SearchWhileBusyElevatorControllerState(ElevatorController context) : ElevatorControllerState(context)
+    {
+        public override void ParseState()
+        {
+            int currPos = _context._elevator.GetCurrFloor();
+            if (_context._latestReq > currPos)
+            {
+                while (currPos < _context._currRequests.Length)
+                {
+                    if (_context._currRequests[currPos])
+                    {
+                        _context.OnUpdateGoal(new UpdateGoalEventArgs(currPos));
+                        _context.OnGoalFound(EventArgs.Empty);
+                        return;
+                    }
+
+                    currPos++;
+                }
+            }
+            else
+            {
+                while (currPos >= 0)
+                {
+                    if (_context._currRequests[currPos])
+                    {
+                        _context.OnUpdateGoal(new UpdateGoalEventArgs(currPos));
+                        _context.OnGoalFound(EventArgs.Empty);
+                        return;
+                    }
+                    currPos--;
+                }
+            }
+
+            _context.OnReturnToBusy(EventArgs.Empty);
         }
     }
 }
