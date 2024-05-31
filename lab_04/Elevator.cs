@@ -49,6 +49,7 @@ public class Elevator
     private void DoneDoors(object? sender, EventArgs e)
     {
         TransitionTo(new StopElevatorState(this));
+        _currState.ParseState();
         OnGoalReached(new GoalReachedEventArgs(_currGoal));
     }
 

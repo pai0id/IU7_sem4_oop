@@ -4,6 +4,12 @@ public class Doors
 {
     public event EventHandler? DoneDoors;
     protected virtual void OnDoneDoors(EventArgs e) => DoneDoors?.Invoke(this, e);
+    private event EventHandler? DoorsOpened;
+    protected virtual void OnDoorsOpened(EventArgs e) => DoorsOpened?.Invoke(this, e);
+    private event EventHandler? DoorsNeed2Close;
+    protected virtual void OnDoorsNeed2Close(EventArgs e) => DoorsNeed2Close?.Invoke(this, e);
+    private event EventHandler? DoorsClosed;
+    protected virtual void OnDoorsClosed(EventArgs e) => DoorsClosed?.Invoke(this, e);
 
     DoorsState _currState;
 
@@ -11,6 +17,10 @@ public class Doors
     {
         e += ActivateDoors;
         _currState = new ClosedDoorsState(this);
+
+        DoorsOpened += AfterDoorsOpened;
+        DoorsNeed2Close += CloseDoors;
+        DoorsClosed += AfterDoorsClosed;
     }
 
     void ActivateDoors(object? sender, EventArgs e)
@@ -22,6 +32,21 @@ public class Doors
             _currState = new ClosedDoorsState(this);
             _currState.SetContext(this);
         }
+    }
+
+    void AfterDoorsOpened(object? sender, EventArgs e)
+    {
+        TransitionToNext();
+    }
+
+    void CloseDoors(object? sender, EventArgs e)
+    {
+        TransitionToNext();
+    }
+
+    void AfterDoorsClosed(object? sender, EventArgs e)
+    {
+        TransitionToNext();
     }
 
     void TransitionTo(DoorsState state)
@@ -58,7 +83,7 @@ public class Doors
         {
             Console.WriteLine("Doors opening");
             await Task.Delay(1000);
-            _context.TransitionToNext();
+            _context.OnDoorsOpened(EventArgs.Empty);
         }
         public override DoorsState GetNextState()
         {
@@ -72,7 +97,7 @@ public class Doors
         {
             Console.WriteLine("Doors opened");
             await Task.Delay(1000);
-            _context.TransitionToNext();
+            _context.OnDoorsNeed2Close(EventArgs.Empty);
         }
         public override DoorsState GetNextState()
         {
@@ -86,7 +111,7 @@ public class Doors
         {
             Console.WriteLine("Doors closing");
             await Task.Delay(1000);
-            _context.TransitionToNext();
+            _context.OnDoorsClosed(EventArgs.Empty);
         }
         public override DoorsState GetNextState()
         {
