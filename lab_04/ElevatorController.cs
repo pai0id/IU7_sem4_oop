@@ -19,6 +19,12 @@ public class ElevatorController
     private ElevatorControllerState _currState;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.Invoke(this, e);
+    private event EventHandler? GoalFound;
+    protected virtual void OnGoalFound(EventArgs e) => GoalFound?.Invoke(this, e);
+    private event EventHandler? GoalListNotEmpty;
+    protected virtual void OnGoalListNotEmpty(EventArgs e) => GoalListNotEmpty?.Invoke(this, e);
+    private event EventHandler? GoalNotFound;
+    protected virtual void OnGoalNotFound(EventArgs e) => GoalNotFound?.Invoke(this, e);
 
     public ElevatorController(int nFloors, out EventHandler<NewRequestEventArgs>? newRequestHandler)
     {
@@ -26,6 +32,10 @@ public class ElevatorController
         _elevator.GoalReached += GoalReached;
 
         newRequestHandler = NewRequestGiven;
+
+        GoalFound += ProcessGoal;
+        GoalListNotEmpty += StartSearch;
+        GoalNotFound += EndSearch;
 
         _currRequests = new bool[nFloors];
         _currState = new IdleElevatorControllerState(this);
@@ -46,7 +56,24 @@ public class ElevatorController
     private void GoalReached(object? sender, GoalReachedEventArgs e)
     {
         _currRequests[e.Floor] = false;
+        TransitionTo(new SearchElevatorControllerState(this));
         _currState.ParseState();
+    }
+
+    private void ProcessGoal(object? sender, EventArgs e)
+    {
+        TransitionTo(new BusyElevatorControllerState(this));
+    }
+
+    private void StartSearch(object? sender, EventArgs e)
+    {
+        TransitionTo(new SearchElevatorControllerState(this));
+        _currState.ParseState();
+    }
+
+    private void EndSearch(object? sender, EventArgs e)
+    {
+        TransitionTo(new IdleElevatorControllerState(this));
     }
 
     private abstract class ElevatorControllerState(ElevatorController context)
@@ -69,8 +96,7 @@ public class ElevatorController
             {
                 if (_context._currRequests[i])
                 {
-                    _context.TransitionTo(new SearchElevatorControllerState(_context));
-                    _context._currState.ParseState();
+                    _context.OnGoalListNotEmpty(EventArgs.Empty);
                     return;
                 }
             }
@@ -90,13 +116,13 @@ public class ElevatorController
                 if (left >= 0 && _context._currRequests[left])
                 {
                     _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
-                    _context.TransitionTo(new BusyElevatorControllerState(_context));
+                    _context.OnGoalFound(EventArgs.Empty);
                     return;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right])
                 {
                     _context.OnUpdateGoal(new UpdateGoalEventArgs(right));
-                    _context.TransitionTo(new BusyElevatorControllerState(_context));
+                    _context.OnGoalFound(EventArgs.Empty);
                     return;
                 }
 
@@ -104,7 +130,7 @@ public class ElevatorController
                 right++;
             }
 
-            _context.TransitionTo(new IdleElevatorControllerState(_context));
+            _context.OnGoalNotFound(EventArgs.Empty);
         }
     }
 
@@ -112,8 +138,6 @@ public class ElevatorController
     {
         public override void ParseState()
         {
-            _context.TransitionTo(new SearchElevatorControllerState(_context));
-            _context._currState.ParseState();
             return;
         }
     }
