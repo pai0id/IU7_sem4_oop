@@ -2,6 +2,14 @@ using ElevatorSimulation.Elev;
 
 namespace ElevatorSimulation.Ctrl;
 
+public enum Direction
+{
+    NONE,
+    UP,
+    DOWN,
+    ANY
+}
+
 public class UpdateGoalEventArgs(int floor) : EventArgs
 {
     public int Floor { get; } = floor;
@@ -10,12 +18,13 @@ public class UpdateGoalEventArgs(int floor) : EventArgs
 public struct Request
 {
     public int floor;
+    public Direction dir;
 }
 
 public class ElevatorController
 {
     private readonly Elevator _elevator;
-    private readonly bool[] _currRequests;
+    private readonly Direction[] _currRequests;
     private ElevatorControllerState _currState;
     private int _latestReq;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
@@ -41,7 +50,7 @@ public class ElevatorController
         GoalNotFound += EndSearch;
         ReturnToBusy += NewGoalNotFound;
 
-        _currRequests = new bool[nFloors];
+        _currRequests = new Direction[nFloors];
         _currState = new IdleElevatorControllerState(this);
     }
 
@@ -53,7 +62,7 @@ public class ElevatorController
 
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
     {
-        _currRequests[e.Floor] = true;
+        _currRequests[e.Floor] = e.Direction;
         if (_currState is IdleElevatorControllerState)
             TransitionTo(new SearchElevatorControllerState(this));
         else
@@ -64,7 +73,7 @@ public class ElevatorController
 
     private void GoalReached(object? sender, GoalReachedEventArgs e)
     {
-        _currRequests[e.Floor] = false;
+        _currRequests[e.Floor] = Direction.NONE;
         TransitionTo(new SearchElevatorControllerState(this));
         _currState.ParseState();
     }
@@ -108,7 +117,7 @@ public class ElevatorController
         {
             for (int i = 0; i < _context._currRequests.Length; i++)
             {
-                if (_context._currRequests[i])
+                if (_context._currRequests[i] != Direction.NONE)
                 {
                     _context.OnGoalListNotEmpty(EventArgs.Empty);
                     return;
@@ -127,13 +136,13 @@ public class ElevatorController
 
             while (left >= 0 || right < _context._currRequests.Length)
             {
-                if (left >= 0 && _context._currRequests[left])
+                if (left >= 0 && _context._currRequests[left] != Direction.NONE)
                 {
                      _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
                     _context.OnGoalFound(EventArgs.Empty);
                     return;
                 }
-                if (right < _context._currRequests.Length && _context._currRequests[right])
+                if (right < _context._currRequests.Length && _context._currRequests[right] != Direction.NONE)
                 {
                     _context.OnUpdateGoal(new UpdateGoalEventArgs(right));
                     _context.OnGoalFound(EventArgs.Empty);
@@ -165,7 +174,7 @@ public class ElevatorController
             {
                 while (currPos < _context._currRequests.Length)
                 {
-                    if (_context._currRequests[currPos])
+                    if (_context._currRequests[currPos] == Direction.ANY || _context._currRequests[currPos] == Direction.UP)
                     {
                         _context.OnUpdateGoal(new UpdateGoalEventArgs(currPos));
                         _context.OnGoalFound(EventArgs.Empty);
@@ -179,7 +188,7 @@ public class ElevatorController
             {
                 while (currPos >= 0)
                 {
-                    if (_context._currRequests[currPos])
+                    if (_context._currRequests[currPos] == Direction.ANY || _context._currRequests[currPos] == Direction.DOWN)
                     {
                         _context.OnUpdateGoal(new UpdateGoalEventArgs(currPos));
                         _context.OnGoalFound(EventArgs.Empty);
