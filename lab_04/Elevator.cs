@@ -13,6 +13,10 @@ public class Elevator
     protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.Invoke(this, e);
     public event EventHandler? ActivateDoors;
     protected virtual void OnActivateDoors(EventArgs e) => ActivateDoors?.Invoke(this, e);
+    private event EventHandler? Need2Move;
+    protected virtual void OnNeed2Move(EventArgs e) => Need2Move?.Invoke(this, e);
+    private event EventHandler? Need2Wait;
+    protected virtual void OnNeed2Wait(EventArgs e) => Need2Wait?.Invoke(this, e);
     private volatile int _currGoal;
     private int _currFloor;
     private ElevatorState _currState;
@@ -25,6 +29,9 @@ public class Elevator
         _currState = new StopElevatorState(this);
 
         updateGoalHandler += UpdateGoal;
+
+        Need2Move += BegMove;
+        Need2Wait += BegWait;
 
         _doors = new Doors(ref ActivateDoors);
         _doors.DoneDoors += DoneDoors;
@@ -45,6 +52,18 @@ public class Elevator
         OnGoalReached(new GoalReachedEventArgs(_currGoal));
     }
 
+    private void BegMove(object? sender, EventArgs e)
+    {
+        TransitionTo(new MovingElevatorState(this));
+        Move();
+    }
+
+    private void BegWait(object? sender, EventArgs e)
+    {
+        TransitionTo(new WaitElevatorState(this));
+        OnActivateDoors(EventArgs.Empty);
+    }
+
     public async Task Move()
     {
         Console.WriteLine($"Elevator starting to move from floor {_currFloor} to floor {_currGoal}.");
@@ -58,14 +77,13 @@ public class Elevator
         }
 
         Console.WriteLine($"Elevator reached floor {_currFloor}");
-        await _currState.ParseState();
+        _currState.ParseState();
     }
 
     private void TransitionTo(ElevatorState state)
     {
         _currState = state;
         _currState.SetContext(this);
-        _currState.ParseState();
     }
 
     private abstract class ElevatorState(Elevator context)
@@ -77,36 +95,35 @@ public class Elevator
             _context = context;
         }
 
-        public abstract Task ParseState();
+        public abstract void ParseState();
     }
 
     private class MovingElevatorState(Elevator context) : ElevatorState(context)
     {
-        public override async Task ParseState()
+        public override void ParseState()
         {
             if (_context._currFloor == _context._currGoal)
             {
-                _context.TransitionTo(new WaitElevatorState(_context));
+                _context.OnNeed2Wait(EventArgs.Empty);
             }
         }
     }
 
     private class WaitElevatorState(Elevator context) : ElevatorState(context)
     {
-        public override async Task ParseState()
+        public override void ParseState()
         {
-           _context.OnActivateDoors(EventArgs.Empty);
+           return;
         }
     }
 
     private class StopElevatorState(Elevator context) : ElevatorState(context)
     {
-        public override async Task ParseState()
+        public override void ParseState()
         {
             if (_context._currFloor != _context._currGoal)
             {
-                _context.TransitionTo(new MovingElevatorState(_context));
-                await _context.Move();
+                _context.OnNeed2Move(EventArgs.Empty);
             }
         }
     }

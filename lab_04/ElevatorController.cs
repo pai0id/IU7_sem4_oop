@@ -50,6 +50,7 @@ public class ElevatorController
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
     {
         _currRequests[e.Floor] = true;
+        TransitionTo(new SearchElevatorControllerState(this));
         _currState.ParseState();
     }
 
