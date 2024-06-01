@@ -38,12 +38,12 @@ public class ElevatorController
     private event EventHandler? ReturnToBusy;
     protected virtual void OnReturnToBusy(EventArgs e) => ReturnToBusy?.Invoke(this, e);
 
-    public ElevatorController(int nFloors, out EventHandler<NewRequestEventArgs>? newRequestHandler)
+    public ElevatorController(int nFloors, ref EventHandler<NewRequestEventArgs>? newRequestHandler)
     {
         _elevator = new Elevator(ref UpdateGoal);
         _elevator.GoalReached += GoalReached;
 
-        newRequestHandler = NewRequestGiven;
+        newRequestHandler += NewRequestGiven;
 
         GoalFound += ProcessGoal;
         GoalListNotEmpty += StartSearch;
@@ -180,7 +180,6 @@ public class ElevatorController
                         _context.OnGoalFound(EventArgs.Empty);
                         return;
                     }
-
                     currPos++;
                 }
             }

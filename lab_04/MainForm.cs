@@ -43,7 +43,7 @@ public partial class MainForm : Window
 
         Add(vboxAll);
 
-        _elevatorCtrl = new Ctrl.ElevatorController(nFloors, out NewRequest);
+        _elevatorCtrl = new Ctrl.ElevatorController(nFloors, ref NewRequest);
 
         ShowAll();
     }
