@@ -11,7 +11,7 @@ public class NewRequestEventArgs(Ctrl.Request r) : EventArgs
 public partial class MainForm : Window
 {
     private const string buttonTxt = "#";
-    private const int nFloors = 6;
+    private const int nFloors = 10;
     public event EventHandler<NewRequestEventArgs>? NewRequest;
     protected virtual void OnNewRequest(NewRequestEventArgs e) => NewRequest?.Invoke(this, e);
 
@@ -52,7 +52,7 @@ public partial class MainForm : Window
         lblFloors = new Label("Floors");
         vboxFloors.PackStart(lblFloors, false, false, 5);
 
-        for (int i = 0; i < nFloors; i++)
+        for (int i = nFloors - 1; i >= 0; --i)
         {
             vboxFloors.PackStart(CreateFloorButtonBox(i.ToString(), out floorButtons[i]), false, false, 5);
         }
@@ -66,7 +66,7 @@ public partial class MainForm : Window
         lblLift1 = new Label($"Elevator {id}");
         vboxLift1.PackStart(lblLift1, false, false, 1);
 
-        for (int i = 0; i < nFloors; i++)
+        for (int i = nFloors - 1; i >= 0; --i)
         {
             vboxLift1.PackStart(CreateLiftButton(i.ToString(), out liftButtons[i]), false, false, 5);
         }

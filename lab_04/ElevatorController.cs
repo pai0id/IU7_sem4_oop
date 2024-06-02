@@ -18,6 +18,8 @@ public class ElevatorController
     private readonly bool[] _currRequests;
     private ElevatorControllerState _currState;
     private int _latestReq;
+    private event EventHandler? StartMoving;
+    protected virtual void OnStartMoving(EventArgs e) => StartMoving?.Invoke(this, e);
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.Invoke(this, e);
     private event EventHandler? GoalFound;
@@ -36,6 +38,7 @@ public class ElevatorController
 
         newRequestHandler += NewRequestGiven;
 
+        StartMoving += CheckPath;
         GoalFound += ProcessGoal;
         GoalListNotEmpty += StartSearch;
         GoalNotFound += EndSearch;
@@ -54,18 +57,34 @@ public class ElevatorController
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
     {
         _currRequests[e.Floor] = true;
-        if (_currState is IdleElevatorControllerState)
-            TransitionTo(new SearchElevatorControllerState(this));
-        else
+        if (_currState is not IdleElevatorControllerState)
+        {
             TransitionTo(new SearchWhileBusyElevatorControllerState(this));
+        }
+        else
+        {
+            TransitionTo(new SearchElevatorControllerState(this));
+        }
         _currState.ParseState();
-        _latestReq = e.Floor;
+    }
+
+    private void CheckPath(object? sender, EventArgs e)
+    {
+        TransitionTo(new SearchWhileBusyElevatorControllerState(this));
+        _currState.ParseState();
     }
 
     private void GoalReached(object? sender, GoalReachedEventArgs e)
     {
         _currRequests[e.Floor] = false;
-        TransitionTo(new SearchElevatorControllerState(this));
+        if (e.Floor == _latestReq)
+        {
+            TransitionTo(new SearchElevatorControllerState(this));
+        }
+        else
+        {
+            TransitionTo(new SearchWhileBusyElevatorControllerState(this));
+        }
         _currState.ParseState();
     }
 
@@ -125,26 +144,32 @@ public class ElevatorController
             int right = currPos;
             int left = currPos;
 
+            bool flag = false;
             while (left >= 0 || right < _context._currRequests.Length)
             {
                 if (left >= 0 && _context._currRequests[left])
                 {
-                     _context.OnUpdateGoal(new UpdateGoalEventArgs(left));
-                    _context.OnGoalFound(EventArgs.Empty);
-                    return;
+                    _context._latestReq = left;
+                    flag = true;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right])
                 {
-                    _context.OnUpdateGoal(new UpdateGoalEventArgs(right));
-                    _context.OnGoalFound(EventArgs.Empty);
-                    return;
+                    _context._latestReq = right;
+                    flag = true;
                 }
 
                 left--;
                 right++;
             }
 
-            _context.OnGoalNotFound(EventArgs.Empty);
+            if (flag)
+            {
+                _context.OnStartMoving(EventArgs.Empty);
+            }
+            else
+            {
+                _context.OnGoalNotFound(EventArgs.Empty);
+            }
         }
     }
 
