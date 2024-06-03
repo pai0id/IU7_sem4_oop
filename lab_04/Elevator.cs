@@ -62,7 +62,7 @@ public class Elevator
     {
         TransitionTo(new StopElevatorState(this));
         _currState.ParseState();
-        OnGoalReached(new GoalReachedEventArgs(_currGoal));
+        OnGoalReached(new GoalReachedEventArgs(_currFloor));
     }
 
     private void BegMove(object? sender, EventArgs e)
@@ -77,7 +77,7 @@ public class Elevator
         OnActivateDoors(EventArgs.Empty);
     }
 
-    public async Task Move()
+    public async void Move()
     {
         Console.WriteLine($"Elevator starting to move from floor {_currFloor} to floor {_currGoal}.");
 

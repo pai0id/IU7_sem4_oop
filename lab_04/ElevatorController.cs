@@ -26,9 +26,7 @@ public class ElevatorController
     private readonly Elevator _elevator;
     private readonly Direction[] _currRequests;
     private ElevatorControllerState _currState;
-    private int _latestReq;
-    private event EventHandler? StartMoving;
-    protected virtual void OnStartMoving(EventArgs e) => StartMoving?.Invoke(this, e);
+    private int _currFinGoal;
     public event EventHandler<UpdateGoalEventArgs>? UpdateGoal;
     protected virtual void OnUpdateGoal(UpdateGoalEventArgs e) => UpdateGoal?.Invoke(this, e);
     private event EventHandler? GoalFound;
@@ -47,7 +45,6 @@ public class ElevatorController
 
         newRequestHandler += NewRequestGiven;
 
-        StartMoving += CheckPath;
         GoalFound += ProcessGoal;
         GoalListNotEmpty += StartSearch;
         GoalNotFound += EndSearch;
@@ -77,16 +74,10 @@ public class ElevatorController
         _currState.ParseState();
     }
 
-    private void CheckPath(object? sender, EventArgs e)
-    {
-        TransitionTo(new SearchWhileBusyElevatorControllerState(this));
-        _currState.ParseState();
-    }
-
     private void GoalReached(object? sender, GoalReachedEventArgs e)
     {
         _currRequests[e.Floor] = Direction.NONE;
-        if (e.Floor == _latestReq)
+        if (e.Floor == _currFinGoal)
         {
             TransitionTo(new SearchElevatorControllerState(this));
         }
@@ -150,6 +141,7 @@ public class ElevatorController
         public override void ParseState()
         {
             int currPos = _context._elevator.GetCurrFloor();
+            int goal = currPos;
             int right = currPos;
             int left = currPos;
 
@@ -158,12 +150,16 @@ public class ElevatorController
             {
                 if (left >= 0 && _context._currRequests[left] != Direction.NONE)
                 {
-                    _context._latestReq = left;
+                    if (!flag)
+                        goal = left;
+                    _context._currFinGoal = left;
                     flag = true;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right] != Direction.NONE)
                 {
-                    _context._latestReq = right;
+                    if (!flag)
+                        goal = right;
+                    _context._currFinGoal = right;
                     flag = true;
                 }
 
@@ -173,7 +169,8 @@ public class ElevatorController
 
             if (flag)
             {
-                _context.OnStartMoving(EventArgs.Empty);
+                _context.OnUpdateGoal(new UpdateGoalEventArgs(goal));
+                _context.OnGoalFound(EventArgs.Empty);
             }
             else
             {
@@ -195,7 +192,7 @@ public class ElevatorController
         public override void ParseState()
         {
             int currPos = _context._elevator.GetCurrFloor();
-            if (_context._latestReq > currPos)
+            if (_context._currFinGoal > currPos)
             {
                 while (currPos < _context._currRequests.Length)
                 {
