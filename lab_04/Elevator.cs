@@ -8,8 +8,16 @@ public class GoalReachedEventArgs(int floor, LiftIds liftId) : EventArgs
     public LiftIds LiftId { get; } = liftId;
 }
 
+public class FloorReachedEventArgs(int floor, LiftIds lId) : EventArgs
+{
+    public int Floor { get; } = floor;
+    public LiftIds LiftId { get; } = lId;
+}
+
 public class Elevator
 {
+    public event EventHandler<FloorReachedEventArgs>? FloorReached;
+    protected virtual void OnFloorReached(FloorReachedEventArgs e) => FloorReached?.Invoke(this, e);
     public event EventHandler<GoalReachedEventArgs>? GoalReached;
     protected virtual void OnGoalReached(GoalReachedEventArgs e) => GoalReached?.Invoke(this, e);
     public event EventHandler? ActivateDoors;
@@ -90,9 +98,11 @@ public class Elevator
 
             await Task.Delay(1000);
             Console.WriteLine($"Elevator {_id} at {_currFloor}");
+            OnFloorReached(new FloorReachedEventArgs(_currFloor, _id));
         }
 
         Console.WriteLine($"Elevator {_id} reached floor {_currFloor}");
+        OnFloorReached(new FloorReachedEventArgs(_currFloor, _id));
         _currState.ParseState();
     }
 

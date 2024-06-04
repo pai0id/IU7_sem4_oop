@@ -12,10 +12,11 @@ public partial class MainForm : Window
 {
     private const string UpButtonTxt = "^";
     private const string DownButtonTxt = "v";
+    private const string OnFloor = "#";
+    private const string OffFloor = " ";
     private const int nFloors = 10;
     public event EventHandler<NewRequestEventArgs>? NewRequest;
     protected virtual void OnNewRequest(NewRequestEventArgs e) => NewRequest?.Invoke(this, e);
-
     private readonly Ctrl.ElevatorController _elevatorCtrl;
 
     private Label? lblFloors;
@@ -23,7 +24,9 @@ public partial class MainForm : Window
     private Label? lblLift2;
     private readonly Button?[] floorButtons = new Button?[nFloors*2];
     private readonly Button?[] lift1Buttons = new Button?[nFloors];
+    private readonly Label[] lift1Markers = new Label[nFloors];
     private readonly Button?[] lift2Buttons = new Button?[nFloors];
+    private readonly Label[] lift2Markers = new Label[nFloors];
 
     public MainForm() : base("ElSim")
     {
@@ -37,10 +40,12 @@ public partial class MainForm : Window
         Box vboxFloors = CreateFloorButtons();
         hboxButtons.PackStart(vboxFloors, false, false, 5);
 
-        Box hboxLift1 = CreateliftButtons(1, lift1Buttons);
+        Box hboxLift1 = CreateliftButtons(1, lift1Buttons, lift1Markers);
+        lift1Markers[0].Text = OnFloor;
         hboxButtons.PackStart(hboxLift1, false, false, 5);
 
-        Box hboxLift2 = CreateliftButtons(2, lift2Buttons);
+        Box hboxLift2 = CreateliftButtons(2, lift2Buttons, lift2Markers);
+        lift2Markers[0].Text = OnFloor;
         hboxButtons.PackStart(hboxLift2, false, false, 5);
 
         vboxAll.PackStart(hboxButtons, false, false, 5);
@@ -48,8 +53,40 @@ public partial class MainForm : Window
         Add(vboxAll);
 
         _elevatorCtrl = new Ctrl.ElevatorController(nFloors, ref NewRequest);
+        _elevatorCtrl._elevator1.FloorReached += markFloor;
+        _elevatorCtrl._elevator2.FloorReached += markFloor;
 
         ShowAll();
+    }
+
+    private void cleanLift1()
+    {
+        for (int i = 0; i < nFloors; ++i)
+        {
+            lift1Markers[i].Text = OffFloor;
+        }
+    }
+
+    private void cleanLift2()
+    {
+        for (int i = 0; i < nFloors; ++i)
+        {
+            lift2Markers[i].Text = OffFloor;
+        }
+    }
+
+    private void markFloor(object? sender, Elev.FloorReachedEventArgs e)
+    {
+        if (e.LiftId == Ctrl.LiftIds.FIRST)
+        {
+            cleanLift1();
+            lift1Markers[e.Floor].Text = OnFloor;
+        }
+        else
+        {
+            cleanLift2();
+            lift2Markers[e.Floor].Text = OnFloor;
+        }
     }
 
     private Box CreateFloorButtons()
@@ -66,7 +103,7 @@ public partial class MainForm : Window
         return vboxFloors;
     }
 
-    private Box CreateliftButtons(int id, Button?[] liftButtons)
+    private Box CreateliftButtons(int id, Button?[] liftButtons, Label?[] liftMarkers)
     {
         Box vboxLift1 = new(Orientation.Vertical, 1);
         lblLift1 = new Label($"Elevator {id}");
@@ -74,7 +111,7 @@ public partial class MainForm : Window
 
         for (int i = nFloors - 1; i >= 0; --i)
         {
-            vboxLift1.PackStart(CreateLiftButton(id, i.ToString(), out liftButtons[i]), false, false, 5);
+            vboxLift1.PackStart(CreateLiftButton(id, i.ToString(), out liftButtons[i], out liftMarkers[i]), false, false, 5);
         }
 
         Box hboxLifts = new(Orientation.Horizontal, 1);
@@ -105,16 +142,18 @@ public partial class MainForm : Window
         return hbox;
     }
 
-    private Box CreateLiftButton(int liftId, string floor, out Button button)
+    private Box CreateLiftButton(int liftId, string floor, out Button button, out Label marker)
     {
         button = new Button(floor)
         {
             Name = $"{liftId}"
         };
         button.Clicked += OnButtonClicked;
-        Box vbox = new(Orientation.Vertical, 1);
-        vbox.PackStart(button, false, false, 1);
-        return vbox;
+        marker = new Label(OffFloor);
+        Box hbox = new(Orientation.Horizontal, 1);
+        hbox.PackStart(button, false, false, 1);
+        hbox.PackStart(marker, false, false, 1);
+        return hbox;
     }
 
     private void OnButtonClicked(object? sender, EventArgs e)

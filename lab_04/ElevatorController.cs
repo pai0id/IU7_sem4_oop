@@ -31,9 +31,9 @@ public struct Request
 
 public class ElevatorController
 {
-    private readonly Elevator _elevator1;
+    public readonly Elevator _elevator1;
     private int _currFinGoal1;
-    private readonly Elevator _elevator2;
+    public readonly Elevator _elevator2;
     private int _currFinGoal2;
     private readonly Request[] _currRequests;
     private ElevatorControllerState _currState;
