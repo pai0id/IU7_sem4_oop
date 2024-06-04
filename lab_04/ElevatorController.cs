@@ -145,29 +145,51 @@ public class ElevatorController
             int right = currPos;
             int left = currPos;
 
-            bool flag = false;
+            bool lFlag = false;
+            bool rFlag = false;
             while (left >= 0 || right < _context._currRequests.Length)
             {
                 if (left >= 0 && _context._currRequests[left] != Direction.NONE)
                 {
-                    if (!flag)
-                        goal = left;
-                    _context._currFinGoal = left;
-                    flag = true;
+                    goal = left;
+                    lFlag = true;
+                    break;
                 }
                 if (right < _context._currRequests.Length && _context._currRequests[right] != Direction.NONE)
                 {
-                    if (!flag)
-                        goal = right;
-                    _context._currFinGoal = right;
-                    flag = true;
+                    goal = right;
+                    rFlag = true;
+                    break;
                 }
 
                 left--;
                 right++;
             }
 
-            if (flag)
+            if (rFlag)
+            {
+                while (right < _context._currRequests.Length)
+                {
+                    if (_context._currRequests[right] != Direction.NONE)
+                    {
+                        _context._currFinGoal = right;
+                    }
+                    right++;
+                }
+            }
+            else if (lFlag)
+            {
+                while (left >= 0)
+                {
+                    if (_context._currRequests[left]!= Direction.NONE)
+                    {
+                        _context._currFinGoal = left;
+                    }
+                    left--;
+                }
+            }
+
+            if (lFlag || rFlag)
             {
                 _context.OnUpdateGoal(new UpdateGoalEventArgs(goal));
                 _context.OnGoalFound(EventArgs.Empty);
