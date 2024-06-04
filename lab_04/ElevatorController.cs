@@ -14,7 +14,8 @@ public enum LiftIds
 {
     ANY,
     FIRST,
-    SECOND
+    SECOND,
+    BOTH
 }
 
 public class UpdateGoalEventArgs(int floor) : EventArgs
@@ -86,7 +87,18 @@ public class ElevatorController
 
     private void NewRequestGiven(object? sender, NewRequestEventArgs e)
     {
-        _currRequests[e.Req.floor] = e.Req;
+        if (_currRequests[e.Req.floor].dir != Direction.NONE)
+        {
+            _currRequests[e.Req.floor] = new Request{
+                floor = e.Req.floor,
+                dir = e.Req.dir == _currRequests[e.Req.floor].dir ? e.Req.dir : Direction.ANY,
+                liftId = e.Req.liftId == _currRequests[e.Req.floor].liftId ? e.Req.liftId : LiftIds.BOTH,
+            };
+        }
+        else
+        {
+            _currRequests[e.Req.floor] = e.Req;
+        }
         if (_currState is BothIdleElevatorControllerState)
         {
             TransitionTo(new BothSearchElevatorControllerState(this));
@@ -261,7 +273,7 @@ public class ElevatorController
             {
                 if (left >= 0
                  && _context._currRequests[left].dir != Direction.NONE
-                 && _context._currRequests[left].liftId == LiftIds.SECOND)
+                 && (_context._currRequests[left].liftId == LiftIds.SECOND || _context._currRequests[left].liftId == LiftIds.BOTH))
                 {
                     goal2 = left;
                     lFlag = true;
@@ -270,7 +282,7 @@ public class ElevatorController
                 }
                 if (right < _context._currRequests.Length
                  && _context._currRequests[right].dir != Direction.NONE
-                 && _context._currRequests[right].liftId == LiftIds.SECOND)
+                 && (_context._currRequests[right].liftId == LiftIds.SECOND || _context._currRequests[right].liftId == LiftIds.BOTH))
                 {
                     goal2 = right;
                     rFlag = true;
@@ -287,7 +299,7 @@ public class ElevatorController
                 while (right < _context._currRequests.Length)
                 {
                     if (_context._currRequests[right].dir != Direction.NONE
-                     && _context._currRequests[right].liftId == LiftIds.SECOND)
+                     && (_context._currRequests[right].liftId == LiftIds.SECOND || _context._currRequests[right].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal2 = right;
                     }
@@ -299,7 +311,7 @@ public class ElevatorController
                 while (left >= 0)
                 {
                     if (_context._currRequests[left].dir != Direction.NONE
-                     && _context._currRequests[left].liftId == LiftIds.SECOND)
+                     && (_context._currRequests[left].liftId == LiftIds.SECOND || _context._currRequests[left].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal2 = left;
                     }
@@ -385,7 +397,7 @@ public class ElevatorController
             {
                 if (left >= 0
                  && _context._currRequests[left].dir != Direction.NONE
-                 && _context._currRequests[left].liftId == LiftIds.SECOND)
+                 && (_context._currRequests[left].liftId == LiftIds.SECOND || _context._currRequests[left].liftId == LiftIds.BOTH))
                 {
                     goal2 = left;
                     lFlag = true;
@@ -394,7 +406,7 @@ public class ElevatorController
                 }
                 if (right < _context._currRequests.Length
                  && _context._currRequests[right].dir != Direction.NONE
-                 && _context._currRequests[right].liftId == LiftIds.SECOND)
+                 && (_context._currRequests[right].liftId == LiftIds.SECOND || _context._currRequests[right].liftId == LiftIds.BOTH))
                 {
                     goal2 = right;
                     rFlag = true;
@@ -411,7 +423,7 @@ public class ElevatorController
                 while (right < _context._currRequests.Length)
                 {
                     if (_context._currRequests[right].dir != Direction.NONE
-                     && _context._currRequests[right].liftId == LiftIds.SECOND)
+                     && (_context._currRequests[right].liftId == LiftIds.SECOND || _context._currRequests[right].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal2 = right;
                     }
@@ -423,7 +435,7 @@ public class ElevatorController
                 while (left >= 0)
                 {
                     if (_context._currRequests[left].dir != Direction.NONE
-                     && _context._currRequests[left].liftId == LiftIds.SECOND)
+                     && (_context._currRequests[left].liftId == LiftIds.SECOND || _context._currRequests[left].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal2 = left;
                     }
@@ -498,7 +510,7 @@ public class ElevatorController
             {
                 if (left >= 0
                  && _context._currRequests[left].dir != Direction.NONE
-                 && _context._currRequests[left].liftId == LiftIds.FIRST)
+                 && (_context._currRequests[left].liftId == LiftIds.FIRST || _context._currRequests[left].liftId == LiftIds.BOTH))
                 {
                     goal1 = left;
                     lFlag = true;
@@ -507,7 +519,7 @@ public class ElevatorController
                 }
                 if (right < _context._currRequests.Length
                  && _context._currRequests[right].dir != Direction.NONE
-                 && _context._currRequests[right].liftId == LiftIds.FIRST)
+                 && (_context._currRequests[right].liftId == LiftIds.FIRST || _context._currRequests[right].liftId == LiftIds.BOTH))
                 {
                     goal1 = right;
                     rFlag = true;
@@ -524,7 +536,7 @@ public class ElevatorController
                 while (right < _context._currRequests.Length)
                 {
                     if (_context._currRequests[right].dir != Direction.NONE
-                     && _context._currRequests[right].liftId == LiftIds.FIRST)
+                     && (_context._currRequests[right].liftId == LiftIds.FIRST || _context._currRequests[right].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal1 = right;
                     }
@@ -536,7 +548,7 @@ public class ElevatorController
                 while (left >= 0)
                 {
                     if (_context._currRequests[left].dir != Direction.NONE
-                     && _context._currRequests[left].liftId == LiftIds.FIRST)
+                     && (_context._currRequests[left].liftId == LiftIds.FIRST || _context._currRequests[left].liftId == LiftIds.BOTH))
                     {
                         _context._currFinGoal1 = left;
                     }
