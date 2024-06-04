@@ -2,9 +2,10 @@ using ElevatorSimulation.Ctrl;
 
 namespace ElevatorSimulation.Elev;
 
-public class GoalReachedEventArgs(int floor) : EventArgs
+public class GoalReachedEventArgs(int floor, LiftIds liftId) : EventArgs
 {
     public int Floor { get; } = floor;
+    public LiftIds LiftId { get; } = liftId;
 }
 
 public class Elevator
@@ -17,13 +18,15 @@ public class Elevator
     protected virtual void OnNeed2Move(EventArgs e) => Need2Move?.Invoke(this, e);
     private event EventHandler? Need2Wait;
     protected virtual void OnNeed2Wait(EventArgs e) => Need2Wait?.Invoke(this, e);
+    private readonly LiftIds _id;
     private volatile int _currGoal;
     private volatile int _currFloor;
     private ElevatorState _currState;
     private readonly Doors _doors;
 
-    public Elevator(ref EventHandler<UpdateGoalEventArgs>? updateGoalHandler)
+    public Elevator(LiftIds id, ref EventHandler<UpdateGoalEventArgs>? updateGoalHandler)
     {
+        _id = id;
         _currGoal = 0;
         _currFloor = 0;
         _currState = new StopElevatorState(this);
@@ -33,7 +36,7 @@ public class Elevator
         Need2Move += BegMove;
         Need2Wait += BegWait;
 
-        _doors = new Doors(ref ActivateDoors);
+        _doors = new Doors(id, ref ActivateDoors);
         _doors.DoneDoors += DoneDoors;
     }
 
@@ -62,7 +65,7 @@ public class Elevator
     {
         TransitionTo(new StopElevatorState(this));
         _currState.ParseState();
-        OnGoalReached(new GoalReachedEventArgs(_currFloor));
+        OnGoalReached(new GoalReachedEventArgs(_currFloor, _id));
     }
 
     private void BegMove(object? sender, EventArgs e)
@@ -79,17 +82,17 @@ public class Elevator
 
     public async void Move()
     {
-        Console.WriteLine($"Elevator starting to move from floor {_currFloor} to floor {_currGoal}.");
+        Console.WriteLine($"Elevator {_id} starting to move from floor {_currFloor} to floor {_currGoal}.");
 
         while (_currFloor != _currGoal)
         {
             _currFloor += _currFloor < _currGoal ? 1 : -1;
 
             await Task.Delay(1000);
-            Console.WriteLine($"Elevator at {_currFloor}");
+            Console.WriteLine($"Elevator {_id} at {_currFloor}");
         }
 
-        Console.WriteLine($"Elevator reached floor {_currFloor}");
+        Console.WriteLine($"Elevator {_id} reached floor {_currFloor}");
         _currState.ParseState();
     }
 

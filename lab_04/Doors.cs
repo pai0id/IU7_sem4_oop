@@ -1,4 +1,6 @@
-﻿namespace ElevatorSimulation.Elev;
+﻿using ElevatorSimulation.Ctrl;
+
+namespace ElevatorSimulation.Elev;
 
 public class Doors
 {
@@ -10,11 +12,12 @@ public class Doors
     protected virtual void OnDoorsClosed(EventArgs e) => DoorsClosed?.Invoke(this, e);
     public event EventHandler? DoneDoors;
     protected virtual void OnDoneDoors(EventArgs e) => DoneDoors?.Invoke(this, e);
-
+    private readonly LiftIds _id;
     private volatile DoorsState _currState;
 
-    public Doors(ref EventHandler? e)
+    public Doors(LiftIds id, ref EventHandler? e)
     {
+        _id = id;
         e += ActivateDoors;
         _currState = new ClosedDoorsState(this);
 
@@ -85,7 +88,7 @@ public class Doors
     {
         public async override Task ParseState()
         {
-            Console.WriteLine("Doors opening");
+            Console.WriteLine($"Doors {_context._id} opening");
             await Task.Delay(1000);
             _context.OnDoorsOpened(EventArgs.Empty);
         }
@@ -99,7 +102,7 @@ public class Doors
     {
         public async override Task ParseState()
         {
-            Console.WriteLine("Doors opened");
+            Console.WriteLine($"Doors {_context._id} opened");
             await Task.Delay(1000);
             _context.OnDoorsNeed2Close(EventArgs.Empty);
         }
@@ -113,7 +116,7 @@ public class Doors
     {
         public async override Task ParseState()
         {
-            Console.WriteLine("Doors closing");
+            Console.WriteLine($"Doors {_context._id} closing");
             await Task.Delay(1000);
             _context.OnDoorsClosed(EventArgs.Empty);
         }
@@ -127,7 +130,7 @@ public class Doors
     {
         public async override Task ParseState()
         {
-            Console.WriteLine("Doors closed");
+            Console.WriteLine($"Doors {_context._id} closed");
             _context.OnDoneDoors(EventArgs.Empty);
         }
         public override DoorsState GetNextState()

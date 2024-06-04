@@ -5,8 +5,7 @@ namespace ElevatorSimulation;
 
 public class NewRequestEventArgs(Ctrl.Request r) : EventArgs
 {
-    public int Floor { get; } = r.floor;
-    public Ctrl.Direction Direction { get; } = r.dir;
+    public Ctrl.Request Req { get; } = r;
 }
 
 public partial class MainForm : Window
@@ -21,8 +20,10 @@ public partial class MainForm : Window
 
     private Label? lblFloors;
     private Label? lblLift1;
+    private Label? lblLift2;
     private readonly Button?[] floorButtons = new Button?[nFloors*2];
-    private readonly Button?[] liftButtons = new Button?[nFloors];
+    private readonly Button?[] lift1Buttons = new Button?[nFloors];
+    private readonly Button?[] lift2Buttons = new Button?[nFloors];
 
     public MainForm() : base("ElSim")
     {
@@ -36,8 +37,11 @@ public partial class MainForm : Window
         Box vboxFloors = CreateFloorButtons();
         hboxButtons.PackStart(vboxFloors, false, false, 5);
 
-        Box hboxLift = CreateliftButtons(1, liftButtons);
-        hboxButtons.PackStart(hboxLift, false, false, 5);
+        Box hboxLift1 = CreateliftButtons(1, lift1Buttons);
+        hboxButtons.PackStart(hboxLift1, false, false, 5);
+
+        Box hboxLift2 = CreateliftButtons(2, lift2Buttons);
+        hboxButtons.PackStart(hboxLift2, false, false, 5);
 
         vboxAll.PackStart(hboxButtons, false, false, 5);
 
@@ -70,7 +74,7 @@ public partial class MainForm : Window
 
         for (int i = nFloors - 1; i >= 0; --i)
         {
-            vboxLift1.PackStart(CreateLiftButton(i.ToString(), out liftButtons[i]), false, false, 5);
+            vboxLift1.PackStart(CreateLiftButton(id, i.ToString(), out liftButtons[i]), false, false, 5);
         }
 
         Box hboxLifts = new(Orientation.Horizontal, 1);
@@ -101,9 +105,12 @@ public partial class MainForm : Window
         return hbox;
     }
 
-    private Box CreateLiftButton(string floor, out Button button)
+    private Box CreateLiftButton(int liftId, string floor, out Button button)
     {
-        button = new Button(floor);
+        button = new Button(floor)
+        {
+            Name = $"{liftId}"
+        };
         button.Clicked += OnButtonClicked;
         Box vbox = new(Orientation.Vertical, 1);
         vbox.PackStart(button, false, false, 1);
@@ -115,7 +122,8 @@ public partial class MainForm : Window
         if (sender is Button button)
         {
             int floor;
-            Ctrl.Direction dir;
+            Ctrl.Direction dir = Ctrl.Direction.ANY;
+            Ctrl.LiftIds liftId = Ctrl.LiftIds.ANY;
             if (button.Label == UpButtonTxt)
             {
                 floor = int.Parse(MyRegex().Match(button.Name).Value);
@@ -129,9 +137,9 @@ public partial class MainForm : Window
             else
             {
                 floor = int.Parse(button.Label);
-                dir = Ctrl.Direction.ANY;
+                liftId = (Ctrl.LiftIds)int.Parse(button.Name);
             }
-            var NewRequest = new Ctrl.Request { floor=floor, dir=dir };
+            Ctrl.Request NewRequest = new() { floor=floor, dir=dir, liftId=liftId };
             OnNewRequest(new NewRequestEventArgs(NewRequest));
         }
     }
