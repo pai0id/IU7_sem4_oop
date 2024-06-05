@@ -10,23 +10,15 @@
 #include "../scene/Composite.h"
 #include "../scene/Camera.h"
 
-class Visitor {
-public: 
-    
-/**
- * @param Model
- */
-void visit(BaseModel);
-    
-/**
- * @param Composite
- */
-void visit(Composite);
-    
-/**
- * @param Camera
- */
-void visit(Camera);
+class Visitor
+{
+public:
+    Visitor();
+
+    virtual ~Visitor() {};
+    virtual void Visit(BaseModel& model) const = 0;
+    virtual void Visit(Composite& composite) const = 0;
+    virtual void Visit(Camera& camera) const = 0;
 };
 
 #endif //_VISITOR_H

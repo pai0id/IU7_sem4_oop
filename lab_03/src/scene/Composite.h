@@ -8,21 +8,25 @@
 
 #include "BaseObject.h"
 
-
 class Composite: public BaseObject {
-public: 
-    
-void add();
-    
-void remove();
-    
-void isComposite();
-    
-void begin();
-    
-void end();
-    
-void accept();
+private:
+    VectorBaseObject _objects;
+
+public:
+    Composite() = default;
+    Composite(PtrBaseObject first, ...);
+    Composite(VectorBaseObject objects);
+
+    virtual ~Composite() = default;
+    virtual void Add(const PtrBaseObject object);
+    virtual void Remove(const iterator &it);
+    virtual bool IsComposite() const;
+    virtual bool IsVisible() const;
+    virtual Point GetCenter() const;
+    virtual iterator begin();
+    virtual iterator end();
+
+    virtual void Accept(const Visitor &v);
 };
 
 #endif //_COMPOSITE_H

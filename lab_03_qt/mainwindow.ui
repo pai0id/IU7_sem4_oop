@@ -2,490 +2,472 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1436</width>
-    <height>974</height>
+    <width>1293</width>
+    <height>875</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Lab03</string>
-  </property>
-  <property name="layoutDirection">
-   <enum>Qt::LeftToRight</enum>
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QGroupBox" name="loadBox">
-        <property name="title">
-         <string>Модель</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0" colspan="2">
-          <widget class="QComboBox" name="modelsCB"/>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1291</width>
+      <height>871</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="MainFrame">
+     <property name="leftMargin">
+      <number>4</number>
+     </property>
+     <property name="topMargin">
+      <number>4</number>
+     </property>
+     <property name="rightMargin">
+      <number>4</number>
+     </property>
+     <property name="bottomMargin">
+      <number>4</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="Cmd">
+       <item>
+        <layout class="QVBoxLayout" name="LoadLayout">
+         <item>
+          <widget class="QLabel" name="LoadLbl">
+           <property name="text">
+            <string>Загрузка</string>
+           </property>
+          </widget>
          </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QPushButton" name="loadModelBtn">
+         <item>
+          <widget class="QLineEdit" name="FileNameEntry">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>113</red>
+                 <green>113</green>
+                 <blue>113</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>113</red>
+                 <green>113</green>
+                 <blue>113</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="PlaceholderText">
+               <brush brushstyle="SolidPattern">
+                <color alpha="128">
+                 <red>113</red>
+                 <green>113</green>
+                 <blue>113</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Имя файла (.txt/.stl)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="StructureLbl">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Представление</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="StructureCombo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="LoadBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Загрузить</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="deleteModelBtn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>  Удалить  </string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="deleteModelsBtn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Удалить все</string>
-           </property>
-          </widget>
-         </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="camBox">
-        <property name="title">
-         <string>Камера</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="1" column="1">
-          <widget class="QPushButton" name="addCameraBtn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="CamerasLayout">
+         <item>
+          <widget class="QLabel" name="CamerasLbl">
+           <property name="text">
+            <string>Камеры</string>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="CameraCoordsLayout">
+           <item>
+            <layout class="QVBoxLayout" name="CameraXLayout">
+             <item>
+              <widget class="QLabel" name="CameraXLbl">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="CameraXSpin"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="CameraYLayout">
+             <item>
+              <widget class="QLabel" name="CameraYLbl">
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="CameraYSpin"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="CameraZLayout">
+             <item>
+              <widget class="QLabel" name="CameraZLbl">
+               <property name="text">
+                <string>Z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="CameraZSpin"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="AddCameraBtn">
            <property name="text">
             <string>Добавить</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" rowspan="2">
-          <layout class="QGridLayout" name="moveLayout">
-           <item row="0" column="1">
-            <widget class="QPushButton" name="upBtn">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>↑</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="leftBtn">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>←</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QPushButton" name="downBtn">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>↓</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QPushButton" name="rigthBtn">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>→</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="ObjListLayout">
+         <item>
+          <widget class="QLabel" name="ObjListLbl">
+           <property name="text">
+            <string>Объекты</string>
+           </property>
+          </widget>
          </item>
-         <item row="0" column="0" colspan="2">
-          <widget class="QComboBox" name="cameraCB"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="deleteCameraBtn">
+         <item>
+          <widget class="QListWidget" name="ObjList">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Удалить</string>
+           <property name="resizeMode">
+            <enum>QListView::Fixed</enum>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="moveBox">
-        <property name="title">
-         <string>Перенос</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="dxLbl">
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="ObjButtonsLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetFixedSize</enum>
+         </property>
+         <item>
+          <widget class="QPushButton" name="DelObjBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
-            <string>dx:</string>
+            <string>Удалить выделенное</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="dxDSB">
-           <property name="minimum">
-            <double>-1000.000000000000000</double>
+         <item>
+          <widget class="QPushButton" name="CreateCompositeBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="maximum">
-            <double>1000.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="dyLbl">
            <property name="text">
-            <string>dy:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="dyDSB">
-           <property name="minimum">
-            <double>-1000.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>1000.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="dzLbl">
-           <property name="text">
-            <string>dz:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="dzDSB">
-           <property name="minimum">
-            <double>-1000.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>1000.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="moveBtn">
-           <property name="text">
-            <string>Перенести</string>
+            <string>Объединить в композит</string>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="scaleBox">
-        <property name="title">
-         <string>Масштабирование</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="kxLbl">
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="MoveLayout">
+         <item>
+          <widget class="QLabel" name="MoveX">
            <property name="text">
-            <string>kx:</string>
+            <string>X</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="kxDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="MoveXSpin">
            <property name="minimum">
-            <double>-100.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>100.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.500000000000000</double>
-           </property>
-           <property name="value">
-            <double>2.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="kyLbl">
+         <item>
+          <widget class="QLabel" name="MoveY">
            <property name="text">
-            <string>ky:</string>
+            <string>Y</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="kyDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="MoveYSpin">
            <property name="minimum">
-            <double>-100.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>100.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.500000000000000</double>
-           </property>
-           <property name="value">
-            <double>2.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="kzLbl">
+         <item>
+          <widget class="QLabel" name="MoveZ">
            <property name="text">
-            <string>kz:</string>
+            <string>Z</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="kzDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="MoveZSpin">
            <property name="minimum">
-            <double>-100.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>100.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.500000000000000</double>
-           </property>
-           <property name="value">
-            <double>2.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="scaleBtn">
+         <item>
+          <widget class="QPushButton" name="MoveBtn">
+           <property name="text">
+            <string>Переместить</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="ScaleLayout">
+         <item>
+          <widget class="QLabel" name="ScaleX">
+           <property name="text">
+            <string>X</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="ScaleXSpin">
+           <property name="minimum">
+            <double>-500.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>500.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ScaleY">
+           <property name="text">
+            <string>Y</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="ScaleYSpin">
+           <property name="minimum">
+            <double>-500.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>500.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ScaleZ">
+           <property name="text">
+            <string>Z</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="ScaleZSpin">
+           <property name="minimum">
+            <double>-500.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>500.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ScaleBtn">
            <property name="text">
             <string>Масштабировать</string>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="rotateBox">
-        <property name="title">
-         <string>Поворот (углы в °)</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="oxLbl">
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="RotateLayout">
+         <item>
+          <widget class="QLabel" name="RotateX">
            <property name="text">
-            <string>по x:</string>
+            <string>X</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="oxDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="RotateXspin">
            <property name="minimum">
-            <double>-360.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>360.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="oyLbl">
+         <item>
+          <widget class="QLabel" name="RotateY">
            <property name="text">
-            <string>по y:</string>
+            <string>Y</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="oyDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="RotateYSpin">
            <property name="minimum">
-            <double>-360.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>360.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="ozLbl">
+         <item>
+          <widget class="QLabel" name="RotateZ">
            <property name="text">
-            <string>по z:</string>
+            <string>Z</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="ozDSB">
+         <item>
+          <widget class="QDoubleSpinBox" name="RotateZSpin">
            <property name="minimum">
-            <double>-360.000000000000000</double>
+            <double>-500.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>360.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.000000000000000</double>
+            <double>500.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="rotateBtn">
+         <item>
+          <widget class="QPushButton" name="RotateBtn">
            <property name="text">
             <string>Повернуть</string>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
-   </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="Canvas"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="objectMovePushbutton">
+    <property name="geometry">
+     <rect>
+      <x>1260</x>
+      <y>970</y>
+      <width>161</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Переместить</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

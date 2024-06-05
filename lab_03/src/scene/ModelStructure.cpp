@@ -10,6 +10,4 @@
  */
 
 
-void ModelStructure::transform() {
-
-}
+ModelStructure::~ModelStructure() {}

@@ -9,11 +9,10 @@
  * InvisibleObject implementation
  */
 
+InvisibleObject::InvisibleObject() {}
 
-void InvisibleObject::isVisible() {
+InvisibleObject::~InvisibleObject() {}
 
-}
+bool InvisibleObject::IsVisible() const { return false; }
 
-void InvisibleObject::accept() {
-
-}
+bool InvisibleObject::IsComposite() const { return false; }

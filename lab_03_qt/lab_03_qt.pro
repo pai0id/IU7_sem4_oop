@@ -64,7 +64,7 @@ SOURCES += \
     ./src/scene/BaseModel.cpp \
     ./src/scene/BaseObject.cpp \
     ./src/scene/Camera.cpp \
-    ./src/scene/CarcasData.cpp \
+    ./src/scene/LinkDotData.cpp \
     ./src/scene/CarcasModel.cpp \
     ./src/scene/Composite.cpp \
     ./src/scene/Edge.cpp \
@@ -77,11 +77,18 @@ SOURCES += \
     ./src/scene/Point.cpp \
     ./src/scene/Scene.cpp \
     ./src/scene/VisibleObject.cpp \
+    ./src/scene/CenterStrategy.cpp \
     ./src/visitors/DrawVisitor.cpp \
     ./src/visitors/MoveVisitor.cpp \
     ./src/visitors/RotateVisitor.cpp \
     ./src/visitors/ScaleVisitor.cpp \
-    ./src/visitors/Visitor.cpp
+    ./src/visitors/Visitor.cpp \
+    ./src/transform/CameraProjectionAction.cpp \
+    ./src/transform/RotateAction.cpp \
+    ./src/transform/ScaleAction.cpp \
+    ./src/transform/ShiftAction.cpp \
+    ./src/transform/TransformAction.cpp
+
 
 
 HEADERS += \
@@ -135,7 +142,7 @@ HEADERS += \
     ./src/scene/BaseModel.h \
     ./src/scene/BaseObject.h \
     ./src/scene/Camera.h \
-    ./src/scene/CarcasData.h \
+    ./src/scene/LinkDotData.h \
     ./src/scene/CarcasModel.h \
     ./src/scene/Composite.h \
     ./src/scene/Edge.h \
@@ -148,11 +155,17 @@ HEADERS += \
     ./src/scene/Point.h \
     ./src/scene/Scene.h \
     ./src/scene/VisibleObject.h \
+    ./src/scene/CenterStrategy.h \
     ./src/visitors/DrawVisitor.h \
     ./src/visitors/MoveVisitor.h \
     ./src/visitors/RotateVisitor.h \
     ./src/visitors/ScaleVisitor.h \
-    ./src/visitors/Visitor.h
+    ./src/visitors/Visitor.h \
+    ./src/transform/CameraProjectionAction.h \
+    ./src/transform/RotateAction.h \
+    ./src/transform/ScaleAction.h \
+    ./src/transform/ShiftAction.h \
+    ./src/transform/TransformAction.h
 
 FORMS += \
     mainwindow.ui

@@ -9,31 +9,9 @@
  * BaseObject implementation
  */
 
-
-void BaseObject::add() {
-
+std::size_t GetNextId() {
+    static std::size_t id = 0;
+    return ++id;
 }
 
-void BaseObject::remove() {
-
-}
-
-void BaseObject::isVisible() {
-
-}
-
-void BaseObject::isComposite() {
-
-}
-
-void BaseObject::begin() {
-
-}
-
-void BaseObject::end() {
-
-}
-
-void BaseObject::accept() {
-
-}
+BaseObject::BaseObject() : _id(GetNextId()) {}

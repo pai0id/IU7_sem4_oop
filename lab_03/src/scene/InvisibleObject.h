@@ -10,11 +10,12 @@
 
 
 class InvisibleObject: public BaseObject {
-public: 
-    
-void isVisible();
-    
-void accept();
+public:
+    InvisibleObject();
+    virtual ~InvisibleObject() = 0;
+
+    virtual bool IsVisible() const;
+    virtual bool IsComposite() const;
 };
 
 #endif //_INVISIBLEOBJECT_H

@@ -9,11 +9,10 @@
  * VisibleObject implementation
  */
 
+VisibleObject::VisibleObject() {}
 
-void VisibleObject::isVisible() {
+VisibleObject::~VisibleObject() {}
 
-}
+bool VisibleObject::IsVisible() const { return true; }
 
-void VisibleObject::accept() {
-
-}
+bool VisibleObject::IsComposite() const { return false; }

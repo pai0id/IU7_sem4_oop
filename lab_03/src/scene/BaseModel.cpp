@@ -9,11 +9,6 @@
  * BaseModel implementation
  */
 
+BaseModel::BaseModel() {}
 
-void BaseModel::accept() {
-
-}
-
-void BaseModel::isComposite() {
-
-}
+BaseModel::~BaseModel() {}

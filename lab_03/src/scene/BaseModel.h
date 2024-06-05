@@ -10,11 +10,12 @@
 
 
 class BaseModel: public VisibleObject {
-public: 
-    
-void accept();
-    
-void isComposite();
+public:
+    BaseModel();
+    virtual ~BaseModel() = 0;
+
+    virtual void Accept(const Visitor &visitor) { (void) visitor; };
+    virtual PtrBaseObject Clone() const { return nullptr;};
 };
 
 #endif //_BASEMODEL_H
