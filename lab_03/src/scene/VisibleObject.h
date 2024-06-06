@@ -9,7 +9,7 @@
 #include "BaseObject.h"
 
 
-class VisibleObject: public BaseObject {
+class VisibleObject: public BaseObject{
 public:
     VisibleObject();
     virtual ~VisibleObject() = 0;

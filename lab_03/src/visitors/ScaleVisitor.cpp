@@ -9,17 +9,10 @@
  * ScaleVisitor implementation
  */
 
-
-/**
- * @param Model
- */
-void ScaleVisitor::visit(BaseModel) {
-
+void visit(CarcasModel& model) {
+    return;
 }
 
-/**
- * @param Composite
- */
-void ScaleVisitor::visit(Composite) {
-
+void visit(Camera& cam) {
+    return;
 }

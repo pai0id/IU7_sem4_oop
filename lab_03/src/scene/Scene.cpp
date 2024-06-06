@@ -9,23 +9,3 @@
  * Scene implementation
  */
 
-
-void Scene::addObject() {
-
-}
-
-void Scene::removeObject() {
-
-}
-
-void Scene::getObjects() {
-
-}
-
-void Scene::createMemento() {
-
-}
-
-void Scene::setMemento() {
-
-}

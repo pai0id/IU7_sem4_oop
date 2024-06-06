@@ -7,21 +7,28 @@
 #define _CARCASMODEL_H
 
 #include "BaseModel.h"
-#include "ModelStructure.h"
+#include "CarcasModelStructure.h"
+#include "../visitors/DrawVisitor.h"
+#include "../visitors/MoveVisitor.h"
+#include "../visitors/RotateVisitor.h"
+#include "../visitors/ScaleVisitor.h"
 
-class CarcasModel: public BaseModel {
+class CarcasModel : public BaseModel, public VisitableObject<CarcasModel> {
+    using VisitableObject<CarcasModel>::VisitableObject;
     friend class DrawVisitor;
-    public:
-        CarcasModel();
-        explicit CarcasModel(ModelStructurePtr);
-        explicit CarcasModel(const CarcasModel& other);
-        ~CarcasModel() = default;
+    friend class MoveVisitor;
+    friend class RotateVisitor;
+    friend class ScaleVisitor;
+public:
+    CarcasModel();
+    explicit CarcasModel(ModelStructurePtr);
+    explicit CarcasModel(const CarcasModel& other);
+    ~CarcasModel() = default;
 
-        virtual void Accept(const Visitor& visitor);
-        virtual Point GetCenter() const;
+    virtual Point GetCenter() const;
 
-    protected:
-        ModelStructurePtr _model;
+protected:
+    ModelStructurePtr _model;
 };
 
 #endif //_CARCASMODEL_H

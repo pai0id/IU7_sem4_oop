@@ -11,13 +11,6 @@
 
 LinkDotStructure::LinkDotStructure() : _center(Point()), _points(std::vector<Point>()), _edges(std::vector<Edge>()) {};
 
-void LinkDotStructure::Transform(const TransformAction& action) {
-    for (Point& point : _points) {
-        action.TransformPoint(point);
-    }
-    action.TransformPoint(_center);
-}
-
 std::vector<Point> LinkDotStructure::GetPoints() const {
     return _points;
 }
@@ -43,7 +36,7 @@ void LinkDotStructure::AddEdge(const Edge& edge) {
     _edges.push_back(edge);
 }
 
-std::shared_ptr<ModelStructure> LinkDotStructure::Clone() const {
+std::shared_ptr<CarcasModelStructure> LinkDotStructure::Clone() const {
     auto cloned = std::make_shared<LinkDotStructure>();
     cloned->SetCenter(_center);
     for (const Point& point : _points) {

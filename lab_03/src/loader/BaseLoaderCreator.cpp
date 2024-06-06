@@ -8,8 +8,3 @@
 /**
  * BaseLoaderCreator implementation
  */
-
-
-void BaseLoaderCreator::createLoader() {
-
-}

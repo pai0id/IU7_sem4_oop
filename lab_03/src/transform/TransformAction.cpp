@@ -1,16 +1,23 @@
 #include "TransformAction.h"
 #include <vector>
 
-TransformAction::TransformAction() : _matrix(SquareMatrix<double>(4)) {
-    _matrix[0][0] = 1;
-    _matrix[1][1] = 1;
-    _matrix[2][2] = 1;
-    _matrix[3][3] = 1;
+TransformAction::TransformAction() {
+    _matrix = transf_mtr_t(4);
+    for (size_t i = 0; i < 4; ++i) {
+        auto row = std::make_shared<std::vector<double>>(4, 0);
+        _matrix[i] = row;
+        (*_matrix[i])[i] = 1;
+    }
 }
 
 Point &TransformAction::TransformPoint(Point &p) const {
     std::vector<double> pvector = {p.GetX(), p.GetY(), p.GetZ(), 1};
-    std::vector<double> result = _matrix.MultiplyLeft(pvector);
+    std::vector<double> result(_matrix.size());
+    for (std::size_t i = 0; i < _matrix.size(); i++) {
+        for (std::size_t j = 0; j < _matrix.size(); j++) {
+            result[i] += (*_matrix[j])[i] * pvector[j];
+        }
+    }
     if (result[3] == 0) {
         p.SetX(0);
         p.SetY(0);
@@ -24,10 +31,10 @@ Point &TransformAction::TransformPoint(Point &p) const {
     return p;
 }
 
-const SquareMatrix<double> &TransformAction::GetMatrix() const {
+const transf_mtr_t &TransformAction::GetMatrix() const {
     return _matrix;
 }
 
-SquareMatrix<double> &TransformAction::GetMatrix() {
+transf_mtr_t &TransformAction::GetMatrix() {
     return _matrix;
 }

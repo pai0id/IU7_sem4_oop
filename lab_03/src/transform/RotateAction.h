@@ -1,5 +1,4 @@
 #include "TransformAction.h"
-#include "SquareMatrix.h"
 
 class RotateAction : public TransformAction {
     public:

@@ -9,24 +9,10 @@
  * RotateVisitor implementation
  */
 
-
-/**
- * @param Model
- */
-void RotateVisitor::visit(BaseModel) {
-
+void visit(CarcasModel& model) {
+    return;
 }
 
-/**
- * @param Composite
- */
-void RotateVisitor::visit(Composite) {
-
-}
-
-/**
- * @param Camera
- */
-void RotateVisitor::visit(Camera) {
-
+void visit(Camera& cam) {
+    return;
 }

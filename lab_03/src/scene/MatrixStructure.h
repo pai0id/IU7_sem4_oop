@@ -6,16 +6,15 @@
 #ifndef _MATRIXSTRUCTURE_H
 #define _MATRIXSTRUCTURE_H
 
-#include "ModelStructure.h"
+#include "CarcasModelStructure.h"
 
-using mtr_t = std::vector<std::vector<int>>;
+using mtr_t = std::vector<std::shared_ptr<std::vector<bool>>>;
 
-class MatrixStructure: public ModelStructure {
+class MatrixStructure: public CarcasModelStructure {
 public:
     MatrixStructure();
 
     ~MatrixStructure() = default;
-    virtual void Transform(const TransformAction& action);
     virtual std::vector<Point> GetPoints() const;
     virtual std::vector<Edge> GetEdges() const;
     virtual void AddPoint(const Point& point);

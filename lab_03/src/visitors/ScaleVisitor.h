@@ -9,17 +9,9 @@
 #include "Visitor.h"
 
 class ScaleVisitor: public Visitor {
-public: 
-    
-/**
- * @param Model
- */
-void visit(BaseModel);
-    
-/**
- * @param Composite
- */
-void visit(Composite);
+public:
+    void visit(CarcasModel& model) override;
+    void visit(Camera& cam) override;
 };
 
 #endif //_SCALEVISITOR_H

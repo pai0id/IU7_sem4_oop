@@ -9,24 +9,10 @@
  * MoveVisitor implementation
  */
 
-
-/**
- * @param Model
- */
-void MoveVisitor::visit(BaseModel) {
-
+void visit(CarcasModel& model) {
+    return;
 }
 
-/**
- * @param Composite
- */
-void MoveVisitor::visit(Composite) {
-
-}
-
-/**
- * @param Camera
- */
-void MoveVisitor::visit(Camera) {
-
+void visit(Camera& cam) {
+    return;
 }

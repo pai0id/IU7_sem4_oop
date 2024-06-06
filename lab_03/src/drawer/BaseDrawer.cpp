@@ -10,6 +10,4 @@
  */
 
 
-void BaseDrawer::drawLine() {
-
-}
+BaseDrawer::~BaseDrawer() {};

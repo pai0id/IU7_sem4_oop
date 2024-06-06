@@ -17,16 +17,16 @@ public:
     Composite(PtrBaseObject first, ...);
     Composite(VectorBaseObject objects);
 
-    virtual ~Composite() = default;
-    virtual void Add(const PtrBaseObject object);
-    virtual void Remove(const iterator &it);
-    virtual bool IsComposite() const;
-    virtual bool IsVisible() const;
-    virtual Point GetCenter() const;
-    virtual iterator begin();
-    virtual iterator end();
+    ~Composite() = default;
+    bool Add(std::initializer_list<PtrBaseObject> list) override;
+    bool Remove(const iterator &it) override;
+    bool IsComposite() const;
+    bool IsVisible() const;
+    Point GetCenter() const;
+    iterator begin();
+    iterator end();
 
-    virtual void Accept(const Visitor &v);
+    void Accept(std::shared_ptr<ObjectVisitor> visitor) override;
 };
 
 #endif //_COMPOSITE_H

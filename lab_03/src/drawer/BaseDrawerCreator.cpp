@@ -10,6 +10,4 @@
  */
 
 
-void BaseDrawerCreator::createDrawer() {
-
-}
+BaseDrawerCreator::~BaseDrawerCreator() {}

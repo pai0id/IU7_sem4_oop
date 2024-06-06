@@ -6,24 +6,22 @@
 #ifndef _MODELSTRUCTURE_H
 #define _MODELSTRUCTURE_H
 
-#include "../transform/TransformAction.h"
 #include <vector>
 #include <memory>
 #include "Point.h"
 #include "Edge.h"
 
-class ModelStructure;
+class CarcasModelStructure;
 
-using ModelStructurePtr = std::shared_ptr<ModelStructure>;
+using ModelStructurePtr = std::shared_ptr<CarcasModelStructure>;
 
-class ModelStructure {
+class CarcasModelStructure {
 public:
-    ModelStructure() = default;
-    ModelStructure(const ModelStructure& other) = delete;
-    ModelStructure(ModelStructure&& other) = delete;
-    virtual ~ModelStructure() = 0;
+    CarcasModelStructure() = default;
+    CarcasModelStructure(const CarcasModelStructure& other) = delete;
+    CarcasModelStructure(CarcasModelStructure&& other) = delete;
+    virtual ~CarcasModelStructure() = 0;
 
-    virtual void Transform(const TransformAction& action) = 0;
     virtual std::vector<Point> GetPoints() const = 0;
     virtual std::vector<Edge> GetEdges() const = 0;
     virtual void AddPoint(const Point& point) = 0;

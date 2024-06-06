@@ -9,22 +9,9 @@
 #include "Visitor.h"
 
 class MoveVisitor: public Visitor {
-public: 
-    
-/**
- * @param Model
- */
-void visit(BaseModel);
-    
-/**
- * @param Composite
- */
-void visit(Composite);
-    
-/**
- * @param Camera
- */
-void visit(Camera);
+public:
+    void visit(CarcasModel& model) override;
+    void visit(Camera& cam) override;
 };
 
 #endif //_MOVEVISITOR_H

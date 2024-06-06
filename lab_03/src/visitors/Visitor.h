@@ -6,19 +6,27 @@
 #ifndef _VISITOR_H
 #define _VISITOR_H
 
-#include "../scene/BaseModel.h"
-#include "../scene/Composite.h"
+#include "../scene/CarcasModel.h"
 #include "../scene/Camera.h"
 
-class Visitor
+template <typename... Types>
+class Visitor;
+
+template <typename Type>
+class Visitor<Type>
 {
 public:
-    Visitor();
-
-    virtual ~Visitor() {};
-    virtual void Visit(BaseModel& model) const = 0;
-    virtual void Visit(Composite& composite) const = 0;
-    virtual void Visit(Camera& camera) const = 0;
+    virtual void visit(Type& t) = 0;
 };
+
+template <typename Type, typename... Types>
+class Visitor<Type, Types...> : public Visitor<Types...>
+{
+public:
+    using Visitor<Types...>::visit;
+    virtual void visit(Type& t) = 0;
+};
+
+using ObjectVisitor = Visitor<class Camera, class CarcasModel>;
 
 #endif //_VISITOR_H

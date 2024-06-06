@@ -1,7 +1,7 @@
-#pragma once
+#ifndef _SHIFTACTION_H
+#define _SHIFTACTION_H
+
 #include "TransformAction.h"
-#include "SquareMatrix.h"
-#include "Point.h" 
 
 class ShiftAction : public TransformAction {
     public:
@@ -12,3 +12,5 @@ class ShiftAction : public TransformAction {
 
         virtual ~ShiftAction() = default;
 };
+
+#endif

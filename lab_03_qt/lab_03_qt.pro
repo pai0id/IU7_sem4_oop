@@ -43,8 +43,8 @@ SOURCES += \
     ./src/commands/scene/LoadSceneCommand.cpp \
     ./src/drawer/BaseDrawer.cpp \
     ./src/drawer/BaseDrawerCreator.cpp \
-    ./src/drawer/SDLDrawer.cpp \
-    ./src/drawer/SDLDrawerCreator.cpp \
+    ./src/drawer/QTDrawer.cpp \
+    ./src/drawer/QTDrawerCreator.cpp \
     ./src/loader/BaseLoader.cpp \
     ./src/loader/BaseLoaderCreator.cpp \
     ./src/loader/LoaderSolution.cpp \
@@ -57,10 +57,10 @@ SOURCES += \
     ./src/managers/MementoManager.cpp \
     ./src/managers/SceneManager.cpp \
     ./src/managers/TransformManager.cpp \
-    ./src/memento/MementoCaretaker.cpp \
-    ./src/memento/Memento.cpp \
-    ./src/memento/SceneMementoCaretaker.cpp \
-    ./src/memento/SceneMemento.cpp \
+#    ./src/memento/MementoCaretaker.cpp \
+#    ./src/memento/Memento.cpp \
+#    ./src/memento/SceneMementoCaretaker.cpp \
+#    ./src/memento/SceneMemento.cpp \
     ./src/scene/BaseModel.cpp \
     ./src/scene/BaseObject.cpp \
     ./src/scene/Camera.cpp \
@@ -73,7 +73,7 @@ SOURCES += \
     ./src/scene/MatrixData.cpp \
     ./src/scene/MatrixModel.cpp \
     ./src/scene/MatrixStructure.cpp \
-    ./src/scene/ModelStructure.cpp \
+    ./src/scene/CarcasModelStructure.cpp \
     ./src/scene/Point.cpp \
     ./src/scene/Scene.cpp \
     ./src/scene/VisibleObject.cpp \
@@ -87,7 +87,9 @@ SOURCES += \
     ./src/transform/RotateAction.cpp \
     ./src/transform/ScaleAction.cpp \
     ./src/transform/ShiftAction.cpp \
-    ./src/transform/TransformAction.cpp
+    ./src/transform/TransformAction.cpp \
+    ./src/transform/multMat.cpp
+
 
 
 
@@ -121,8 +123,8 @@ HEADERS += \
     ./src/commands/scene/LoadSceneCommand.h \
     ./src/drawer/BaseDrawerCreator.h \
     ./src/drawer/BaseDrawer.h \
-    ./src/drawer/SDLDrawerCreator.h \
-    ./src/drawer/SDLDrawer.h \
+    ./src/drawer/QTDrawerCreator.h \
+    ./src/drawer/QTDrawer.h \
     ./src/loader/BaseLoaderCreator.h \
     ./src/loader/BaseLoader.h \
     ./src/loader/LoaderSolution.h \
@@ -135,10 +137,10 @@ HEADERS += \
     ./src/managers/MementoManager.h \
     ./src/managers/SceneManager.h \
     ./src/managers/TransformManager.h \
-    ./src/memento/MementoCaretaker.h \
-    ./src/memento/Memento.h \
-    ./src/memento/SceneMementoCaretaker.h \
-    ./src/memento/SceneMemento.h \
+#    ./src/memento/MementoCaretaker.h \
+#    ./src/memento/Memento.h \
+#    ./src/memento/SceneMementoCaretaker.h \
+#    ./src/memento/SceneMemento.h \
     ./src/scene/BaseModel.h \
     ./src/scene/BaseObject.h \
     ./src/scene/Camera.h \
@@ -151,7 +153,7 @@ HEADERS += \
     ./src/scene/MatrixData.h \
     ./src/scene/MatrixModel.h \
     ./src/scene/MatrixStructure.h \
-    ./src/scene/ModelStructure.h \
+    ./src/scene/CarcasModelStructure.h \
     ./src/scene/Point.h \
     ./src/scene/Scene.h \
     ./src/scene/VisibleObject.h \
@@ -165,7 +167,8 @@ HEADERS += \
     ./src/transform/RotateAction.h \
     ./src/transform/ScaleAction.h \
     ./src/transform/ShiftAction.h \
-    ./src/transform/TransformAction.h
+    ./src/transform/TransformAction.h \
+    ./src/transform/multMat.h
 
 FORMS += \
     mainwindow.ui

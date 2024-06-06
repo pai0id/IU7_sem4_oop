@@ -1,6 +1,12 @@
-#pragma once
-#include "Point.h"
-#include "SquareMatrix.h"
+#ifndef _TRANSFORMACTION_H
+#define _TRANSFORMACTION_H
+
+#include "../scene/Point.h"
+#include <memory>
+#include <vector>
+#include <cstddef>
+
+using transf_mtr_t = std::vector<std::shared_ptr<std::vector<double>>>;
 
 class TransformAction {
     public:
@@ -9,9 +15,11 @@ class TransformAction {
     virtual ~TransformAction() = default;
 
     Point &TransformPoint(Point &p) const;
-    const SquareMatrix<double> &GetMatrix() const;
-    SquareMatrix<double> &GetMatrix();
+    const transf_mtr_t &GetMatrix() const;
+    transf_mtr_t &GetMatrix();
 
     protected:
-        SquareMatrix<double> _matrix;
+        transf_mtr_t _matrix;
 };
+
+#endif

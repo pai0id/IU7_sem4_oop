@@ -18,16 +18,21 @@ Composite::Composite(PtrBaseObject first, ...)
 
 Composite::Composite(VectorBaseObject objects) : _objects(objects) {}
 
-void Composite::Add(std::shared_ptr<BaseObject> obj) {
-    _objects.push_back(obj);
+bool Composite::Add(std::initializer_list<PtrBaseObject> list) {
+    for (auto elem : list)
+        _objects.push_back(elem);
+
+    return true;
 }
 
-void Composite::Remove(const iterator &it) {
+bool Composite::Remove(const iterator &it) {
     _objects.erase(it);
+    return true;
 }
 
-void Composite::Accept(const Visitor &v) {
-    v.Visit(*this);
+void Composite::Accept(std::shared_ptr<ObjectVisitor> visitor) {
+    for (auto& elem : _objects)
+        elem->Accept(visitor);
 }
 
 Composite::iterator Composite::begin() {
@@ -40,7 +45,12 @@ Composite::iterator Composite::end() {
 
 bool Composite::IsComposite() const { return true; }
 
-bool Composite::IsVisible() const { return true; }
+bool Composite::IsVisible() const {
+    for (auto elem : _objects)
+        if (elem->IsVisible())
+            return true;
+    return false;
+}
 
 Point Composite::GetCenter() const {
     std::vector<Point> centers;

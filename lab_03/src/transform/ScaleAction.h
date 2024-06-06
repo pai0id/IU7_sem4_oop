@@ -1,6 +1,4 @@
 #include "TransformAction.h"
-#include "SquareMatrix.h"
-#include "Point.h"
 
 class ScaleAction : public TransformAction {
     public:

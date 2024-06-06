@@ -1,8 +1,8 @@
-#pragma once
+#ifndef _CAMERAPROJ_H
+#define _CAMERAPROJ_H
+
 #include "TransformAction.h"
-
-
-class Camera;
+#include "../scene/Camera.h"
 
 class CameraProjectionAction : public TransformAction {
     public:
@@ -14,3 +14,5 @@ class CameraProjectionAction : public TransformAction {
     private:
         std::shared_ptr<Camera> _camera;
 };
+
+#endif

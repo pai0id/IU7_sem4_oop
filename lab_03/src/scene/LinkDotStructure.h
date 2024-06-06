@@ -6,15 +6,14 @@
 #ifndef _LINKDOTSTRUCTURE_H
 #define _LINKDOTSTRUCTURE_H
 
-#include "ModelStructure.h"
+#include "CarcasModelStructure.h"
 
 
-class LinkDotStructure: public ModelStructure {
+class LinkDotStructure: public CarcasModelStructure {
 public:
     LinkDotStructure();
 
     ~LinkDotStructure() = default;
-    virtual void Transform(const TransformAction& action);
     virtual std::vector<Point> GetPoints() const;
     virtual std::vector<Edge> GetEdges() const;
     virtual void AddPoint(const Point& point);

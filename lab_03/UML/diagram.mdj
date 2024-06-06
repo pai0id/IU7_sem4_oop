@@ -22668,7 +22668,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -16,
+											"left": -64,
 											"top": 16,
 											"height": 13
 										},
@@ -22679,11 +22679,11 @@
 												"$ref": "AAAAAAGPl/o0GO32ahU="
 											},
 											"font": "Arial;13;1",
-											"left": 2069,
+											"left": 2045,
 											"top": 1783,
-											"width": 96.341796875,
+											"width": 139.708984375,
 											"height": 13,
-											"text": "ModelStructure"
+											"text": "CarcasModelStructure"
 										},
 										{
 											"_type": "LabelView",
@@ -22693,7 +22693,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -16,
+											"left": -64,
 											"top": 16,
 											"width": 73.67724609375,
 											"height": 13,
@@ -22707,16 +22707,16 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -16,
+											"left": -64,
 											"top": 16,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 2064,
+									"left": 2040,
 									"top": 1776,
-									"width": 106.341796875,
+									"width": 149.708984375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGPl/o0GO33BB8="
@@ -22741,9 +22741,9 @@
 										"$ref": "AAAAAAGPl/o0GO3zBtg="
 									},
 									"font": "Arial;13;0",
-									"left": 2064,
+									"left": 2040,
 									"top": 1801,
-									"width": 106.341796875,
+									"width": 149.708984375,
 									"height": 10
 								},
 								{
@@ -22766,18 +22766,18 @@
 												"$ref": "AAAAAAGPl/pKaPAVwK4="
 											},
 											"font": "Arial;13;0",
-											"left": 2069,
+											"left": 2045,
 											"top": 1816,
-											"width": 96.341796875,
+											"width": 139.708984375,
 											"height": 13,
 											"text": "+transform()",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 2064,
+									"left": 2040,
 									"top": 1811,
-									"width": 106.341796875,
+									"width": 149.708984375,
 									"height": 23
 								},
 								{
@@ -22791,7 +22791,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -8,
+									"left": -32,
 									"top": 8,
 									"width": 10,
 									"height": 10
@@ -22807,7 +22807,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -8,
+									"left": -32,
 									"top": 8,
 									"width": 10,
 									"height": 10
@@ -22815,9 +22815,9 @@
 							],
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 2064,
+							"left": 2040,
 							"top": 1776,
-							"width": 105.341796875,
+							"width": 148.708984375,
 							"height": 58,
 							"nameCompartment": {
 								"$ref": "AAAAAAGPl/o0GO32ahU="
@@ -28737,7 +28737,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ModelStructure",
+					"name": "CarcasModelStructure",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
