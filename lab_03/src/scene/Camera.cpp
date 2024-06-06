@@ -3,7 +3,7 @@
  */
 
 
-#include "Camera.h"
+#include "Camera.hpp"
 
 /**
  * Camera implementation

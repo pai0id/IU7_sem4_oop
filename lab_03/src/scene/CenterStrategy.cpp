@@ -1,4 +1,4 @@
-#include "CenterStrategy.h"
+#include "CenterStrategy.hpp"
 
 BaseCenterStrategy::~BaseCenterStrategy() {}
 

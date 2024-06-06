@@ -3,7 +3,7 @@
  */
 
 
-#include "InvisibleObject.h"
+#include "InvisibleObject.hpp"
 
 /**
  * InvisibleObject implementation

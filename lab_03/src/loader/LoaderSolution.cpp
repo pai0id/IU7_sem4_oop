@@ -2,13 +2,8 @@
  * Project Untitled
  */
 
-
-#include "LoaderSolution.h"
-#include "../exception/solutionexception.h"
-
-/**
- * LoaderSolution implementation
- */
+#include "LoaderSolution.hpp"
+#include "../exception/solutionexception.hpp"
 
 LoaderSolution::LoaderSolution() : _creators(std::map<std::size_t, std::shared_ptr<BaseLoaderCreator>>()) {}
 
@@ -29,15 +24,13 @@ std::shared_ptr<BaseLoaderCreator> LoaderSolution::Create(std::size_t index) {
     if (Check(index)) {
         return _creators[index];
     }
-    time_t now = time(nullptr);
-    throw SolutionNotFoundException(ctime(&now), __FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+    throw SolutionNotFoundException(__FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
 }
 
 
 void LoaderSolution::Register(std::size_t index, std::shared_ptr<BaseLoaderCreator> creator) {
     if (Check(index)) {
-        time_t now = time(nullptr);
-        throw SolutionAlreadyInException(ctime(&now), __FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+        throw SolutionAlreadyInException(__FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
     }
     _creators[index] = creator;
 }

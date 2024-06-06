@@ -3,7 +3,7 @@
  */
 
 
-#include "Visitor.h"
+#include "Visitor.hpp"
 
 /**
  * Visitor implementation

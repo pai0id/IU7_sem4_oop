@@ -3,7 +3,7 @@
  */
 
 
-#include "QTDrawer.h"
+#include "QTDrawer.hpp"
 
 /**
  * SDLDrawer implementation

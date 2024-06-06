@@ -3,21 +3,9 @@
  */
 
 
-#include "BaseLoader.h"
+#include "BaseLoader.hpp"
 
 /**
  * BaseLoader implementation
  */
 
-
-void BaseLoader::open() {
-
-}
-
-void BaseLoader::close() {
-
-}
-
-void BaseLoader::isOpen() {
-
-}

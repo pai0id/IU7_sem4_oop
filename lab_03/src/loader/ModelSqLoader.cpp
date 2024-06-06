@@ -1,0 +1,100 @@
+/**
+ * Project Untitled
+ */
+
+
+#include "ModelSqLoader.hpp"
+#include "../exception/sqlitereaderexception.hpp"
+#include <memory>
+#include <cstddef>
+
+static const char * ReadPointsSql = "SELECT * FROM point ORDER BY id ASC";
+static const char * ReadEdgesSql = "SELECT * FROM edge";
+
+ModelSqliteLoader::ModelSqliteLoader(const char *filename) : _fname(filename), _db(nullptr), _centerStrategy(std::make_shared<ClassicCenterStrategy>()) { }
+
+ModelSqliteLoader::~ModelSqliteLoader() {
+    if (IsOpen())
+        Close();
+}
+
+bool ModelSqliteLoader::IsOpen() {
+    return _db != nullptr;
+}
+
+
+void ModelSqliteLoader::Open() {
+    int rc = sqlite3_open(_fname, &_db);
+    if (rc!= SQLITE_OK) {
+        throw SqliteNoFileException(__FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+void ModelSqliteLoader::Close() {
+    sqlite3_close(_db);
+    _db = nullptr;
+}
+
+
+static int ReadPointsCallback (void* data, int argc, char** argv, char **colNames) {
+    (void) colNames;
+    auto points = static_cast<std::vector<Point>*>(data);
+    if (argc!= 4) {
+        return 1;
+    }
+    double x = std::atof(argv[1]);
+    double y = std::atof(argv[2]);
+    double z = std::atof(argv[3]);
+    points->push_back(Point(x, y, z));
+    return 0;
+}
+
+std::vector<Point> ModelSqliteLoader::ReadPoints() {
+    if (!IsOpen()) {
+        return std::vector<Point>();
+    }
+
+    std::vector<Point> points;
+
+    int rc = sqlite3_exec(_db, ReadPointsSql, ReadPointsCallback, &points, nullptr);
+
+    if (rc!= SQLITE_OK) {
+        throw SqliteReadException(__FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+    }
+    return points;
+}
+
+
+static int ReadEdgesCallback (void* data, int argc, char** argv, char **colNames) {
+    (void) colNames;
+    auto edges = static_cast<std::vector<Edge>*>(data);
+    if (argc!= 3) {
+        return 1;
+    }
+    int p1 = std::atoi(argv[1]) - 1;
+    int p2 = std::atoi(argv[2]) - 1;
+    if (p1 < 0 || p2 < 0) {
+        return 1;
+    }
+    edges->push_back(Edge(p1, p2));
+    return 0;
+}
+
+std::vector<Edge> ModelSqliteLoader::ReadEdges() {
+    if (!IsOpen()) {
+        return std::vector<Edge>();
+    }
+    std::vector<Edge> edges;
+    int rc = sqlite3_exec(_db, ReadEdgesSql, ReadEdgesCallback, &edges, nullptr);
+
+    if (rc != SQLITE_OK) {
+        throw SqliteReadException(__FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
+    }
+
+    return edges;
+}
+
+Point ModelSqliteLoader::ReadCenter() {
+    std::vector<Point> points = ReadPoints();
+    return _centerStrategy->CenterAlgorithm(points);
+}

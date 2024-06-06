@@ -3,7 +3,7 @@
  */
 
 
-#include "CarcasModelStructure.h"
+#include "CarcasModelStructure.hpp"
 
 /**
  * ModelStructure implementation

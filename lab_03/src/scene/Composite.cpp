@@ -3,8 +3,8 @@
  */
 
 
-#include "Composite.h"
-#include "CenterStrategy.h"
+#include "Composite.hpp"
+#include "CenterStrategy.hpp"
 
 /**
  * Composite implementation

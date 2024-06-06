@@ -3,7 +3,7 @@
  */
 
 
-#include "LinkDotStructure.h"
+#include "LinkDotStructure.hpp"
 
 /**
  * LinkDotStructure implementation

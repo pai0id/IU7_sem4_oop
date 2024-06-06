@@ -3,13 +3,8 @@
  */
 
 
-#include "DrawManager.h"
+#include "DrawManager.hpp"
 
 /**
  * DrawManager implementation
  */
-
-
-void DrawManager::drawScene() {
-
-}

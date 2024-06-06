@@ -1,4 +1,4 @@
-#include "multMat.h"
+#include "multMat.hpp"
 
 transf_mtr_t multMat(transf_mtr_t m1, transf_mtr_t m2) {
     size_t _size = m1.size();

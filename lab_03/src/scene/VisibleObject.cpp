@@ -3,7 +3,7 @@
  */
 
 
-#include "VisibleObject.h"
+#include "VisibleObject.hpp"
 
 /**
  * VisibleObject implementation

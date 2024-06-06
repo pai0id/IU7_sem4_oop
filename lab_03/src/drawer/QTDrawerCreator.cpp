@@ -3,8 +3,8 @@
  */
 
 
-#include "QTDrawerCreator.h"
-#include "QTDrawer.h"
+#include "QTDrawerCreator.hpp"
+#include "QTDrawer.hpp"
 
 /**
  * SDLDrawerCreator implementation

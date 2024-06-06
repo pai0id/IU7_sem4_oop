@@ -3,7 +3,7 @@
  */
 
 
-#include "MatrixStructure.h"
+#include "MatrixStructure.hpp"
 #include <iostream>
 #include <memory>
 #include <ctime>

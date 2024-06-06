@@ -1,4 +1,4 @@
-#include "ShiftAction.h"
+#include "ShiftAction.hpp"
 
 ShiftAction::ShiftAction(double x, double y, double z) {
     (*_matrix[0])[0] = 1.;

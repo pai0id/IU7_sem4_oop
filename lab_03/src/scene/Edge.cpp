@@ -3,7 +3,7 @@
  */
 
 
-#include "Edge.h"
+#include "Edge.hpp"
 
 /**
  * Edge implementation

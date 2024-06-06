@@ -2,7 +2,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++20
+LIBS += sqlite3
 
 INCLUDEPATH += src/
 INCLUDEPATH += src/**
@@ -16,15 +17,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     ./src/Facade.cpp \
-    ./src/build/BaseCarcasDirector.cpp \
-    ./src/build/BaseDirector.cpp \
-    ./src/build/BaseLinkDotModelBuilder.cpp \
-    ./src/build/BaseMatrixModelBuilder.cpp \
+    ./src/build/BaseCarcasModelBuilder.cpp \
+    ./src/build/BaseCarcasModelDirector.cpp \
+    ./src/build/Basedirector.cpp \
     ./src/build/DirectorSolution.cpp \
-    ./src/build/LinkDotDirector.cpp \
-    ./src/build/LinkDotModelBuilder.cpp \
-    ./src/build/MatrixDirector.cpp \
-    ./src/build/MatrixModelBuilder.cpp \
+    ./src/build/ListCarcasModelBuilder.cpp \
+    ./src/build/ListCarcasModelDirector.cpp \
+    ./src/build/MatrixCarcasModelBuilder.cpp \
+    ./src/build/MatrixCarcasModelDirector.cpp \
     ./src/commands/BaseCommand.cpp \
     ./src/commands/camera/AddCameraCommand.cpp \
     ./src/commands/camera/BaseCameraCommand.cpp \
@@ -48,30 +48,20 @@ SOURCES += \
     ./src/loader/BaseLoader.cpp \
     ./src/loader/BaseLoaderCreator.cpp \
     ./src/loader/LoaderSolution.cpp \
-    ./src/loader/ModelSvgLoader.cpp \
-    ./src/loader/ModelSvgLoaderCreator.cpp \
+    ./src/loader/ModelSqLoader.cpp \
     ./src/loader/ModelTxtLoader.cpp \
-    ./src/loader/ModelTxtLoaderCreator.cpp \
     ./src/managers/DrawManager.cpp \
     ./src/managers/LoadManager.cpp \
-    ./src/managers/MementoManager.cpp \
     ./src/managers/SceneManager.cpp \
     ./src/managers/TransformManager.cpp \
-#    ./src/memento/MementoCaretaker.cpp \
-#    ./src/memento/Memento.cpp \
-#    ./src/memento/SceneMementoCaretaker.cpp \
-#    ./src/memento/SceneMemento.cpp \
     ./src/scene/BaseModel.cpp \
     ./src/scene/BaseObject.cpp \
     ./src/scene/Camera.cpp \
-    ./src/scene/LinkDotData.cpp \
     ./src/scene/CarcasModel.cpp \
     ./src/scene/Composite.cpp \
     ./src/scene/Edge.cpp \
     ./src/scene/InvisibleObject.cpp \
     ./src/scene/LinkDotStructure.cpp \
-    ./src/scene/MatrixData.cpp \
-    ./src/scene/MatrixModel.cpp \
     ./src/scene/MatrixStructure.cpp \
     ./src/scene/CarcasModelStructure.cpp \
     ./src/scene/Point.cpp \
@@ -79,96 +69,80 @@ SOURCES += \
     ./src/scene/VisibleObject.cpp \
     ./src/scene/CenterStrategy.cpp \
     ./src/visitors/DrawVisitor.cpp \
-    ./src/visitors/MoveVisitor.cpp \
-    ./src/visitors/RotateVisitor.cpp \
-    ./src/visitors/ScaleVisitor.cpp \
+    ./src/visitors/TransformVisitor.cpp \
     ./src/visitors/Visitor.cpp \
     ./src/transform/CameraProjectionAction.cpp \
     ./src/transform/RotateAction.cpp \
     ./src/transform/ScaleAction.cpp \
     ./src/transform/ShiftAction.cpp \
     ./src/transform/TransformAction.cpp \
-    ./src/transform/multMat.cpp
-
-
-
+    ./src/transform/multMat.cpp \
+    ./src/loader/LoaderCreator.cpp
 
 HEADERS += \
     mainwindow.h \
-    ./src/Facade.h \
-    ./src/build/BaseCarcasDirector.h \
-    ./src/build/BaseDirector.h \
-    ./src/build/BaseLinkDotModelBuilder.h \
-    ./src/build/BaseMatrixModelBuilder.h \
-    ./src/build/DirectorSolution.h \
-    ./src/build/LinkDotDirector.h \
-    ./src/build/LinkDotModelBuilder.h \
-    ./src/build/MatrixDirector.h \
-    ./src/build/MatrixModelBuilder.h \
-    ./src/commands/BaseCommand.h \
-    ./src/commands/camera/AddCameraCommand.h \
-    ./src/commands/camera/BaseCameraCommand.h \
-    ./src/commands/camera/MoveCameraCommand.h \
-    ./src/commands/camera/RemoveCameraCommand.h \
-    ./src/commands/camera/RotateCameraCommand.h \
-    ./src/commands/model/BaseModelCommand.h \
-    ./src/commands/model/LoadModelCommand.h \
-    ./src/commands/model/MoveModelCommand.h \
-    ./src/commands/model/RemoveModelCommand.h \
-    ./src/commands/model/RotateModelCommand.h \
-    ./src/commands/model/ScaleModelCommand.h \
-    ./src/commands/scene/BaseSceneCommand.h \
-    ./src/commands/scene/ClearSceneCommand.h \
-    ./src/commands/scene/DrawSceneCommand.h \
-    ./src/commands/scene/LoadSceneCommand.h \
-    ./src/drawer/BaseDrawerCreator.h \
-    ./src/drawer/BaseDrawer.h \
-    ./src/drawer/QTDrawerCreator.h \
-    ./src/drawer/QTDrawer.h \
-    ./src/loader/BaseLoaderCreator.h \
-    ./src/loader/BaseLoader.h \
-    ./src/loader/LoaderSolution.h \
-    ./src/loader/ModelSvgLoaderCreator.h \
-    ./src/loader/ModelSvgLoader.h \
-    ./src/loader/ModelTxtLoaderCreator.h \
-    ./src/loader/ModelTxtLoader.h \
-    ./src/managers/DrawManager.h \
-    ./src/managers/LoadManager.h \
-    ./src/managers/MementoManager.h \
-    ./src/managers/SceneManager.h \
-    ./src/managers/TransformManager.h \
-#    ./src/memento/MementoCaretaker.h \
-#    ./src/memento/Memento.h \
-#    ./src/memento/SceneMementoCaretaker.h \
-#    ./src/memento/SceneMemento.h \
-    ./src/scene/BaseModel.h \
-    ./src/scene/BaseObject.h \
-    ./src/scene/Camera.h \
-    ./src/scene/LinkDotData.h \
-    ./src/scene/CarcasModel.h \
-    ./src/scene/Composite.h \
-    ./src/scene/Edge.h \
-    ./src/scene/InvisibleObject.h \
-    ./src/scene/LinkDotStructure.h \
-    ./src/scene/MatrixData.h \
-    ./src/scene/MatrixModel.h \
-    ./src/scene/MatrixStructure.h \
-    ./src/scene/CarcasModelStructure.h \
-    ./src/scene/Point.h \
-    ./src/scene/Scene.h \
-    ./src/scene/VisibleObject.h \
-    ./src/scene/CenterStrategy.h \
-    ./src/visitors/DrawVisitor.h \
-    ./src/visitors/MoveVisitor.h \
-    ./src/visitors/RotateVisitor.h \
-    ./src/visitors/ScaleVisitor.h \
-    ./src/visitors/Visitor.h \
-    ./src/transform/CameraProjectionAction.h \
-    ./src/transform/RotateAction.h \
-    ./src/transform/ScaleAction.h \
-    ./src/transform/ShiftAction.h \
-    ./src/transform/TransformAction.h \
-    ./src/transform/multMat.h
+    ./src/Facade.hpp \
+    ./src/build/BaseCarcasModelBuilder.hpp \
+    ./src/build/BaseCarcasModelDirector.hpp \
+    ./src/build/Basedirector.hpp \
+    ./src/build/DirectorSolution.hpp \
+    ./src/build/ListCarcasModelBuilder.hpp \
+    ./src/build/ListCarcasModelDirector.hpp \
+    ./src/build/MatrixCarcasModelBuilder.hpp \
+    ./src/build/MatrixCarcasModelDirector.hpp \
+    ./src/commands/BaseCommand.hpp \
+    ./src/commands/camera/AddCameraCommand.hpp \
+    ./src/commands/camera/BaseCameraCommand.hpp \
+    ./src/commands/camera/MoveCameraCommand.hpp \
+    ./src/commands/camera/RemoveCameraCommand.hpp \
+    ./src/commands/camera/RotateCameraCommand.hpp \
+    ./src/commands/model/BaseModelCommand.hpp \
+    ./src/commands/model/LoadModelCommand.hpp \
+    ./src/commands/model/MoveModelCommand.hpp \
+    ./src/commands/model/RemoveModelCommand.hpp \
+    ./src/commands/model/RotateModelCommand.hpp \
+    ./src/commands/model/ScaleModelCommand.hpp \
+    ./src/commands/scene/BaseSceneCommand.hpp \
+    ./src/commands/scene/ClearSceneCommand.hpp \
+    ./src/commands/scene/DrawSceneCommand.hpp \
+    ./src/commands/scene/LoadSceneCommand.hpp \
+    ./src/drawer/BaseDrawerCreator.hpp \
+    ./src/drawer/BaseDrawer.hpp \
+    ./src/drawer/QTDrawerCreator.hpp \
+    ./src/drawer/QTDrawer.hpp \
+    ./src/loader/BaseLoaderCreator.hpp \
+    ./src/loader/BaseLoader.hpp \
+    ./src/loader/LoaderSolution.hpp \
+    ./src/loader/ModelSqLoader.hpp \
+    ./src/loader/ModelTxtLoader.hpp \
+    ./src/managers/DrawManager.hpp \
+    ./src/managers/LoadManager.hpp \
+    ./src/managers/SceneManager.hpp \
+    ./src/managers/TransformManager.hpp \
+    ./src/scene/BaseModel.hpp \
+    ./src/scene/BaseObject.hpp \
+    ./src/scene/Camera.hpp \
+    ./src/scene/CarcasModel.hpp \
+    ./src/scene/Composite.hpp \
+    ./src/scene/Edge.hpp \
+    ./src/scene/InvisibleObject.hpp \
+    ./src/scene/LinkDotStructure.hpp \
+    ./src/scene/MatrixStructure.hpp \
+    ./src/scene/CarcasModelStructure.hpp \
+    ./src/scene/Point.hpp \
+    ./src/scene/Scene.hpp \
+    ./src/scene/VisibleObject.hpp \
+    ./src/scene/CenterStrategy.hpp \
+    ./src/visitors/DrawVisitor.hpp \
+    ./src/visitors/TransformVisitor.hpp \
+    ./src/visitors/Visitor.hpp \
+    ./src/transform/CameraProjectionAction.hpp \
+    ./src/transform/RotateAction.hpp \
+    ./src/transform/ScaleAction.hpp \
+    ./src/transform/ShiftAction.hpp \
+    ./src/transform/TransformAction.hpp \
+    ./src/transform/multMat.hpp \
+    ./src/loader/LoaderCreator.hpp
 
 FORMS += \
     mainwindow.ui

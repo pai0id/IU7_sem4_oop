@@ -3,7 +3,7 @@
  */
 
 
-#include "Point.h"
+#include "Point.hpp"
 
 /**
  * Point implementation

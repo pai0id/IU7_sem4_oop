@@ -3,8 +3,8 @@
  */
 
 
-#include "DrawVisitor.h"
-#include "../transform/CameraProjectionAction.h"
+#include "DrawVisitor.hpp"
+#include "../transform/CameraProjectionAction.hpp"
 
 /**
  * DrawVisitor implementation

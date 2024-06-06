@@ -1,6 +1,6 @@
-#include "ScaleAction.h"
-#include "ShiftAction.h"
-#include "multMat.h"
+#include "ScaleAction.hpp"
+#include "ShiftAction.hpp"
+#include "multMat.hpp"
 
 ScaleAction::ScaleAction(double mx, double my, double mz) {
     (*_matrix[0])[0] = mx;
