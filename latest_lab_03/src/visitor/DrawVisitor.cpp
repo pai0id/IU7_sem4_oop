@@ -38,6 +38,7 @@ void DrawVisitor::visit(BoneModel& model) const {
         
     }
 }
+
 void DrawVisitor::visit(Camera& camera) const {
     (void) camera;
 }

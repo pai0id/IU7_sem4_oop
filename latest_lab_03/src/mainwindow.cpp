@@ -212,13 +212,15 @@ void MyMainWindow::on_objectDeletePushbutton_clicked() {
         return;
     }
     for (auto &id : objs) {
-        RemoveObjectCommand command(id);
-        _facade.Execute(command);
+        RemoveCameraCommand command1(id);
+        _facade.Execute(command1);
+        RemoveObjectCommand command2(id);
+        _facade.Execute(command2);
     }
 
     drawScene();
-    updateCameraList();
     updateObjectList();
+    updateCameraList();
 }
 
 void MyMainWindow::on_objectCompositePushbutton_clicked() { 
@@ -231,6 +233,6 @@ void MyMainWindow::on_objectCompositePushbutton_clicked() {
     _facade.Execute(command);
 
     drawScene();
-    updateCameraList();
     updateObjectList();
+    updateCameraList();
 }
