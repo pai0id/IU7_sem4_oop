@@ -5,6 +5,8 @@
 
 #include "DrawVisitor.hpp"
 #include "../transform/CameraProjectionAction.hpp"
+#include "../scene/Camera.hpp"
+#include "../scene/CarcasModel.hpp"
 
 /**
  * DrawVisitor implementation
@@ -22,7 +24,7 @@ Point DrawVisitor::getCameraProjection(const Point& point) const {
 #define FOCUS 500.0
 #define R (1 / FOCUS)
 
-void DrawVisitor::visit(CarcasModel &model) {
+void DrawVisitor::visit(CarcasModel &model) const {
     auto points = model._model->GetPoints();
     auto edges = model._model->GetEdges();
 
@@ -44,6 +46,6 @@ void DrawVisitor::visit(CarcasModel &model) {
 
     }
 }
-void DrawVisitor::visit(Camera& camera) {
+void DrawVisitor::visit(Camera& camera) const {
     (void) camera;
 }

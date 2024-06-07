@@ -10,8 +10,6 @@ class CarcasModelLoader : public BaseLoader {
 public:
     CarcasModelLoader() = default;
 
-    virtual ~CarcasModelLoader() = 0;
-
     virtual void Open() = 0;
     virtual void Close() = 0;
     virtual bool IsOpen() = 0;

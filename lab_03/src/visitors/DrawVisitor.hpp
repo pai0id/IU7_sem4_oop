@@ -6,17 +6,21 @@
 #ifndef _DRAWVISITOR_H
 #define _DRAWVISITOR_H
 
-#include "Visitor.hpp"
 #include "../drawer/BaseDrawer.hpp"
+#include "Visitor.hpp"
+#include <memory>
 
-class DrawVisitor: public ObjectVisitor {
+class Camera;
+class CarcasModel;
+
+class DrawVisitor: public Visitor {
 public:
     DrawVisitor() = delete;
     DrawVisitor(std::shared_ptr<BaseDrawer> drawer, std::shared_ptr<Camera> camera);
     ~DrawVisitor() = default;
 
-    virtual void visit(CarcasModel& model) override;
-    virtual void visit(Camera& cam) override;
+    virtual void visit(CarcasModel& model) const;
+    virtual void visit(Camera& cam) const;
 
 private:
     Point getCameraProjection(const Point& point) const;

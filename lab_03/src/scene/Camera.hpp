@@ -6,11 +6,10 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "InvisibleObject.hpp"
 #include "../visitors/TransformVisitor.hpp"
+#include "InvisibleObject.hpp"
 
-class Camera: public InvisibleObject, public VisitableObject<Camera> {
-    using VisitableObject<Camera>::VisitableObject;
+class Camera : public InvisibleObject {
     friend class DrawVisitor;
     friend class TransformVisitor;
     friend class CameraProjectionAction;
@@ -20,9 +19,9 @@ public:
     explicit Camera(const Point &p);
     explicit Camera(const Camera &other);
 
-    virtual bool IsComposite() const;
-//    virtual void Accept(std::shared_ptr<ObjectVisitor> v);
-    virtual Point GetCenter() const;
+    bool IsComposite() const;
+    virtual void Accept(std::shared_ptr<Visitor> v);
+    Point GetCenter() const;
 
     virtual ~Camera() = default;
 

@@ -3,6 +3,7 @@
 
 #include "TransformAction.hpp"
 
-transf_mtr_t multMat(transf_mtr_t m1, transf_mtr_t m2);
+transf_mtr_t multMat(transf_mtr_t &m1, transf_mtr_t &m2);
+void fillZ(transf_mtr_t &m);
 
 #endif

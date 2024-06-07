@@ -4,7 +4,8 @@
 
 
 #include "SceneManager.hpp"
-#include "scene/Scene.hpp"
+#include "../scene/Scene.hpp"
+#include "../scene/Camera.hpp"
 
 SceneManager::SceneManager() : _scene(std::make_shared<Scene>()), _camera(std::make_shared<Camera>()) {}
 

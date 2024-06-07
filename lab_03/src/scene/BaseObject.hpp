@@ -38,22 +38,10 @@ public:
     virtual Point GetCenter() const = 0;
     virtual bool IsVisible() const = 0;
 
-    virtual void Accept(std::shared_ptr<ObjectVisitor> v) = 0;;
+    virtual void Accept(std::shared_ptr<Visitor> v) = 0;
     virtual size_t GetId() const { return _id; };
 protected:
     size_t _id = 0;
-};
-
-template <typename Derived>
-class VisitableObject : public BaseObject
-{
-public:
-    using BaseObject::BaseObject;
-
-    void Accept(std::shared_ptr<ObjectVisitor> v) override
-    {
-        v->visit(*static_cast<Derived*>(this));
-    }
 };
 
 #endif //_BASEOBJECT_H

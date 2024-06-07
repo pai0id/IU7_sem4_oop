@@ -30,7 +30,7 @@ bool Composite::Remove(const iterator &it) {
     return true;
 }
 
-void Composite::Accept(std::shared_ptr<ObjectVisitor> visitor) {
+void Composite::Accept(std::shared_ptr<Visitor> visitor) {
     for (auto& elem : _objects)
         elem->Accept(visitor);
 }

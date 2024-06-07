@@ -8,14 +8,13 @@
 
 #include "CarcasModelLoader.hpp"
 #include "../scene/CenterStrategy.hpp"
-#include <sqlite3>
+#include <sqlite3.h>
 #include <memory>
 
 class ModelSqliteLoader: public CarcasModelLoader {
 public:
     ModelSqliteLoader(const char* filename);
     virtual ~ModelSqliteLoader();
-
 
     virtual void Open();
     virtual void Close();

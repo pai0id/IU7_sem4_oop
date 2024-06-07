@@ -1,32 +1,16 @@
-/**
- * Project Untitled
- */
-
-
 #ifndef _VISITOR_H
 #define _VISITOR_H
 
-#include "../scene/CarcasModel.hpp"
-#include "../scene/Camera.hpp"
+class Camera;
+class CarcasModel;
 
-template <typename... Types>
-class Visitor;
-
-template <typename Type>
-class Visitor<Type>
+class Visitor
 {
 public:
-    virtual void visit(Type& t) = 0;
+    virtual ~Visitor() = default;
+
+    virtual void visit(CarcasModel& ref) const = 0;
+    virtual void visit(Camera& ref) const = 0;
 };
 
-template <typename Type, typename... Types>
-class Visitor<Type, Types...> : public Visitor<Types...>
-{
-public:
-    using Visitor<Types...>::visit;
-    virtual void visit(Type& t) = 0;
-};
-
-using ObjectVisitor = Visitor<class Camera, class CarcasModel>;
-
-#endif //_VISITOR_H
+#endif

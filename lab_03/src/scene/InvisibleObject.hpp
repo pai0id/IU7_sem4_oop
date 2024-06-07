@@ -1,8 +1,3 @@
-/**
- * Project Untitled
- */
-
-
 #ifndef _INVISIBLEOBJECT_H
 #define _INVISIBLEOBJECT_H
 
@@ -15,6 +10,8 @@ public:
 
     virtual bool IsVisible() const;
     virtual bool IsComposite() const;
+
+    virtual void Accept(std::shared_ptr<Visitor> v) = 0;
 };
 
 #endif //_INVISIBLEOBJECT_H

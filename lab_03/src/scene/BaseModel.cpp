@@ -12,3 +12,8 @@
 BaseModel::BaseModel() {}
 
 BaseModel::~BaseModel() {}
+
+void BaseModel::Accept(std::shared_ptr<Visitor> v)
+{
+    (void) v;
+};

@@ -11,8 +11,7 @@
 #include "../visitors/DrawVisitor.hpp"
 #include "../visitors/TransformVisitor.hpp"
 
-class CarcasModel : public BaseModel, public VisitableObject<CarcasModel> {
-    using VisitableObject<CarcasModel>::VisitableObject;
+class CarcasModel : public BaseModel {
     friend class DrawVisitor;
     friend class TransformVisitor;
 public:
@@ -23,6 +22,7 @@ public:
 
     virtual Point GetCenter() const;
 
+    virtual void Accept(std::shared_ptr<Visitor> visitor);
 protected:
     ModelStructurePtr _model;
 };

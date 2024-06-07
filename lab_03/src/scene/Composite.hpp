@@ -26,7 +26,7 @@ public:
     iterator begin();
     iterator end();
 
-    void Accept(std::shared_ptr<ObjectVisitor> visitor) override;
+    void Accept(std::shared_ptr<Visitor> visitor) override;
 };
 
 #endif //_COMPOSITE_H

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <exception>
-#include <string>
+#include <cstring>
 
 
 class BaseException : public std::exception

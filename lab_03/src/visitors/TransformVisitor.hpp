@@ -6,17 +6,20 @@
 #ifndef _TRANSFORMVISITOR_H
 #define _TRANSFORMVISITOR_H
 
-#include "Visitor.hpp"
 #include "../transform/TransformAction.hpp"
+#include "Visitor.hpp"
 
-class TransformVisitor: public ObjectVisitor {
+class Camera;
+class CarcasModel;
+
+class TransformVisitor : public Visitor {
 public:
     TransformVisitor() = delete;
     TransformVisitor(const TransformAction& action);
     ~TransformVisitor() = default;
 
-    void visit(CarcasModel& model) override;
-    void visit(Camera& cam) override;
+    virtual void visit(CarcasModel& model) const;
+    virtual void visit(Camera& cam) const;
 private:
     const TransformAction& _action;
 };

@@ -6,9 +6,13 @@
 #ifndef _SCENEMANAGER_H
 #define _SCENEMANAGER_H
 
-#include "../scene/Scene.hpp"
-#include "../scene/Camera.hpp"
-#include "../scene/BaseObject.hpp"
+#include <memory>
+#include <vector>
+
+class Scene;
+class Camera;
+class BaseObject;
+class Point;
 
 class SceneManager {
 protected:
@@ -24,7 +28,7 @@ public:
 
     void AddObject(std::shared_ptr<BaseObject> object);
     std::vector<std::shared_ptr<BaseObject>> GetObjects();
-    std::shared_ptr<Object> GetObject(std::size_t id);
+    std::shared_ptr<BaseObject> GetObject(std::size_t id);
     std::vector<std::size_t> GetObjectIds();
     void RemoveObject(std::size_t id);
     void MakeComposite(std::vector<size_t> ids);

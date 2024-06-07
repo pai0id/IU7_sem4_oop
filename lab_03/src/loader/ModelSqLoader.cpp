@@ -6,7 +6,7 @@
 #include "ModelSqLoader.hpp"
 #include "../exception/sqlitereaderexception.hpp"
 #include <memory>
-#include <cstddef>
+#include <cstdlib>
 
 static const char * ReadPointsSql = "SELECT * FROM point ORDER BY id ASC";
 static const char * ReadEdgesSql = "SELECT * FROM edge";

@@ -5,7 +5,8 @@
 
 CameraProjectionAction::CameraProjectionAction(std::shared_ptr<Camera> camera) : TransformAction(), _camera(camera) {
     ShiftAction toCenter(Point(-camera->_self.GetX(), -camera->_self.GetY(), -camera->_self.GetZ()));
-    transf_mtr_t toCameraBasis = transf_mtr_t(4);
+    transf_mtr_t toCameraBasis;
+    fillZ(toCameraBasis);
     
     (*toCameraBasis[0])[0] = camera->_normalRight.GetX() - camera->_self.GetX();
     (*toCameraBasis[1])[0] = camera->_normalRight.GetY() - camera->_self.GetY();

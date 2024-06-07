@@ -51,6 +51,8 @@ public:
     QLabel *CameraZLbl;
     QDoubleSpinBox *CameraZSpin;
     QPushButton *AddCameraBtn;
+    QPushButton *SetCameraBtn;
+    QListWidget *CamerasList;
     QVBoxLayout *ObjListLayout;
     QLabel *ObjListLbl;
     QListWidget *ObjList;
@@ -82,7 +84,6 @@ public:
     QDoubleSpinBox *RotateZSpin;
     QPushButton *RotateBtn;
     QGraphicsView *Canvas;
-    QPushButton *objectMovePushbutton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -217,6 +218,19 @@ public:
         AddCameraBtn->setObjectName(QString::fromUtf8("AddCameraBtn"));
 
         CamerasLayout->addWidget(AddCameraBtn);
+
+        SetCameraBtn = new QPushButton(verticalLayoutWidget);
+        SetCameraBtn->setObjectName(QString::fromUtf8("SetCameraBtn"));
+
+        CamerasLayout->addWidget(SetCameraBtn);
+
+        CamerasList = new QListWidget(verticalLayoutWidget);
+        CamerasList->setObjectName(QString::fromUtf8("CamerasList"));
+        CamerasList->setEnabled(true);
+        sizePolicy1.setHeightForWidth(CamerasList->sizePolicy().hasHeightForWidth());
+        CamerasList->setSizePolicy(sizePolicy1);
+
+        CamerasLayout->addWidget(CamerasList);
 
 
         Cmd->addLayout(CamerasLayout);
@@ -408,9 +422,6 @@ public:
 
         MainFrame->addWidget(Canvas);
 
-        objectMovePushbutton = new QPushButton(centralwidget);
-        objectMovePushbutton->setObjectName(QString::fromUtf8("objectMovePushbutton"));
-        objectMovePushbutton->setGeometry(QRect(1260, 970, 161, 27));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -424,7 +435,7 @@ public:
         LoadLbl->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\272\320\260", nullptr));
         FileNameEntry->setInputMask(QString());
         FileNameEntry->setText(QString());
-        FileNameEntry->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260 (.txt/.stl)", nullptr));
+        FileNameEntry->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260 (.txt/.sqlite)", nullptr));
         StructureLbl->setText(QCoreApplication::translate("MainWindow", "\320\237\321\200\320\265\320\264\321\201\321\202\320\260\320\262\320\273\320\265\320\275\320\270\320\265", nullptr));
         LoadBtn->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214", nullptr));
         CamerasLbl->setText(QCoreApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\321\213", nullptr));
@@ -432,6 +443,7 @@ public:
         CameraYLbl->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
         CameraZLbl->setText(QCoreApplication::translate("MainWindow", "Z", nullptr));
         AddCameraBtn->setText(QCoreApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
+        SetCameraBtn->setText(QCoreApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214", nullptr));
         ObjListLbl->setText(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\212\320\265\320\272\321\202\321\213", nullptr));
         DelObjBtn->setText(QCoreApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214 \320\262\321\213\320\264\320\265\320\273\320\265\320\275\320\275\320\276\320\265", nullptr));
         CreateCompositeBtn->setText(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\212\320\265\320\264\320\270\320\275\320\270\321\202\321\214 \320\262 \320\272\320\276\320\274\320\277\320\276\320\267\320\270\321\202", nullptr));
@@ -447,7 +459,6 @@ public:
         RotateY->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
         RotateZ->setText(QCoreApplication::translate("MainWindow", "Z", nullptr));
         RotateBtn->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\262\320\265\321\200\320\275\321\203\321\202\321\214", nullptr));
-        objectMovePushbutton->setText(QCoreApplication::translate("MainWindow", "\320\237\320\265\321\200\320\265\320\274\320\265\321\201\321\202\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };

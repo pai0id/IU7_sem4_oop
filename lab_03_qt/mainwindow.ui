@@ -99,7 +99,7 @@
             <string/>
            </property>
            <property name="placeholderText">
-            <string>Имя файла (.txt/.stl)</string>
+            <string>Имя файла (.txt/.sqlite)</string>
            </property>
           </widget>
          </item>
@@ -200,6 +200,26 @@
           <widget class="QPushButton" name="AddCameraBtn">
            <property name="text">
             <string>Добавить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="SetCameraBtn">
+           <property name="text">
+            <string>Установить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="CamerasList">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
           </widget>
          </item>
@@ -454,19 +474,6 @@
       <widget class="QGraphicsView" name="Canvas"/>
      </item>
     </layout>
-   </widget>
-   <widget class="QPushButton" name="objectMovePushbutton">
-    <property name="geometry">
-     <rect>
-      <x>1260</x>
-      <y>970</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Переместить</string>
-    </property>
    </widget>
   </widget>
  </widget>

@@ -9,7 +9,6 @@
 class BaseLoader {
 public:
     BaseLoader() = default;
-    virtual ~BaseLoader() = 0;
 
     virtual void Open() = 0;
     virtual void Close() = 0;

@@ -8,12 +8,12 @@
 
 #include "VisibleObject.hpp"
 
-class BaseModel: public VisibleObject {
+class BaseModel : public VisibleObject {
 public:
     BaseModel();
     virtual ~BaseModel() = 0;
 
-//    virtual void Accept(std::shared_ptr<ObjectVisitor> v) { (void) visitor; };
+    virtual void Accept(std::shared_ptr<Visitor> v);
     virtual PtrBaseObject Clone() const { return nullptr;};
 };
 

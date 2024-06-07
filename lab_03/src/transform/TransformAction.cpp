@@ -1,8 +1,9 @@
 #include "TransformAction.hpp"
+#include "multMat.hpp"
 #include <vector>
 
 TransformAction::TransformAction() {
-    _matrix = transf_mtr_t(4);
+    fillZ(_matrix);
     for (size_t i = 0; i < 4; ++i) {
         auto row = std::make_shared<std::vector<double>>(4, 0);
         _matrix[i] = row;

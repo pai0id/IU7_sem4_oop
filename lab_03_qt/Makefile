@@ -16,7 +16,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -O2 -std=gnu++2a -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -Isrc -Isrc/** -Isrc/**/** -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = lab_03_qt1.0.0
-DISTDIR = /home/andrey05/Documents/labs_oop/lab_03_qt/.tmp/lab_03_qt1.0.0
+DISTDIR = /home/andrey05/Documents/labs_oop/lab_03_qt/obj/lab_03_qt1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) sqlite3 /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lsqlite3 -lm /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -48,139 +48,157 @@ STRIP         = strip
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = obj/
 
 ####### Files
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
-		src/Facade.cpp \
-		src/build/BaseCarcasModelBuilder.cpp \
-		src/build/BaseCarcasModelDirector.cpp \
-		src/build/Basedirector.cpp \
-		src/build/DirectorSolution.cpp \
-		src/build/ListCarcasModelBuilder.cpp \
-		src/build/ListCarcasModelDirector.cpp \
-		src/build/MatrixCarcasModelBuilder.cpp \
-		src/build/MatrixCarcasModelDirector.cpp \
-		src/commands/BaseCommand.cpp \
-		src/commands/camera/AddCameraCommand.cpp \
-		src/commands/camera/BaseCameraCommand.cpp \
-		src/commands/camera/MoveCameraCommand.cpp \
-		src/commands/camera/RemoveCameraCommand.cpp \
-		src/commands/camera/RotateCameraCommand.cpp \
-		src/commands/model/BaseModelCommand.cpp \
-		src/commands/model/LoadModelCommand.cpp \
-		src/commands/model/MoveModelCommand.cpp \
-		src/commands/model/RemoveModelCommand.cpp \
-		src/commands/model/RotateModelCommand.cpp \
-		src/commands/model/ScaleModelCommand.cpp \
-		src/commands/scene/BaseSceneCommand.cpp \
-		src/commands/scene/ClearSceneCommand.cpp \
-		src/commands/scene/DrawSceneCommand.cpp \
-		src/commands/scene/LoadSceneCommand.cpp \
-		src/drawer/BaseDrawer.cpp \
-		src/drawer/BaseDrawerCreator.cpp \
 		src/drawer/QTDrawer.cpp \
 		src/drawer/QTDrawerCreator.cpp \
+		src/drawer/BaseDrawerCreator.cpp \
+		src/drawer/BaseDrawer.cpp \
 		src/loader/BaseLoader.cpp \
+		src/loader/LoaderCreator.cpp \
+		src/loader/ModelSqLoader.cpp \
 		src/loader/BaseLoaderCreator.cpp \
 		src/loader/LoaderSolution.cpp \
-		src/loader/ModelSqLoader.cpp \
 		src/loader/ModelTxtLoader.cpp \
+		src/loader/CarcasModelLoader.cpp \
+		src/exception/baseexception.cpp \
 		src/managers/DrawManager.cpp \
 		src/managers/LoadManager.cpp \
-		src/managers/SceneManager.cpp \
 		src/managers/TransformManager.cpp \
-		src/scene/BaseModel.cpp \
-		src/scene/BaseObject.cpp \
-		src/scene/Camera.cpp \
-		src/scene/CarcasModel.cpp \
-		src/scene/Composite.cpp \
-		src/scene/Edge.cpp \
-		src/scene/InvisibleObject.cpp \
-		src/scene/LinkDotStructure.cpp \
-		src/scene/MatrixStructure.cpp \
-		src/scene/CarcasModelStructure.cpp \
-		src/scene/Point.cpp \
-		src/scene/Scene.cpp \
-		src/scene/VisibleObject.cpp \
-		src/scene/CenterStrategy.cpp \
+		src/managers/SceneManager.cpp \
 		src/visitors/DrawVisitor.cpp \
 		src/visitors/TransformVisitor.cpp \
 		src/visitors/Visitor.cpp \
-		src/transform/CameraProjectionAction.cpp \
-		src/transform/RotateAction.cpp \
-		src/transform/ScaleAction.cpp \
-		src/transform/ShiftAction.cpp \
 		src/transform/TransformAction.cpp \
 		src/transform/multMat.cpp \
-		src/loader/LoaderCreator.cpp moc_mainwindow.cpp
-OBJECTS       = main.o \
-		mainwindow.o \
-		Facade.o \
-		BaseCarcasModelBuilder.o \
-		BaseCarcasModelDirector.o \
-		Basedirector.o \
-		DirectorSolution.o \
-		ListCarcasModelBuilder.o \
-		ListCarcasModelDirector.o \
-		MatrixCarcasModelBuilder.o \
-		MatrixCarcasModelDirector.o \
-		BaseCommand.o \
-		AddCameraCommand.o \
-		BaseCameraCommand.o \
-		MoveCameraCommand.o \
-		RemoveCameraCommand.o \
-		RotateCameraCommand.o \
-		BaseModelCommand.o \
-		LoadModelCommand.o \
-		MoveModelCommand.o \
-		RemoveModelCommand.o \
-		RotateModelCommand.o \
-		ScaleModelCommand.o \
-		BaseSceneCommand.o \
-		ClearSceneCommand.o \
-		DrawSceneCommand.o \
-		LoadSceneCommand.o \
-		BaseDrawer.o \
-		BaseDrawerCreator.o \
-		QTDrawer.o \
-		QTDrawerCreator.o \
-		BaseLoader.o \
-		BaseLoaderCreator.o \
-		LoaderSolution.o \
-		ModelSqLoader.o \
-		ModelTxtLoader.o \
-		DrawManager.o \
-		LoadManager.o \
-		SceneManager.o \
-		TransformManager.o \
-		BaseModel.o \
-		BaseObject.o \
-		Camera.o \
-		CarcasModel.o \
-		Composite.o \
-		Edge.o \
-		InvisibleObject.o \
-		LinkDotStructure.o \
-		MatrixStructure.o \
-		CarcasModelStructure.o \
-		Point.o \
-		Scene.o \
-		VisibleObject.o \
-		CenterStrategy.o \
-		DrawVisitor.o \
-		TransformVisitor.o \
-		Visitor.o \
-		CameraProjectionAction.o \
-		RotateAction.o \
-		ScaleAction.o \
-		ShiftAction.o \
-		TransformAction.o \
-		multMat.o \
-		LoaderCreator.o \
-		moc_mainwindow.o
+		src/transform/ScaleAction.cpp \
+		src/transform/RotateAction.cpp \
+		src/transform/CameraProjectionAction.cpp \
+		src/transform/ShiftAction.cpp \
+		src/build/DirectorSolution.cpp \
+		src/build/BaseCarcasModelBuilder.cpp \
+		src/build/MatrixCarcasModelDirector.cpp \
+		src/build/BaseCarcasModelDirector.cpp \
+		src/build/ListCarcasModelDirector.cpp \
+		src/build/MatrixCarcasModelBuilder.cpp \
+		src/build/ListCarcasModelBuilder.cpp \
+		src/build/Basedirector.cpp \
+		src/command/object/CompositeObjectCommand.cpp \
+		src/command/object/RotateObjectCommand.cpp \
+		src/command/object/ShiftObjectCommand.cpp \
+		src/command/object/ScaleObjectCommand.cpp \
+		src/command/object/BaseObjectCommand.cpp \
+		src/command/object/RemoveObjectCommand.cpp \
+		src/command/BaseCommand.cpp \
+		src/command/draw/BaseDrawCommand.cpp \
+		src/command/draw/DrawSceneQtCommand.cpp \
+		src/command/load/MatrixLoadCommand.cpp \
+		src/command/load/BaseLoadCommand.cpp \
+		src/command/load/ListLoadCommand.cpp \
+		src/command/load/BaseLoadCommandDecorator.cpp \
+		src/command/load/TxtLoadCommandDecorator.cpp \
+		src/command/load/SqliteLoadCommandDecorator.cpp \
+		src/command/camera/AddCameraCommand.cpp \
+		src/command/camera/RemoveCameraCommand.cpp \
+		src/command/camera/BaseCameraCommand.cpp \
+		src/command/camera/SetCameraCommand.cpp \
+		src/command/scene/GetObjectIDsSceneCommand.cpp \
+		src/command/scene/BaseSceneCommand.cpp \
+		src/command/scene/GetCameraIDsSceneCommand.cpp \
+		src/command/scene/ClearSceneCommand.cpp \
+		src/Facade.cpp \
+		src/scene/Composite.cpp \
+		src/scene/Point.cpp \
+		src/scene/CenterStrategy.cpp \
+		src/scene/LinkDotStructure.cpp \
+		src/scene/InvisibleObject.cpp \
+		src/scene/VisibleObject.cpp \
+		src/scene/Scene.cpp \
+		src/scene/MatrixStructure.cpp \
+		src/scene/Edge.cpp \
+		src/scene/Camera.cpp \
+		src/scene/CarcasModel.cpp \
+		src/scene/BaseModel.cpp \
+		src/scene/CarcasModelStructure.cpp \
+		src/scene/BaseObject.cpp moc_mainwindow.cpp
+OBJECTS       = obj/main.o \
+		obj/mainwindow.o \
+		obj/QTDrawer.o \
+		obj/QTDrawerCreator.o \
+		obj/BaseDrawerCreator.o \
+		obj/BaseDrawer.o \
+		obj/BaseLoader.o \
+		obj/LoaderCreator.o \
+		obj/ModelSqLoader.o \
+		obj/BaseLoaderCreator.o \
+		obj/LoaderSolution.o \
+		obj/ModelTxtLoader.o \
+		obj/CarcasModelLoader.o \
+		obj/baseexception.o \
+		obj/DrawManager.o \
+		obj/LoadManager.o \
+		obj/TransformManager.o \
+		obj/SceneManager.o \
+		obj/DrawVisitor.o \
+		obj/TransformVisitor.o \
+		obj/Visitor.o \
+		obj/TransformAction.o \
+		obj/multMat.o \
+		obj/ScaleAction.o \
+		obj/RotateAction.o \
+		obj/CameraProjectionAction.o \
+		obj/ShiftAction.o \
+		obj/DirectorSolution.o \
+		obj/BaseCarcasModelBuilder.o \
+		obj/MatrixCarcasModelDirector.o \
+		obj/BaseCarcasModelDirector.o \
+		obj/ListCarcasModelDirector.o \
+		obj/MatrixCarcasModelBuilder.o \
+		obj/ListCarcasModelBuilder.o \
+		obj/Basedirector.o \
+		obj/CompositeObjectCommand.o \
+		obj/RotateObjectCommand.o \
+		obj/ShiftObjectCommand.o \
+		obj/ScaleObjectCommand.o \
+		obj/BaseObjectCommand.o \
+		obj/RemoveObjectCommand.o \
+		obj/BaseCommand.o \
+		obj/BaseDrawCommand.o \
+		obj/DrawSceneQtCommand.o \
+		obj/MatrixLoadCommand.o \
+		obj/BaseLoadCommand.o \
+		obj/ListLoadCommand.o \
+		obj/BaseLoadCommandDecorator.o \
+		obj/TxtLoadCommandDecorator.o \
+		obj/SqliteLoadCommandDecorator.o \
+		obj/AddCameraCommand.o \
+		obj/RemoveCameraCommand.o \
+		obj/BaseCameraCommand.o \
+		obj/SetCameraCommand.o \
+		obj/GetObjectIDsSceneCommand.o \
+		obj/BaseSceneCommand.o \
+		obj/GetCameraIDsSceneCommand.o \
+		obj/ClearSceneCommand.o \
+		obj/Facade.o \
+		obj/Composite.o \
+		obj/Point.o \
+		obj/CenterStrategy.o \
+		obj/LinkDotStructure.o \
+		obj/InvisibleObject.o \
+		obj/VisibleObject.o \
+		obj/Scene.o \
+		obj/MatrixStructure.o \
+		obj/Edge.o \
+		obj/Camera.o \
+		obj/CarcasModel.o \
+		obj/BaseModel.o \
+		obj/CarcasModelStructure.o \
+		obj/BaseObject.o \
+		obj/moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -273,131 +291,158 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		lab_03_qt.pro mainwindow.h \
-		src/Facade.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/build/BaseCarcasModelDirector.hpp \
-		src/build/BaseDirector.hpp \
-		src/build/DirectorSolution.hpp \
-		src/build/ListCarcasModelBuilder.hpp \
-		src/build/ListCarcasModelDirector.hpp \
-		src/build/MatrixCarcasModelBuilder.hpp \
-		src/build/MatrixCarcasModelDirector.hpp \
-		src/commands/BaseCommand.hpp \
-		src/commands/camera/AddCameraCommand.hpp \
-		src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/camera/MoveCameraCommand.hpp \
-		src/commands/camera/RemoveCameraCommand.hpp \
-		src/commands/camera/RotateCameraCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/model/LoadModelCommand.hpp \
-		src/commands/model/MoveModelCommand.hpp \
-		src/commands/model/RemoveModelCommand.hpp \
-		src/commands/model/RotateModelCommand.hpp \
-		src/commands/model/ScaleModelCommand.hpp \
-		src/commands/scene/BaseSceneCommand.hpp \
-		src/commands/scene/ClearSceneCommand.hpp \
-		src/commands/scene/DrawSceneCommand.hpp \
-		src/commands/scene/LoadSceneCommand.hpp \
-		src/drawer/BaseDrawerCreator.hpp \
-		src/drawer/BaseDrawer.hpp \
+		src/concepts/concept.h \
+		src/command/object/RotateObjectCommand.h \
+		src/command/object/ShiftObjectCommand.h \
+		src/command/object/ScaleObjectCommand.h \
+		src/command/object/CompositeObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/object/RemoveObjectCommand.h \
+		src/command/draw/DrawSceneQtCommand.h \
+		src/command/draw/BaseDrawCommand.h \
+		src/command/load/SqliteLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/load/ListLoadCommand.h \
+		src/command/load/TxtLoadCommandDecorator.h \
+		src/command/load/MatrixLoadCommand.h \
+		src/command/camera/RemoveCameraCommand.h \
+		src/command/camera/BaseCameraCommand.h \
+		src/command/camera/AddCameraCommand.h \
+		src/command/camera/SetCameraCommand.h \
+		src/command/scene/GetCameraIDsSceneCommand.h \
+		src/command/scene/ClearSceneCommand.h \
+		src/command/scene/BaseSceneCommand.h \
+		src/command/scene/GetObjectIDsSceneCommand.h \
 		src/drawer/QTDrawerCreator.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
 		src/drawer/QTDrawer.hpp \
-		src/loader/BaseLoaderCreator.hpp \
 		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
 		src/loader/LoaderSolution.hpp \
+		src/loader/LoaderCreator.hpp \
 		src/loader/ModelSqLoader.hpp \
 		src/loader/ModelTxtLoader.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/exception/baseexception.hpp \
+		src/exception/sqlitereaderexception.hpp \
+		src/exception/txtreaderexception.hpp \
+		src/exception/solutionexception.hpp \
+		src/exception/directorexception.hpp \
+		src/exception/modelexception.hpp \
+		src/exception/managerexception.hpp \
 		src/managers/DrawManager.hpp \
-		src/managers/LoadManager.hpp \
 		src/managers/SceneManager.hpp \
 		src/managers/TransformManager.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Camera.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/Composite.hpp \
-		src/scene/Edge.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/scene/LinkDotStructure.hpp \
-		src/scene/MatrixStructure.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Point.hpp \
-		src/scene/Scene.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/visitors/DrawVisitor.hpp \
+		src/managers/LoadManager.hpp \
 		src/visitors/TransformVisitor.hpp \
 		src/visitors/Visitor.hpp \
-		src/transform/CameraProjectionAction.hpp \
+		src/visitors/DrawVisitor.hpp \
 		src/transform/RotateAction.hpp \
-		src/transform/ScaleAction.hpp \
-		src/transform/ShiftAction.hpp \
 		src/transform/TransformAction.hpp \
 		src/transform/multMat.hpp \
-		src/loader/LoaderCreator.hpp main.cpp \
+		src/transform/CameraProjectionAction.hpp \
+		src/transform/ShiftAction.hpp \
+		src/transform/ScaleAction.hpp \
+		src/build/MatrixCarcasModelBuilder.hpp \
+		src/build/ListCarcasModelBuilder.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseDirector.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/command/BaseCommand.hpp \
+		src/Facade.hpp \
+		src/scene/Composite.hpp \
+		src/scene/InvisibleObject.hpp \
+		src/scene/LinkDotStructure.hpp \
+		src/scene/Camera.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/Edge.hpp \
+		src/scene/Point.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/scene/Scene.hpp \
+		src/scene/MatrixStructure.hpp \
+		src/scene/CarcasModel.hpp main.cpp \
 		mainwindow.cpp \
-		src/Facade.cpp \
-		src/build/BaseCarcasModelBuilder.cpp \
-		src/build/BaseCarcasModelDirector.cpp \
-		src/build/Basedirector.cpp \
-		src/build/DirectorSolution.cpp \
-		src/build/ListCarcasModelBuilder.cpp \
-		src/build/ListCarcasModelDirector.cpp \
-		src/build/MatrixCarcasModelBuilder.cpp \
-		src/build/MatrixCarcasModelDirector.cpp \
-		src/commands/BaseCommand.cpp \
-		src/commands/camera/AddCameraCommand.cpp \
-		src/commands/camera/BaseCameraCommand.cpp \
-		src/commands/camera/MoveCameraCommand.cpp \
-		src/commands/camera/RemoveCameraCommand.cpp \
-		src/commands/camera/RotateCameraCommand.cpp \
-		src/commands/model/BaseModelCommand.cpp \
-		src/commands/model/LoadModelCommand.cpp \
-		src/commands/model/MoveModelCommand.cpp \
-		src/commands/model/RemoveModelCommand.cpp \
-		src/commands/model/RotateModelCommand.cpp \
-		src/commands/model/ScaleModelCommand.cpp \
-		src/commands/scene/BaseSceneCommand.cpp \
-		src/commands/scene/ClearSceneCommand.cpp \
-		src/commands/scene/DrawSceneCommand.cpp \
-		src/commands/scene/LoadSceneCommand.cpp \
-		src/drawer/BaseDrawer.cpp \
-		src/drawer/BaseDrawerCreator.cpp \
 		src/drawer/QTDrawer.cpp \
 		src/drawer/QTDrawerCreator.cpp \
+		src/drawer/BaseDrawerCreator.cpp \
+		src/drawer/BaseDrawer.cpp \
 		src/loader/BaseLoader.cpp \
+		src/loader/LoaderCreator.cpp \
+		src/loader/ModelSqLoader.cpp \
 		src/loader/BaseLoaderCreator.cpp \
 		src/loader/LoaderSolution.cpp \
-		src/loader/ModelSqLoader.cpp \
 		src/loader/ModelTxtLoader.cpp \
+		src/loader/CarcasModelLoader.cpp \
+		src/exception/baseexception.cpp \
 		src/managers/DrawManager.cpp \
 		src/managers/LoadManager.cpp \
-		src/managers/SceneManager.cpp \
 		src/managers/TransformManager.cpp \
-		src/scene/BaseModel.cpp \
-		src/scene/BaseObject.cpp \
-		src/scene/Camera.cpp \
-		src/scene/CarcasModel.cpp \
-		src/scene/Composite.cpp \
-		src/scene/Edge.cpp \
-		src/scene/InvisibleObject.cpp \
-		src/scene/LinkDotStructure.cpp \
-		src/scene/MatrixStructure.cpp \
-		src/scene/CarcasModelStructure.cpp \
-		src/scene/Point.cpp \
-		src/scene/Scene.cpp \
-		src/scene/VisibleObject.cpp \
-		src/scene/CenterStrategy.cpp \
+		src/managers/SceneManager.cpp \
 		src/visitors/DrawVisitor.cpp \
 		src/visitors/TransformVisitor.cpp \
 		src/visitors/Visitor.cpp \
-		src/transform/CameraProjectionAction.cpp \
-		src/transform/RotateAction.cpp \
-		src/transform/ScaleAction.cpp \
-		src/transform/ShiftAction.cpp \
 		src/transform/TransformAction.cpp \
 		src/transform/multMat.cpp \
-		src/loader/LoaderCreator.cpp
+		src/transform/ScaleAction.cpp \
+		src/transform/RotateAction.cpp \
+		src/transform/CameraProjectionAction.cpp \
+		src/transform/ShiftAction.cpp \
+		src/build/DirectorSolution.cpp \
+		src/build/BaseCarcasModelBuilder.cpp \
+		src/build/MatrixCarcasModelDirector.cpp \
+		src/build/BaseCarcasModelDirector.cpp \
+		src/build/ListCarcasModelDirector.cpp \
+		src/build/MatrixCarcasModelBuilder.cpp \
+		src/build/ListCarcasModelBuilder.cpp \
+		src/build/Basedirector.cpp \
+		src/command/object/CompositeObjectCommand.cpp \
+		src/command/object/RotateObjectCommand.cpp \
+		src/command/object/ShiftObjectCommand.cpp \
+		src/command/object/ScaleObjectCommand.cpp \
+		src/command/object/BaseObjectCommand.cpp \
+		src/command/object/RemoveObjectCommand.cpp \
+		src/command/BaseCommand.cpp \
+		src/command/draw/BaseDrawCommand.cpp \
+		src/command/draw/DrawSceneQtCommand.cpp \
+		src/command/load/MatrixLoadCommand.cpp \
+		src/command/load/BaseLoadCommand.cpp \
+		src/command/load/ListLoadCommand.cpp \
+		src/command/load/BaseLoadCommandDecorator.cpp \
+		src/command/load/TxtLoadCommandDecorator.cpp \
+		src/command/load/SqliteLoadCommandDecorator.cpp \
+		src/command/camera/AddCameraCommand.cpp \
+		src/command/camera/RemoveCameraCommand.cpp \
+		src/command/camera/BaseCameraCommand.cpp \
+		src/command/camera/SetCameraCommand.cpp \
+		src/command/scene/GetObjectIDsSceneCommand.cpp \
+		src/command/scene/BaseSceneCommand.cpp \
+		src/command/scene/GetCameraIDsSceneCommand.cpp \
+		src/command/scene/ClearSceneCommand.cpp \
+		src/Facade.cpp \
+		src/scene/Composite.cpp \
+		src/scene/Point.cpp \
+		src/scene/CenterStrategy.cpp \
+		src/scene/LinkDotStructure.cpp \
+		src/scene/InvisibleObject.cpp \
+		src/scene/VisibleObject.cpp \
+		src/scene/Scene.cpp \
+		src/scene/MatrixStructure.cpp \
+		src/scene/Edge.cpp \
+		src/scene/Camera.cpp \
+		src/scene/CarcasModel.cpp \
+		src/scene/BaseModel.cpp \
+		src/scene/CarcasModelStructure.cpp \
+		src/scene/BaseObject.cpp
 QMAKE_TARGET  = lab_03_qt
 DESTDIR       = 
 TARGET        = lab_03_qt
@@ -609,8 +654,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h src/Facade.hpp src/build/BaseCarcasModelBuilder.hpp src/build/BaseCarcasModelDirector.hpp src/build/BaseDirector.hpp src/build/DirectorSolution.hpp src/build/ListCarcasModelBuilder.hpp src/build/ListCarcasModelDirector.hpp src/build/MatrixCarcasModelBuilder.hpp src/build/MatrixCarcasModelDirector.hpp src/commands/BaseCommand.hpp src/commands/camera/AddCameraCommand.hpp src/commands/camera/BaseCameraCommand.hpp src/commands/camera/MoveCameraCommand.hpp src/commands/camera/RemoveCameraCommand.hpp src/commands/camera/RotateCameraCommand.hpp src/commands/model/BaseModelCommand.hpp src/commands/model/LoadModelCommand.hpp src/commands/model/MoveModelCommand.hpp src/commands/model/RemoveModelCommand.hpp src/commands/model/RotateModelCommand.hpp src/commands/model/ScaleModelCommand.hpp src/commands/scene/BaseSceneCommand.hpp src/commands/scene/ClearSceneCommand.hpp src/commands/scene/DrawSceneCommand.hpp src/commands/scene/LoadSceneCommand.hpp src/drawer/BaseDrawerCreator.hpp src/drawer/BaseDrawer.hpp src/drawer/QTDrawerCreator.hpp src/drawer/QTDrawer.hpp src/loader/BaseLoaderCreator.hpp src/loader/BaseLoader.hpp src/loader/LoaderSolution.hpp src/loader/ModelSqLoader.hpp src/loader/ModelTxtLoader.hpp src/managers/DrawManager.hpp src/managers/LoadManager.hpp src/managers/SceneManager.hpp src/managers/TransformManager.hpp src/scene/BaseModel.hpp src/scene/BaseObject.hpp src/scene/Camera.hpp src/scene/CarcasModel.hpp src/scene/Composite.hpp src/scene/Edge.hpp src/scene/InvisibleObject.hpp src/scene/LinkDotStructure.hpp src/scene/MatrixStructure.hpp src/scene/CarcasModelStructure.hpp src/scene/Point.hpp src/scene/Scene.hpp src/scene/VisibleObject.hpp src/scene/CenterStrategy.hpp src/visitors/DrawVisitor.hpp src/visitors/TransformVisitor.hpp src/visitors/Visitor.hpp src/transform/CameraProjectionAction.hpp src/transform/RotateAction.hpp src/transform/ScaleAction.hpp src/transform/ShiftAction.hpp src/transform/TransformAction.hpp src/transform/multMat.hpp src/loader/LoaderCreator.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp src/Facade.cpp src/build/BaseCarcasModelBuilder.cpp src/build/BaseCarcasModelDirector.cpp src/build/Basedirector.cpp src/build/DirectorSolution.cpp src/build/ListCarcasModelBuilder.cpp src/build/ListCarcasModelDirector.cpp src/build/MatrixCarcasModelBuilder.cpp src/build/MatrixCarcasModelDirector.cpp src/commands/BaseCommand.cpp src/commands/camera/AddCameraCommand.cpp src/commands/camera/BaseCameraCommand.cpp src/commands/camera/MoveCameraCommand.cpp src/commands/camera/RemoveCameraCommand.cpp src/commands/camera/RotateCameraCommand.cpp src/commands/model/BaseModelCommand.cpp src/commands/model/LoadModelCommand.cpp src/commands/model/MoveModelCommand.cpp src/commands/model/RemoveModelCommand.cpp src/commands/model/RotateModelCommand.cpp src/commands/model/ScaleModelCommand.cpp src/commands/scene/BaseSceneCommand.cpp src/commands/scene/ClearSceneCommand.cpp src/commands/scene/DrawSceneCommand.cpp src/commands/scene/LoadSceneCommand.cpp src/drawer/BaseDrawer.cpp src/drawer/BaseDrawerCreator.cpp src/drawer/QTDrawer.cpp src/drawer/QTDrawerCreator.cpp src/loader/BaseLoader.cpp src/loader/BaseLoaderCreator.cpp src/loader/LoaderSolution.cpp src/loader/ModelSqLoader.cpp src/loader/ModelTxtLoader.cpp src/managers/DrawManager.cpp src/managers/LoadManager.cpp src/managers/SceneManager.cpp src/managers/TransformManager.cpp src/scene/BaseModel.cpp src/scene/BaseObject.cpp src/scene/Camera.cpp src/scene/CarcasModel.cpp src/scene/Composite.cpp src/scene/Edge.cpp src/scene/InvisibleObject.cpp src/scene/LinkDotStructure.cpp src/scene/MatrixStructure.cpp src/scene/CarcasModelStructure.cpp src/scene/Point.cpp src/scene/Scene.cpp src/scene/VisibleObject.cpp src/scene/CenterStrategy.cpp src/visitors/DrawVisitor.cpp src/visitors/TransformVisitor.cpp src/visitors/Visitor.cpp src/transform/CameraProjectionAction.cpp src/transform/RotateAction.cpp src/transform/ScaleAction.cpp src/transform/ShiftAction.cpp src/transform/TransformAction.cpp src/transform/multMat.cpp src/loader/LoaderCreator.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h src/concepts/concept.h src/command/object/RotateObjectCommand.h src/command/object/ShiftObjectCommand.h src/command/object/ScaleObjectCommand.h src/command/object/CompositeObjectCommand.h src/command/object/BaseObjectCommand.h src/command/object/RemoveObjectCommand.h src/command/draw/DrawSceneQtCommand.h src/command/draw/BaseDrawCommand.h src/command/load/SqliteLoadCommandDecorator.h src/command/load/BaseLoadCommandDecorator.h src/command/load/BaseLoadCommand.h src/command/load/ListLoadCommand.h src/command/load/TxtLoadCommandDecorator.h src/command/load/MatrixLoadCommand.h src/command/camera/RemoveCameraCommand.h src/command/camera/BaseCameraCommand.h src/command/camera/AddCameraCommand.h src/command/camera/SetCameraCommand.h src/command/scene/GetCameraIDsSceneCommand.h src/command/scene/ClearSceneCommand.h src/command/scene/BaseSceneCommand.h src/command/scene/GetObjectIDsSceneCommand.h src/drawer/QTDrawerCreator.hpp src/drawer/BaseDrawer.hpp src/drawer/BaseDrawerCreator.hpp src/drawer/QTDrawer.hpp src/loader/BaseLoader.hpp src/loader/BaseLoaderCreator.hpp src/loader/LoaderSolution.hpp src/loader/LoaderCreator.hpp src/loader/ModelSqLoader.hpp src/loader/ModelTxtLoader.hpp src/loader/CarcasModelLoader.hpp src/exception/baseexception.hpp src/exception/sqlitereaderexception.hpp src/exception/txtreaderexception.hpp src/exception/solutionexception.hpp src/exception/directorexception.hpp src/exception/modelexception.hpp src/exception/managerexception.hpp src/managers/DrawManager.hpp src/managers/SceneManager.hpp src/managers/TransformManager.hpp src/managers/LoadManager.hpp src/visitors/TransformVisitor.hpp src/visitors/Visitor.hpp src/visitors/DrawVisitor.hpp src/transform/RotateAction.hpp src/transform/TransformAction.hpp src/transform/multMat.hpp src/transform/CameraProjectionAction.hpp src/transform/ShiftAction.hpp src/transform/ScaleAction.hpp src/build/MatrixCarcasModelBuilder.hpp src/build/ListCarcasModelBuilder.hpp src/build/DirectorCreator.hpp src/build/BaseCarcasModelBuilder.hpp src/build/DirectorSolution.hpp src/build/BaseDirectorCreator.hpp src/build/BaseDirector.hpp src/build/BaseCarcasModelDirector.hpp src/build/MatrixCarcasModelDirector.hpp src/build/ListCarcasModelDirector.hpp src/command/BaseCommand.hpp src/Facade.hpp src/scene/Composite.hpp src/scene/InvisibleObject.hpp src/scene/LinkDotStructure.hpp src/scene/Camera.hpp src/scene/VisibleObject.hpp src/scene/BaseObject.hpp src/scene/CarcasModelStructure.hpp src/scene/BaseModel.hpp src/scene/Edge.hpp src/scene/Point.hpp src/scene/CenterStrategy.hpp src/scene/Scene.hpp src/scene/MatrixStructure.hpp src/scene/CarcasModel.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp src/drawer/QTDrawer.cpp src/drawer/QTDrawerCreator.cpp src/drawer/BaseDrawerCreator.cpp src/drawer/BaseDrawer.cpp src/loader/BaseLoader.cpp src/loader/LoaderCreator.cpp src/loader/ModelSqLoader.cpp src/loader/BaseLoaderCreator.cpp src/loader/LoaderSolution.cpp src/loader/ModelTxtLoader.cpp src/loader/CarcasModelLoader.cpp src/exception/baseexception.cpp src/managers/DrawManager.cpp src/managers/LoadManager.cpp src/managers/TransformManager.cpp src/managers/SceneManager.cpp src/visitors/DrawVisitor.cpp src/visitors/TransformVisitor.cpp src/visitors/Visitor.cpp src/transform/TransformAction.cpp src/transform/multMat.cpp src/transform/ScaleAction.cpp src/transform/RotateAction.cpp src/transform/CameraProjectionAction.cpp src/transform/ShiftAction.cpp src/build/DirectorSolution.cpp src/build/BaseCarcasModelBuilder.cpp src/build/MatrixCarcasModelDirector.cpp src/build/BaseCarcasModelDirector.cpp src/build/ListCarcasModelDirector.cpp src/build/MatrixCarcasModelBuilder.cpp src/build/ListCarcasModelBuilder.cpp src/build/Basedirector.cpp src/command/object/CompositeObjectCommand.cpp src/command/object/RotateObjectCommand.cpp src/command/object/ShiftObjectCommand.cpp src/command/object/ScaleObjectCommand.cpp src/command/object/BaseObjectCommand.cpp src/command/object/RemoveObjectCommand.cpp src/command/BaseCommand.cpp src/command/draw/BaseDrawCommand.cpp src/command/draw/DrawSceneQtCommand.cpp src/command/load/MatrixLoadCommand.cpp src/command/load/BaseLoadCommand.cpp src/command/load/ListLoadCommand.cpp src/command/load/BaseLoadCommandDecorator.cpp src/command/load/TxtLoadCommandDecorator.cpp src/command/load/SqliteLoadCommandDecorator.cpp src/command/camera/AddCameraCommand.cpp src/command/camera/RemoveCameraCommand.cpp src/command/camera/BaseCameraCommand.cpp src/command/camera/SetCameraCommand.cpp src/command/scene/GetObjectIDsSceneCommand.cpp src/command/scene/BaseSceneCommand.cpp src/command/scene/GetCameraIDsSceneCommand.cpp src/command/scene/ClearSceneCommand.cpp src/Facade.cpp src/scene/Composite.cpp src/scene/Point.cpp src/scene/CenterStrategy.cpp src/scene/LinkDotStructure.cpp src/scene/InvisibleObject.cpp src/scene/VisibleObject.cpp src/scene/Scene.cpp src/scene/MatrixStructure.cpp src/scene/Edge.cpp src/scene/Camera.cpp src/scene/CarcasModel.cpp src/scene/BaseModel.cpp src/scene/CarcasModelStructure.cpp src/scene/BaseObject.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -641,12 +686,47 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
+	g++ -pipe -O2 -std=gnu++2a -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp
 moc_mainwindow.cpp: mainwindow.h \
+		ui_mainwindow.h \
+		src/Facade.hpp \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/andrey05/Documents/labs_oop/lab_03_qt/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/andrey05/Documents/labs_oop/lab_03_qt -I/home/andrey05/Documents/labs_oop/lab_03_qt/src -I'/home/andrey05/Documents/labs_oop/lab_03_qt/src/**' -I'/home/andrey05/Documents/labs_oop/lab_03_qt/src/**/**' -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
@@ -672,331 +752,11 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: main.cpp mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
-
-mainwindow.o: mainwindow.cpp mainwindow.h \
-		ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
-
-Facade.o: src/Facade.cpp src/Facade.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Facade.o src/Facade.cpp
-
-BaseCarcasModelBuilder.o: src/build/BaseCarcasModelBuilder.cpp src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseCarcasModelBuilder.o src/build/BaseCarcasModelBuilder.cpp
-
-BaseCarcasModelDirector.o: src/build/BaseCarcasModelDirector.cpp src/build/BaseCarcasModelDirector.hpp \
-		src/build/BaseDirector.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/exception/directorexception.hpp \
-		src/exception/baseexception.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseCarcasModelDirector.o src/build/BaseCarcasModelDirector.cpp
-
-Basedirector.o: src/build/Basedirector.cpp src/build/BaseDirector.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Basedirector.o src/build/Basedirector.cpp
-
-DirectorSolution.o: src/build/DirectorSolution.cpp src/build/DirectorSolution.hpp \
-		src/build/BaseDirector.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/build/DirectorCreator.hpp \
-		src/build/BaseDirectorCreator.hpp \
-		src/build/BaseCarcasModelDirector.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/build/ListCarcasModelDirector.hpp \
-		src/build/MatrixCarcasModelDirector.hpp \
-		src/exception/solutionexception.hpp \
-		src/exception/baseexception.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DirectorSolution.o src/build/DirectorSolution.cpp
-
-ListCarcasModelBuilder.o: src/build/ListCarcasModelBuilder.cpp src/build/ListCarcasModelBuilder.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/LinkDotStructure.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ListCarcasModelBuilder.o src/build/ListCarcasModelBuilder.cpp
-
-ListCarcasModelDirector.o: src/build/ListCarcasModelDirector.cpp src/build/ListCarcasModelDirector.hpp \
-		src/build/BaseCarcasModelDirector.hpp \
-		src/build/BaseDirector.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/build/ListCarcasModelBuilder.hpp \
-		src/scene/LinkDotStructure.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ListCarcasModelDirector.o src/build/ListCarcasModelDirector.cpp
-
-MatrixCarcasModelBuilder.o: src/build/MatrixCarcasModelBuilder.cpp src/build/MatrixCarcasModelBuilder.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/scene/MatrixStructure.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MatrixCarcasModelBuilder.o src/build/MatrixCarcasModelBuilder.cpp
-
-MatrixCarcasModelDirector.o: src/build/MatrixCarcasModelDirector.cpp src/build/MatrixCarcasModelDirector.hpp \
-		src/build/BaseCarcasModelDirector.hpp \
-		src/build/BaseDirector.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/build/BaseCarcasModelBuilder.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/build/MatrixCarcasModelBuilder.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MatrixCarcasModelDirector.o src/build/MatrixCarcasModelDirector.cpp
-
-BaseCommand.o: src/commands/BaseCommand.cpp src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseCommand.o src/commands/BaseCommand.cpp
-
-AddCameraCommand.o: src/commands/camera/AddCameraCommand.cpp src/commands/camera/AddCameraCommand.hpp \
-		src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AddCameraCommand.o src/commands/camera/AddCameraCommand.cpp
-
-BaseCameraCommand.o: src/commands/camera/BaseCameraCommand.cpp src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseCameraCommand.o src/commands/camera/BaseCameraCommand.cpp
-
-MoveCameraCommand.o: src/commands/camera/MoveCameraCommand.cpp src/commands/camera/MoveCameraCommand.hpp \
-		src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MoveCameraCommand.o src/commands/camera/MoveCameraCommand.cpp
-
-RemoveCameraCommand.o: src/commands/camera/RemoveCameraCommand.cpp src/commands/camera/RemoveCameraCommand.hpp \
-		src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RemoveCameraCommand.o src/commands/camera/RemoveCameraCommand.cpp
-
-RotateCameraCommand.o: src/commands/camera/RotateCameraCommand.cpp src/commands/camera/RotateCameraCommand.hpp \
-		src/commands/camera/BaseCameraCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RotateCameraCommand.o src/commands/camera/RotateCameraCommand.cpp
-
-BaseModelCommand.o: src/commands/model/BaseModelCommand.cpp src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseModelCommand.o src/commands/model/BaseModelCommand.cpp
-
-LoadModelCommand.o: src/commands/model/LoadModelCommand.cpp src/commands/model/LoadModelCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LoadModelCommand.o src/commands/model/LoadModelCommand.cpp
-
-MoveModelCommand.o: src/commands/model/MoveModelCommand.cpp src/commands/model/MoveModelCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MoveModelCommand.o src/commands/model/MoveModelCommand.cpp
-
-RemoveModelCommand.o: src/commands/model/RemoveModelCommand.cpp src/commands/model/RemoveModelCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RemoveModelCommand.o src/commands/model/RemoveModelCommand.cpp
-
-RotateModelCommand.o: src/commands/model/RotateModelCommand.cpp src/commands/model/RotateModelCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RotateModelCommand.o src/commands/model/RotateModelCommand.cpp
-
-ScaleModelCommand.o: src/commands/model/ScaleModelCommand.cpp src/commands/model/ScaleModelCommand.hpp \
-		src/commands/model/BaseModelCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ScaleModelCommand.o src/commands/model/ScaleModelCommand.cpp
-
-BaseSceneCommand.o: src/commands/scene/BaseSceneCommand.cpp src/commands/scene/BaseSceneCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseSceneCommand.o src/commands/scene/BaseSceneCommand.cpp
-
-ClearSceneCommand.o: src/commands/scene/ClearSceneCommand.cpp src/commands/scene/ClearSceneCommand.hpp \
-		src/commands/scene/BaseSceneCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ClearSceneCommand.o src/commands/scene/ClearSceneCommand.cpp
-
-DrawSceneCommand.o: src/commands/scene/DrawSceneCommand.cpp src/commands/scene/DrawSceneCommand.hpp \
-		src/commands/scene/BaseSceneCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DrawSceneCommand.o src/commands/scene/DrawSceneCommand.cpp
-
-LoadSceneCommand.o: src/commands/scene/LoadSceneCommand.cpp src/commands/scene/LoadSceneCommand.hpp \
-		src/commands/scene/BaseSceneCommand.hpp \
-		src/commands/BaseCommand.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LoadSceneCommand.o src/commands/scene/LoadSceneCommand.cpp
-
-BaseDrawer.o: src/drawer/BaseDrawer.cpp src/drawer/BaseDrawer.hpp \
-		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseDrawer.o src/drawer/BaseDrawer.cpp
-
-BaseDrawerCreator.o: src/drawer/BaseDrawerCreator.cpp src/drawer/BaseDrawerCreator.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseDrawerCreator.o src/drawer/BaseDrawerCreator.cpp
-
-QTDrawer.o: src/drawer/QTDrawer.cpp src/drawer/QTDrawer.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o QTDrawer.o src/drawer/QTDrawer.cpp
-
-QTDrawerCreator.o: src/drawer/QTDrawerCreator.cpp src/drawer/QTDrawerCreator.hpp \
-		src/drawer/BaseDrawerCreator.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/scene/Point.hpp \
-		src/drawer/QTDrawer.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o QTDrawerCreator.o src/drawer/QTDrawerCreator.cpp
-
-BaseLoader.o: src/loader/BaseLoader.cpp src/loader/BaseLoader.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseLoader.o src/loader/BaseLoader.cpp
-
-BaseLoaderCreator.o: src/loader/BaseLoaderCreator.cpp src/loader/BaseLoaderCreator.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseLoaderCreator.o src/loader/BaseLoaderCreator.cpp
-
-LoaderSolution.o: src/loader/LoaderSolution.cpp src/loader/LoaderSolution.hpp \
-		src/loader/BaseLoader.hpp \
-		src/loader/BaseLoaderCreator.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp \
-		src/exception/solutionexception.hpp \
-		src/exception/baseexception.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LoaderSolution.o src/loader/LoaderSolution.cpp
-
-ModelSqLoader.o: src/loader/ModelSqLoader.cpp src/loader/ModelSqLoader.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/exception/sqlitereaderexception.hpp \
-		src/exception/baseexception.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ModelSqLoader.o src/loader/ModelSqLoader.cpp
-
-ModelTxtLoader.o: src/loader/ModelTxtLoader.cpp src/loader/ModelTxtLoader.hpp \
-		src/loader/CarcasModelLoader.hpp \
-		src/loader/BaseLoader.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp \
-		src/scene/CenterStrategy.hpp \
-		src/exception/txtreaderexception.hpp \
-		src/exception/baseexception.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ModelTxtLoader.o src/loader/ModelTxtLoader.cpp
-
-DrawManager.o: src/managers/DrawManager.cpp src/managers/DrawManager.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DrawManager.o src/managers/DrawManager.cpp
-
-LoadManager.o: src/managers/LoadManager.cpp src/managers/LoadManager.hpp \
+obj/main.o: main.cpp mainwindow.h \
+		ui_mainwindow.h \
+		src/Facade.hpp \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
 		src/loader/LoaderSolution.hpp \
 		src/loader/BaseLoader.hpp \
 		src/loader/BaseLoaderCreator.hpp \
@@ -1007,292 +767,114 @@ LoadManager.o: src/managers/LoadManager.cpp src/managers/LoadManager.hpp \
 		src/build/BaseDirector.hpp \
 		src/scene/BaseObject.hpp \
 		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
 		src/build/DirectorCreator.hpp \
 		src/build/BaseDirectorCreator.hpp \
 		src/build/BaseCarcasModelDirector.hpp \
 		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
 		src/scene/CenterStrategy.hpp \
 		src/build/ListCarcasModelDirector.hpp \
 		src/build/MatrixCarcasModelDirector.hpp \
-		src/exception/managerexception.hpp \
-		src/exception/baseexception.hpp \
-		src/loader/LoaderCreator.hpp \
-		src/loader/ModelTxtLoader.hpp \
-		src/loader/ModelSqLoader.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LoadManager.o src/managers/LoadManager.cpp
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o main.cpp
 
-SceneManager.o: src/managers/SceneManager.cpp src/managers/SceneManager.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SceneManager.o src/managers/SceneManager.cpp
-
-TransformManager.o: src/managers/TransformManager.cpp src/managers/TransformManager.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TransformManager.o src/managers/TransformManager.cpp
-
-BaseModel.o: src/scene/BaseModel.cpp src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
+obj/mainwindow.o: mainwindow.cpp mainwindow.h \
+		ui_mainwindow.h \
+		src/Facade.hpp \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
 		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/CarcasModelStructure.hpp \
 		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseModel.o src/scene/BaseModel.cpp
-
-BaseObject.o: src/scene/BaseObject.cpp src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
 		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
 		src/scene/CarcasModel.hpp \
 		src/scene/BaseModel.hpp \
 		src/scene/VisibleObject.hpp \
 		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
 		src/visitors/DrawVisitor.hpp \
 		src/drawer/BaseDrawer.hpp \
 		src/visitors/TransformVisitor.hpp \
 		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BaseObject.o src/scene/BaseObject.cpp
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp \
+		src/command/load/MatrixLoadCommand.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/load/ListLoadCommand.h \
+		src/command/load/SqliteLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommandDecorator.h \
+		src/command/load/TxtLoadCommandDecorator.h \
+		src/command/draw/DrawSceneQtCommand.h \
+		src/command/draw/BaseDrawCommand.h \
+		src/command/scene/GetCameraIDsSceneCommand.h \
+		src/command/scene/BaseSceneCommand.h \
+		src/command/scene/GetObjectIDsSceneCommand.h \
+		src/command/camera/AddCameraCommand.h \
+		src/command/camera/BaseCameraCommand.h \
+		src/command/camera/SetCameraCommand.h \
+		src/command/camera/RemoveCameraCommand.h \
+		src/command/object/ShiftObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/object/RotateObjectCommand.h \
+		src/command/object/ScaleObjectCommand.h \
+		src/command/object/CompositeObjectCommand.h \
+		src/command/object/RemoveObjectCommand.h \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o mainwindow.cpp
 
-Camera.o: src/scene/Camera.cpp src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
+obj/QTDrawer.o: src/drawer/QTDrawer.cpp src/drawer/QTDrawer.hpp \
 		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Camera.o src/scene/Camera.cpp
-
-CarcasModel.o: src/scene/CarcasModel.cpp src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CarcasModel.o src/scene/CarcasModel.cpp
-
-Composite.o: src/scene/Composite.cpp src/scene/Composite.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/scene/CenterStrategy.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Composite.o src/scene/Composite.cpp
-
-Edge.o: src/scene/Edge.cpp src/scene/Edge.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Edge.o src/scene/Edge.cpp
-
-InvisibleObject.o: src/scene/InvisibleObject.cpp src/scene/InvisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o InvisibleObject.o src/scene/InvisibleObject.cpp
-
-LinkDotStructure.o: src/scene/LinkDotStructure.cpp src/scene/LinkDotStructure.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LinkDotStructure.o src/scene/LinkDotStructure.cpp
-
-MatrixStructure.o: src/scene/MatrixStructure.cpp src/scene/MatrixStructure.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MatrixStructure.o src/scene/MatrixStructure.cpp
-
-CarcasModelStructure.o: src/scene/CarcasModelStructure.cpp src/scene/CarcasModelStructure.hpp \
-		src/scene/Point.hpp \
-		src/scene/Edge.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CarcasModelStructure.o src/scene/CarcasModelStructure.cpp
-
-Point.o: src/scene/Point.cpp src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Point.o src/scene/Point.cpp
-
-Scene.o: src/scene/Scene.cpp src/scene/Scene.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/managers/SceneManager.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scene.o src/scene/Scene.cpp
-
-VisibleObject.o: src/scene/VisibleObject.cpp src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VisibleObject.o src/scene/VisibleObject.cpp
-
-CenterStrategy.o: src/scene/CenterStrategy.cpp src/scene/CenterStrategy.hpp \
 		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CenterStrategy.o src/scene/CenterStrategy.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/QTDrawer.o src/drawer/QTDrawer.cpp
 
-DrawVisitor.o: src/visitors/DrawVisitor.cpp src/visitors/DrawVisitor.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
+obj/QTDrawerCreator.o: src/drawer/QTDrawerCreator.cpp src/drawer/QTDrawerCreator.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
 		src/drawer/BaseDrawer.hpp \
-		src/transform/CameraProjectionAction.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DrawVisitor.o src/visitors/DrawVisitor.cpp
-
-TransformVisitor.o: src/visitors/TransformVisitor.cpp src/visitors/TransformVisitor.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
 		src/scene/Point.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
+		src/drawer/QTDrawer.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/QTDrawerCreator.o src/drawer/QTDrawerCreator.cpp
+
+obj/BaseDrawerCreator.o: src/drawer/BaseDrawerCreator.cpp src/drawer/BaseDrawerCreator.hpp \
 		src/drawer/BaseDrawer.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/transform/TransformAction.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TransformVisitor.o src/visitors/TransformVisitor.cpp
-
-Visitor.o: src/visitors/Visitor.cpp src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/scene/Point.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Visitor.o src/visitors/Visitor.cpp
-
-CameraProjectionAction.o: src/transform/CameraProjectionAction.cpp src/transform/CameraProjectionAction.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Point.hpp \
-		src/scene/Camera.hpp \
-		src/scene/InvisibleObject.hpp \
-		src/scene/BaseObject.hpp \
-		src/visitors/Visitor.hpp \
-		src/scene/CarcasModel.hpp \
-		src/scene/BaseModel.hpp \
-		src/scene/VisibleObject.hpp \
-		src/scene/CarcasModelStructure.hpp \
-		src/scene/Edge.hpp \
-		src/visitors/DrawVisitor.hpp \
-		src/drawer/BaseDrawer.hpp \
-		src/visitors/TransformVisitor.hpp \
-		src/transform/ShiftAction.hpp \
-		src/transform/multMat.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CameraProjectionAction.o src/transform/CameraProjectionAction.cpp
-
-RotateAction.o: src/transform/RotateAction.cpp src/transform/RotateAction.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Point.hpp \
-		src/transform/ShiftAction.hpp \
-		src/transform/multMat.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RotateAction.o src/transform/RotateAction.cpp
-
-ScaleAction.o: src/transform/ScaleAction.cpp src/transform/ScaleAction.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Point.hpp \
-		src/transform/ShiftAction.hpp \
-		src/transform/multMat.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ScaleAction.o src/transform/ScaleAction.cpp
-
-ShiftAction.o: src/transform/ShiftAction.cpp src/transform/ShiftAction.hpp \
-		src/transform/TransformAction.hpp \
 		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ShiftAction.o src/transform/ShiftAction.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseDrawerCreator.o src/drawer/BaseDrawerCreator.cpp
 
-TransformAction.o: src/transform/TransformAction.cpp src/transform/TransformAction.hpp \
+obj/BaseDrawer.o: src/drawer/BaseDrawer.cpp src/drawer/BaseDrawer.hpp \
 		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TransformAction.o src/transform/TransformAction.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseDrawer.o src/drawer/BaseDrawer.cpp
 
-multMat.o: src/transform/multMat.cpp src/transform/multMat.hpp \
-		src/transform/TransformAction.hpp \
-		src/scene/Point.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o multMat.o src/transform/multMat.cpp
+obj/BaseLoader.o: src/loader/BaseLoader.cpp src/loader/BaseLoader.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseLoader.o src/loader/BaseLoader.cpp
 
-LoaderCreator.o: src/loader/LoaderCreator.cpp src/loader/LoaderCreator.hpp \
+obj/LoaderCreator.o: src/loader/LoaderCreator.cpp src/loader/LoaderCreator.hpp \
 		src/loader/BaseLoaderCreator.hpp \
 		src/loader/CarcasModelLoader.hpp \
 		src/loader/BaseLoader.hpp \
@@ -1300,11 +882,1327 @@ LoaderCreator.o: src/loader/LoaderCreator.cpp src/loader/LoaderCreator.hpp \
 		src/scene/Edge.hpp \
 		src/loader/ModelTxtLoader.hpp \
 		src/scene/CenterStrategy.hpp \
-		src/loader/ModelSqLoader.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LoaderCreator.o src/loader/LoaderCreator.cpp
+		src/loader/ModelSqLoader.hpp \
+		src/concepts/concept.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/LoaderCreator.o src/loader/LoaderCreator.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+obj/ModelSqLoader.o: src/loader/ModelSqLoader.cpp src/loader/ModelSqLoader.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/exception/sqlitereaderexception.hpp \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ModelSqLoader.o src/loader/ModelSqLoader.cpp
+
+obj/BaseLoaderCreator.o: src/loader/BaseLoaderCreator.cpp src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseLoaderCreator.o src/loader/BaseLoaderCreator.cpp
+
+obj/LoaderSolution.o: src/loader/LoaderSolution.cpp src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/exception/solutionexception.hpp \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/LoaderSolution.o src/loader/LoaderSolution.cpp
+
+obj/ModelTxtLoader.o: src/loader/ModelTxtLoader.cpp src/loader/ModelTxtLoader.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/exception/txtreaderexception.hpp \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ModelTxtLoader.o src/loader/ModelTxtLoader.cpp
+
+obj/CarcasModelLoader.o: src/loader/CarcasModelLoader.cpp src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CarcasModelLoader.o src/loader/CarcasModelLoader.cpp
+
+obj/baseexception.o: src/exception/baseexception.cpp src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/baseexception.o src/exception/baseexception.cpp
+
+obj/DrawManager.o: src/managers/DrawManager.cpp src/managers/DrawManager.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/Scene.hpp \
+		src/scene/BaseObject.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/concepts/concept.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DrawManager.o src/managers/DrawManager.cpp
+
+obj/LoadManager.o: src/managers/LoadManager.cpp src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/exception/managerexception.hpp \
+		src/exception/baseexception.hpp \
+		src/loader/LoaderCreator.hpp \
+		src/loader/ModelTxtLoader.hpp \
+		src/loader/ModelSqLoader.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/LoadManager.o src/managers/LoadManager.cpp
+
+obj/TransformManager.o: src/managers/TransformManager.cpp src/managers/TransformManager.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/concepts/concept.h \
+		src/transform/RotateAction.hpp \
+		src/transform/ScaleAction.hpp \
+		src/transform/ShiftAction.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TransformManager.o src/managers/TransformManager.cpp
+
+obj/SceneManager.o: src/managers/SceneManager.cpp src/managers/SceneManager.hpp \
+		src/scene/Scene.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/Camera.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/InvisibleObject.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SceneManager.o src/managers/SceneManager.cpp
+
+obj/DrawVisitor.o: src/visitors/DrawVisitor.cpp src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/transform/CameraProjectionAction.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Camera.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/scene/InvisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DrawVisitor.o src/visitors/DrawVisitor.cpp
+
+obj/TransformVisitor.o: src/visitors/TransformVisitor.cpp src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/Camera.hpp \
+		src/scene/InvisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TransformVisitor.o src/visitors/TransformVisitor.cpp
+
+obj/Visitor.o: src/visitors/Visitor.cpp src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Visitor.o src/visitors/Visitor.cpp
+
+obj/TransformAction.o: src/transform/TransformAction.cpp src/transform/TransformAction.hpp \
+		src/scene/Point.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TransformAction.o src/transform/TransformAction.cpp
+
+obj/multMat.o: src/transform/multMat.cpp src/transform/multMat.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/multMat.o src/transform/multMat.cpp
+
+obj/ScaleAction.o: src/transform/ScaleAction.cpp src/transform/ScaleAction.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/transform/ShiftAction.hpp \
+		src/transform/multMat.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ScaleAction.o src/transform/ScaleAction.cpp
+
+obj/RotateAction.o: src/transform/RotateAction.cpp src/transform/RotateAction.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/transform/ShiftAction.hpp \
+		src/transform/multMat.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/RotateAction.o src/transform/RotateAction.cpp
+
+obj/CameraProjectionAction.o: src/transform/CameraProjectionAction.cpp src/transform/CameraProjectionAction.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/scene/Camera.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/InvisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/transform/ShiftAction.hpp \
+		src/transform/multMat.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CameraProjectionAction.o src/transform/CameraProjectionAction.cpp
+
+obj/ShiftAction.o: src/transform/ShiftAction.cpp src/transform/ShiftAction.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ShiftAction.o src/transform/ShiftAction.cpp
+
+obj/DirectorSolution.o: src/build/DirectorSolution.cpp src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/exception/solutionexception.hpp \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DirectorSolution.o src/build/DirectorSolution.cpp
+
+obj/BaseCarcasModelBuilder.o: src/build/BaseCarcasModelBuilder.cpp src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseCarcasModelBuilder.o src/build/BaseCarcasModelBuilder.cpp
+
+obj/MatrixCarcasModelDirector.o: src/build/MatrixCarcasModelDirector.cpp src/build/MatrixCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/build/MatrixCarcasModelBuilder.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MatrixCarcasModelDirector.o src/build/MatrixCarcasModelDirector.cpp
+
+obj/BaseCarcasModelDirector.o: src/build/BaseCarcasModelDirector.cpp src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/exception/directorexception.hpp \
+		src/exception/baseexception.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseCarcasModelDirector.o src/build/BaseCarcasModelDirector.cpp
+
+obj/ListCarcasModelDirector.o: src/build/ListCarcasModelDirector.cpp src/build/ListCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/loader/BaseLoader.hpp \
+		src/build/ListCarcasModelBuilder.hpp \
+		src/scene/LinkDotStructure.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ListCarcasModelDirector.o src/build/ListCarcasModelDirector.cpp
+
+obj/MatrixCarcasModelBuilder.o: src/build/MatrixCarcasModelBuilder.cpp src/build/MatrixCarcasModelBuilder.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/MatrixStructure.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MatrixCarcasModelBuilder.o src/build/MatrixCarcasModelBuilder.cpp
+
+obj/ListCarcasModelBuilder.o: src/build/ListCarcasModelBuilder.cpp src/build/ListCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/LinkDotStructure.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ListCarcasModelBuilder.o src/build/ListCarcasModelBuilder.cpp
+
+obj/Basedirector.o: src/build/Basedirector.cpp src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Basedirector.o src/build/Basedirector.cpp
+
+obj/CompositeObjectCommand.o: src/command/object/CompositeObjectCommand.cpp src/command/object/CompositeObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CompositeObjectCommand.o src/command/object/CompositeObjectCommand.cpp
+
+obj/RotateObjectCommand.o: src/command/object/RotateObjectCommand.cpp src/command/object/RotateObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/RotateObjectCommand.o src/command/object/RotateObjectCommand.cpp
+
+obj/ShiftObjectCommand.o: src/command/object/ShiftObjectCommand.cpp src/command/object/ShiftObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ShiftObjectCommand.o src/command/object/ShiftObjectCommand.cpp
+
+obj/ScaleObjectCommand.o: src/command/object/ScaleObjectCommand.cpp src/command/object/ScaleObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ScaleObjectCommand.o src/command/object/ScaleObjectCommand.cpp
+
+obj/BaseObjectCommand.o: src/command/object/BaseObjectCommand.cpp src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseObjectCommand.o src/command/object/BaseObjectCommand.cpp
+
+obj/RemoveObjectCommand.o: src/command/object/RemoveObjectCommand.cpp src/command/object/RemoveObjectCommand.h \
+		src/command/object/BaseObjectCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/RemoveObjectCommand.o src/command/object/RemoveObjectCommand.cpp
+
+obj/BaseCommand.o: src/command/BaseCommand.cpp src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseCommand.o src/command/BaseCommand.cpp
+
+obj/BaseDrawCommand.o: src/command/draw/BaseDrawCommand.cpp src/command/draw/BaseDrawCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseDrawCommand.o src/command/draw/BaseDrawCommand.cpp
+
+obj/DrawSceneQtCommand.o: src/command/draw/DrawSceneQtCommand.cpp src/command/draw/DrawSceneQtCommand.h \
+		src/command/draw/BaseDrawCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp \
+		src/drawer/QTDrawerCreator.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DrawSceneQtCommand.o src/command/draw/DrawSceneQtCommand.cpp
+
+obj/MatrixLoadCommand.o: src/command/load/MatrixLoadCommand.cpp src/command/load/MatrixLoadCommand.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MatrixLoadCommand.o src/command/load/MatrixLoadCommand.cpp
+
+obj/BaseLoadCommand.o: src/command/load/BaseLoadCommand.cpp src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseLoadCommand.o src/command/load/BaseLoadCommand.cpp
+
+obj/ListLoadCommand.o: src/command/load/ListLoadCommand.cpp src/command/load/ListLoadCommand.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ListLoadCommand.o src/command/load/ListLoadCommand.cpp
+
+obj/BaseLoadCommandDecorator.o: src/command/load/BaseLoadCommandDecorator.cpp src/command/load/BaseLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseLoadCommandDecorator.o src/command/load/BaseLoadCommandDecorator.cpp
+
+obj/TxtLoadCommandDecorator.o: src/command/load/TxtLoadCommandDecorator.cpp src/command/load/TxtLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TxtLoadCommandDecorator.o src/command/load/TxtLoadCommandDecorator.cpp
+
+obj/SqliteLoadCommandDecorator.o: src/command/load/SqliteLoadCommandDecorator.cpp src/command/load/SqliteLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommandDecorator.h \
+		src/command/load/BaseLoadCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SqliteLoadCommandDecorator.o src/command/load/SqliteLoadCommandDecorator.cpp
+
+obj/AddCameraCommand.o: src/command/camera/AddCameraCommand.cpp src/command/camera/AddCameraCommand.h \
+		src/command/camera/BaseCameraCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/AddCameraCommand.o src/command/camera/AddCameraCommand.cpp
+
+obj/RemoveCameraCommand.o: src/command/camera/RemoveCameraCommand.cpp src/command/camera/RemoveCameraCommand.h \
+		src/command/camera/BaseCameraCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/RemoveCameraCommand.o src/command/camera/RemoveCameraCommand.cpp
+
+obj/BaseCameraCommand.o: src/command/camera/BaseCameraCommand.cpp src/command/camera/BaseCameraCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseCameraCommand.o src/command/camera/BaseCameraCommand.cpp
+
+obj/SetCameraCommand.o: src/command/camera/SetCameraCommand.cpp src/command/camera/SetCameraCommand.h \
+		src/command/camera/BaseCameraCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SetCameraCommand.o src/command/camera/SetCameraCommand.cpp
+
+obj/GetObjectIDsSceneCommand.o: src/command/scene/GetObjectIDsSceneCommand.cpp src/command/scene/GetObjectIDsSceneCommand.h \
+		src/command/scene/BaseSceneCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GetObjectIDsSceneCommand.o src/command/scene/GetObjectIDsSceneCommand.cpp
+
+obj/BaseSceneCommand.o: src/command/scene/BaseSceneCommand.cpp src/command/scene/BaseSceneCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseSceneCommand.o src/command/scene/BaseSceneCommand.cpp
+
+obj/GetCameraIDsSceneCommand.o: src/command/scene/GetCameraIDsSceneCommand.cpp src/command/scene/GetCameraIDsSceneCommand.h \
+		src/command/scene/BaseSceneCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GetCameraIDsSceneCommand.o src/command/scene/GetCameraIDsSceneCommand.cpp
+
+obj/ClearSceneCommand.o: src/command/scene/ClearSceneCommand.cpp src/command/scene/ClearSceneCommand.h \
+		src/command/scene/BaseSceneCommand.h \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ClearSceneCommand.o src/command/scene/ClearSceneCommand.cpp
+
+obj/Facade.o: src/Facade.cpp src/Facade.hpp \
+		src/command/BaseCommand.hpp \
+		src/managers/LoadManager.hpp \
+		src/loader/LoaderSolution.hpp \
+		src/loader/BaseLoader.hpp \
+		src/loader/BaseLoaderCreator.hpp \
+		src/loader/CarcasModelLoader.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp \
+		src/build/DirectorSolution.hpp \
+		src/build/BaseDirector.hpp \
+		src/scene/BaseObject.hpp \
+		src/visitors/Visitor.hpp \
+		src/build/DirectorCreator.hpp \
+		src/build/BaseDirectorCreator.hpp \
+		src/build/BaseCarcasModelDirector.hpp \
+		src/build/BaseCarcasModelBuilder.hpp \
+		src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/CenterStrategy.hpp \
+		src/build/ListCarcasModelDirector.hpp \
+		src/build/MatrixCarcasModelDirector.hpp \
+		src/concepts/concept.h \
+		src/managers/DrawManager.hpp \
+		src/scene/Scene.hpp \
+		src/managers/SceneManager.hpp \
+		src/drawer/BaseDrawerCreator.hpp \
+		src/managers/TransformManager.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Facade.o src/Facade.cpp
+
+obj/Composite.o: src/scene/Composite.cpp src/scene/Composite.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/CenterStrategy.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Composite.o src/scene/Composite.cpp
+
+obj/Point.o: src/scene/Point.cpp src/scene/Point.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Point.o src/scene/Point.cpp
+
+obj/CenterStrategy.o: src/scene/CenterStrategy.cpp src/scene/CenterStrategy.hpp \
+		src/scene/Point.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CenterStrategy.o src/scene/CenterStrategy.cpp
+
+obj/LinkDotStructure.o: src/scene/LinkDotStructure.cpp src/scene/LinkDotStructure.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/LinkDotStructure.o src/scene/LinkDotStructure.cpp
+
+obj/InvisibleObject.o: src/scene/InvisibleObject.cpp src/scene/InvisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/InvisibleObject.o src/scene/InvisibleObject.cpp
+
+obj/VisibleObject.o: src/scene/VisibleObject.cpp src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/VisibleObject.o src/scene/VisibleObject.cpp
+
+obj/Scene.o: src/scene/Scene.cpp src/scene/Scene.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/managers/SceneManager.hpp \
+		src/scene/Composite.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Scene.o src/scene/Scene.cpp
+
+obj/MatrixStructure.o: src/scene/MatrixStructure.cpp src/scene/MatrixStructure.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MatrixStructure.o src/scene/MatrixStructure.cpp
+
+obj/Edge.o: src/scene/Edge.cpp src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Edge.o src/scene/Edge.cpp
+
+obj/Camera.o: src/scene/Camera.cpp src/scene/Camera.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/InvisibleObject.hpp \
+		src/scene/BaseObject.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Camera.o src/scene/Camera.cpp
+
+obj/CarcasModel.o: src/scene/CarcasModel.cpp src/scene/CarcasModel.hpp \
+		src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp \
+		src/scene/CarcasModelStructure.hpp \
+		src/scene/Edge.hpp \
+		src/visitors/DrawVisitor.hpp \
+		src/drawer/BaseDrawer.hpp \
+		src/visitors/TransformVisitor.hpp \
+		src/transform/TransformAction.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CarcasModel.o src/scene/CarcasModel.cpp
+
+obj/BaseModel.o: src/scene/BaseModel.cpp src/scene/BaseModel.hpp \
+		src/scene/VisibleObject.hpp \
+		src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseModel.o src/scene/BaseModel.cpp
+
+obj/CarcasModelStructure.o: src/scene/CarcasModelStructure.cpp src/scene/CarcasModelStructure.hpp \
+		src/scene/Point.hpp \
+		src/scene/Edge.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CarcasModelStructure.o src/scene/CarcasModelStructure.cpp
+
+obj/BaseObject.o: src/scene/BaseObject.cpp src/scene/BaseObject.hpp \
+		src/scene/Point.hpp \
+		src/visitors/Visitor.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseObject.o src/scene/BaseObject.cpp
+
+obj/moc_mainwindow.o: moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_mainwindow.o moc_mainwindow.cpp
 
 ####### Install
 
