@@ -11,13 +11,13 @@ TARGET = app.exe
 
 INCLUDEPATH += \
 src/objects \
-src/transform \
+src/transform_strategy \
 src/visitor \
 src/square_matrix \
 src/exception \
 src/builder \
 src/reader \
-src/strategy \
+src/center_strategy \
 src/director \
 src/concepts \
 src/manager \
@@ -85,12 +85,12 @@ src/scene/Scene.h \
 src/square_matrix/SquareMatrix.h \
 src/square_matrix/SquareMatrix.hpp \
 src/square_matrix/SquareMatrixRow.hpp \
-src/strategy/CenterStrategy.h \
-src/transform/RotateAction.h \
-src/transform/ScaleAction.h \
-src/transform/ShiftAction.h \
-src/transform/TransformAction.h \
-src/transform/CameraProjectionAction.h \
+src/center_strategy/CenterStrategy.h \
+src/transform_strategy/RotateAction.h \
+src/transform_strategy/ScaleAction.h \
+src/transform_strategy/ShiftAction.h \
+src/transform_strategy/TransformAction.h \
+src/transform_strategy/CameraProjectionAction.h \
 src/visitor/Visitor.h \
 src/visitor/DrawVisitor.h \
 src/visitor/TransformVisitor.h \
@@ -159,12 +159,12 @@ SOURCES += ./src/builder/BaseBoneModelBuilder.cpp \
 ./src/reader/SqliteBoneModelReader.cpp \
 ./src/reader/TxtBoneModelReader.cpp \
 ./src/scene/Scene.cpp \
-./src/strategy/CenterStrategy.cpp \
-./src/transform/RotateAction.cpp \
-./src/transform/ScaleAction.cpp \
-./src/transform/ShiftAction.cpp \
-./src/transform/TransformAction.cpp \
-./src/transform/CameraProjectionAction.cpp \
+./src/center_strategy/CenterStrategy.cpp \
+./src/transform_strategy/RotateAction.cpp \
+./src/transform_strategy/ScaleAction.cpp \
+./src/transform_strategy/ShiftAction.cpp \
+./src/transform_strategy/TransformAction.cpp \
+./src/transform_strategy/CameraProjectionAction.cpp \
 ./src/visitor/DrawVisitor.cpp \
 ./src/visitor/TransformVisitor.cpp \
 ./src/main.cpp \

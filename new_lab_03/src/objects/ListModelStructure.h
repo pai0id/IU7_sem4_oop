@@ -1,5 +1,5 @@
 #pragma once
-#include "../transform/TransformAction.h"
+#include "TransformAction.h"
 #include "Edge.h"
 #include "Point.h"
 #include "ModelStructure.h"
