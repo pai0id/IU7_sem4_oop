@@ -7,8 +7,7 @@
 class BoneModelReader : public BaseReader {
     public:
         BoneModelReader() = default;
-
-        virtual ~BoneModelReader() = 0;
+        ~BoneModelReader() = default;
 
         virtual void Open() = 0;
         virtual void Close() = 0;
@@ -16,5 +15,5 @@ class BoneModelReader : public BaseReader {
 
         virtual std::vector<Point> ReadPoints() = 0;
         virtual std::vector<Edge> ReadEdges() = 0;
-        virtual Point ReadCenter() = 0;
-}; 
+        virtual Point ReadCenter();
+};

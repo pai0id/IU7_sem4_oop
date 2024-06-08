@@ -17,7 +17,6 @@ src/square_matrix \
 src/exception \
 src/builder \
 src/reader \
-src/center_strategy \
 src/director \
 src/concepts \
 src/manager \
@@ -30,6 +29,7 @@ src/command/camera \
 src/command/scene \
 src/command/object \
 src/facade \
+src/center
 
 
 # Input
@@ -85,7 +85,6 @@ src/scene/Scene.h \
 src/square_matrix/SquareMatrix.h \
 src/square_matrix/SquareMatrix.hpp \
 src/square_matrix/SquareMatrixRow.hpp \
-src/center_strategy/CenterStrategy.h \
 src/transform_strategy/RotateAction.h \
 src/transform_strategy/ScaleAction.h \
 src/transform_strategy/ShiftAction.h \
@@ -121,6 +120,7 @@ src/command/object/CompositeObjectCommand.h \
 src/command/BaseCommand.h \
 src/command/scene/GetObjectIDsSceneCommand.h \
 src/command/scene/GetCameraIDsSceneCommand.h \
+src/center/FindCenter.h
 
 
 
@@ -129,7 +129,7 @@ SOURCES += ./src/builder/BaseBoneModelBuilder.cpp \
 ./src/builder/ListBoneModelBuilder.cpp \
 ./src/builder/MatrixBoneModeBuilder.cpp \
 ./src/director/BaseBoneModelDirector.cpp \
-./src/director/Basedirector.cpp \
+./src/director/BaseDirector.cpp \
 ./src/director/DirectorSolution.cpp \
 ./src/director/ListBoneModelDirector.cpp \
 ./src/director/MatrixBoneModelDirector.cpp \
@@ -159,7 +159,6 @@ SOURCES += ./src/builder/BaseBoneModelBuilder.cpp \
 ./src/reader/SqliteBoneModelReader.cpp \
 ./src/reader/TxtBoneModelReader.cpp \
 ./src/scene/Scene.cpp \
-./src/center_strategy/CenterStrategy.cpp \
 ./src/transform_strategy/RotateAction.cpp \
 ./src/transform_strategy/ScaleAction.cpp \
 ./src/transform_strategy/ShiftAction.cpp \
@@ -194,3 +193,4 @@ src/command/scene/ClearSceneCommand.cpp  \
 src/command/scene/BaseSceneCommand.cpp  \
 src/command/scene/GetObjectIDsSceneCommand.cpp  \
 src/command/scene/GetCameraIDsSceneCommand.cpp  \
+src/center/FindCenter.cpp

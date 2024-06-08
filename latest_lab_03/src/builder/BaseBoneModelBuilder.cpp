@@ -3,7 +3,7 @@
 
 BaseBoneModelBuilder::~BaseBoneModelBuilder() {}
 
-void BaseBoneModelBuilder::Build(std::shared_ptr<BoneModelReader> _reader, std::shared_ptr<BaseCenterStrategy> _strategy) {
+void BaseBoneModelBuilder::Build(std::shared_ptr<BoneModelReader> _reader) {
     _reader->Open();
     auto points = _reader->ReadPoints();
     auto edges = _reader->ReadEdges();
@@ -16,7 +16,7 @@ void BaseBoneModelBuilder::Build(std::shared_ptr<BoneModelReader> _reader, std::
         _model->AddEdge(e);
     }
 
-    _model->SetCenter(_strategy->CenterAlgorithm(points));
+    _model->SetCenter(_reader->ReadCenter());
 }
 
 std::shared_ptr<BoneModel> BaseBoneModelBuilder::Get() {

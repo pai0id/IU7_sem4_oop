@@ -1,7 +1,7 @@
 #include "TxtBoneModelReader.h"
 #include "txtreaderexception.h"
 
-TxtBoneModelReader::TxtBoneModelReader(const char* filename) : _fname(filename), _centerStrategy(std::make_shared<ClassicCenterStrategy>()) {}
+TxtBoneModelReader::TxtBoneModelReader(const char* filename) : _fname(filename) {}
 
 TxtBoneModelReader::~TxtBoneModelReader() {
     if (IsOpen()) {
@@ -75,11 +75,5 @@ std::vector<Edge> TxtBoneModelReader::ReadEdges() {
         edges[i].SetSecond(b - 1);
     }
     return edges;
-}
-
-
-Point TxtBoneModelReader::ReadCenter() {
-    std::vector<Point> points = ReadPoints();
-    return _centerStrategy->CenterAlgorithm(points);
 }
 

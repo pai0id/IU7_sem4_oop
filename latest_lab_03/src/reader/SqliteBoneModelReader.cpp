@@ -5,7 +5,7 @@
 static const char * ReadPointsSql = "SELECT * FROM point ORDER BY id ASC";
 static const char * ReadEdgesSql = "SELECT * FROM edge";
 
-SqliteBoneModelReader::SqliteBoneModelReader(const char *filename) : _fname(filename), _db(nullptr), _centerStrategy(std::make_shared<ClassicCenterStrategy>()) { }
+SqliteBoneModelReader::SqliteBoneModelReader(const char *filename) : _fname(filename), _db(nullptr) { }
 
 SqliteBoneModelReader::~SqliteBoneModelReader() { 
     if (IsOpen())
@@ -92,7 +92,3 @@ std::vector<Edge> SqliteBoneModelReader::ReadEdges() {
     return edges;
 }
 
-Point SqliteBoneModelReader::ReadCenter() {
-    std::vector<Point> points = ReadPoints();
-    return _centerStrategy->CenterAlgorithm(points);
-}

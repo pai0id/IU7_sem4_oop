@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++2a -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Isrc/objects -Isrc/transform_strategy -Isrc/visitor -Isrc/square_matrix -Isrc/exception -Isrc/builder -Isrc/reader -Isrc/center_strategy -Isrc/director -Isrc/concepts -Isrc/manager -Isrc/scene -Isrc/drawer -Isrc/command -Isrc/command/draw -Isrc/command/load -Isrc/command/camera -Isrc/command/scene -Isrc/command/object -Isrc/facade -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -Isrc/objects -Isrc/transform_strategy -Isrc/visitor -Isrc/square_matrix -Isrc/exception -Isrc/builder -Isrc/reader -Isrc/director -Isrc/concepts -Isrc/manager -Isrc/scene -Isrc/drawer -Isrc/command -Isrc/command/draw -Isrc/command/load -Isrc/command/camera -Isrc/command/scene -Isrc/command/object -Isrc/facade -Isrc/center -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -56,7 +56,7 @@ SOURCES       = src/builder/BaseBoneModelBuilder.cpp \
 		src/builder/ListBoneModelBuilder.cpp \
 		src/builder/MatrixBoneModeBuilder.cpp \
 		src/director/BaseBoneModelDirector.cpp \
-		src/director/Basedirector.cpp \
+		src/director/BaseDirector.cpp \
 		src/director/DirectorSolution.cpp \
 		src/director/ListBoneModelDirector.cpp \
 		src/director/MatrixBoneModelDirector.cpp \
@@ -86,7 +86,6 @@ SOURCES       = src/builder/BaseBoneModelBuilder.cpp \
 		src/reader/SqliteBoneModelReader.cpp \
 		src/reader/TxtBoneModelReader.cpp \
 		src/scene/Scene.cpp \
-		src/center_strategy/CenterStrategy.cpp \
 		src/transform_strategy/RotateAction.cpp \
 		src/transform_strategy/ScaleAction.cpp \
 		src/transform_strategy/ShiftAction.cpp \
@@ -120,12 +119,13 @@ SOURCES       = src/builder/BaseBoneModelBuilder.cpp \
 		src/command/scene/ClearSceneCommand.cpp \
 		src/command/scene/BaseSceneCommand.cpp \
 		src/command/scene/GetObjectIDsSceneCommand.cpp \
-		src/command/scene/GetCameraIDsSceneCommand.cpp 
+		src/command/scene/GetCameraIDsSceneCommand.cpp \
+		src/center/FindCenter.cpp 
 OBJECTS       = obj/BaseBoneModelBuilder.o \
 		obj/ListBoneModelBuilder.o \
 		obj/MatrixBoneModeBuilder.o \
 		obj/BaseBoneModelDirector.o \
-		obj/Basedirector.o \
+		obj/BaseDirector.o \
 		obj/DirectorSolution.o \
 		obj/ListBoneModelDirector.o \
 		obj/MatrixBoneModelDirector.o \
@@ -155,7 +155,6 @@ OBJECTS       = obj/BaseBoneModelBuilder.o \
 		obj/SqliteBoneModelReader.o \
 		obj/TxtBoneModelReader.o \
 		obj/Scene.o \
-		obj/CenterStrategy.o \
 		obj/RotateAction.o \
 		obj/ScaleAction.o \
 		obj/ShiftAction.o \
@@ -189,7 +188,8 @@ OBJECTS       = obj/BaseBoneModelBuilder.o \
 		obj/ClearSceneCommand.o \
 		obj/BaseSceneCommand.o \
 		obj/GetObjectIDsSceneCommand.o \
-		obj/GetCameraIDsSceneCommand.o
+		obj/GetCameraIDsSceneCommand.o \
+		obj/FindCenter.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -333,7 +333,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/square_matrix/SquareMatrix.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/square_matrix/SquareMatrixRow.hpp \
-		src/center_strategy/CenterStrategy.h \
 		src/transform_strategy/RotateAction.h \
 		src/transform_strategy/ScaleAction.h \
 		src/transform_strategy/ShiftAction.h \
@@ -368,11 +367,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/command/object/CompositeObjectCommand.h \
 		src/command/BaseCommand.h \
 		src/command/scene/GetObjectIDsSceneCommand.h \
-		src/command/scene/GetCameraIDsSceneCommand.h src/builder/BaseBoneModelBuilder.cpp \
+		src/command/scene/GetCameraIDsSceneCommand.h \
+		src/center/FindCenter.h src/builder/BaseBoneModelBuilder.cpp \
 		src/builder/ListBoneModelBuilder.cpp \
 		src/builder/MatrixBoneModeBuilder.cpp \
 		src/director/BaseBoneModelDirector.cpp \
-		src/director/Basedirector.cpp \
+		src/director/BaseDirector.cpp \
 		src/director/DirectorSolution.cpp \
 		src/director/ListBoneModelDirector.cpp \
 		src/director/MatrixBoneModelDirector.cpp \
@@ -402,7 +402,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/reader/SqliteBoneModelReader.cpp \
 		src/reader/TxtBoneModelReader.cpp \
 		src/scene/Scene.cpp \
-		src/center_strategy/CenterStrategy.cpp \
 		src/transform_strategy/RotateAction.cpp \
 		src/transform_strategy/ScaleAction.cpp \
 		src/transform_strategy/ShiftAction.cpp \
@@ -436,7 +435,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/command/scene/ClearSceneCommand.cpp \
 		src/command/scene/BaseSceneCommand.cpp \
 		src/command/scene/GetObjectIDsSceneCommand.cpp \
-		src/command/scene/GetCameraIDsSceneCommand.cpp
+		src/command/scene/GetCameraIDsSceneCommand.cpp \
+		src/center/FindCenter.cpp
 QMAKE_TARGET  = app.exe
 DESTDIR       = 
 TARGET        = app.exe
@@ -648,8 +648,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.h src/builder/ListBoneModelBuilder.h src/builder/MatrixBoneModelBuilder.h src/concepts/concept.h src/director/BaseBoneModelDirector.h src/director/BaseDirectorCreator.h src/director/BaseDirector.h src/director/DirectorCreator.h src/director/DirectorCreator.hpp src/director/DirectorSolution.h src/director/ListBoneModelDirector.h src/director/MatrixBoneModelDirector.h src/drawer/BaseDrawer.h src/drawer/QtDrawer.h src/drawer/BaseDrawerCreator.h src/drawer/QtDrawerCreator.h src/exception/baseexception.h src/exception/directorexception.h src/exception/managerexception.h src/exception/matrixexception.h src/exception/modelexception.h src/exception/solutionexception.h src/exception/sqlitereaderexception.h src/exception/txtreaderexception.h src/manager/LoadManager.h src/manager/SceneManager.h src/manager/DrawManager.h src/manager/Drawmanager.hpp src/objects/BaseModel.h src/objects/BoneModel.h src/objects/Camera.h src/objects/Composite.h src/objects/Edge.h src/objects/InvisibleObject.h src/objects/ListModelStructure.h src/objects/MatrixModelStructure.h src/objects/ModelStructure.h src/objects/Object.h src/objects/Point.h src/objects/VisibleObject.h src/reader/BaseReaderCreator.h src/reader/BaseReader.h src/reader/BoneModelReader.h src/reader/ReaderCreator.h src/reader/ReaderCreator.hpp src/reader/ReaderSolution.h src/reader/SqliteBoneModelReader.h src/reader/TxtBoneModelReader.h src/scene/Scene.h src/square_matrix/SquareMatrix.h src/square_matrix/SquareMatrix.hpp src/square_matrix/SquareMatrixRow.hpp src/center_strategy/CenterStrategy.h src/transform_strategy/RotateAction.h src/transform_strategy/ScaleAction.h src/transform_strategy/ShiftAction.h src/transform_strategy/TransformAction.h src/transform_strategy/CameraProjectionAction.h src/visitor/Visitor.h src/visitor/DrawVisitor.h src/visitor/TransformVisitor.h src/mainwindow.hpp src/interface.hpp src/facade/SceneFacade.h src/command/draw/BaseDrawCommand.h src/command/draw/DrawSceneQtCommand.h src/command/load/TxtLoadCommandDecorator.h src/command/load/BaseLoadCommand.h src/command/load/MatrixLoadCommand.h src/command/load/ListLoadCommand.h src/command/load/SqliteLoadCommandDecorator.h src/command/load/BaseLoadCommandDecorator.h src/command/camera/SetCameraCommand.h src/command/camera/MoveCameraCommand.h src/command/camera/BaseCameraCommand.h src/command/camera/RemoveCameraCommand.h src/command/camera/AddCameraCommand.h src/command/scene/ClearSceneCommand.h src/command/scene/BaseSceneCommand.h src/command/object/ScaleObjectCommand.h src/command/object/BaseObjectCommand.h src/command/object/ShiftObjectCommand.h src/command/object/RotateObjectCommand.h src/command/object/RemoveObjectCommand.h src/command/object/CompositeObjectCommand.h src/command/BaseCommand.h src/command/scene/GetObjectIDsSceneCommand.h src/command/scene/GetCameraIDsSceneCommand.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.cpp src/builder/ListBoneModelBuilder.cpp src/builder/MatrixBoneModeBuilder.cpp src/director/BaseBoneModelDirector.cpp src/director/Basedirector.cpp src/director/DirectorSolution.cpp src/director/ListBoneModelDirector.cpp src/director/MatrixBoneModelDirector.cpp src/drawer/BaseDrawer.cpp src/drawer/QtDrawer.cpp src/drawer/BaseDrawerCreator.cpp src/drawer/QtDrawerCreator.cpp src/exception/baseexception.cpp src/manager/LoadManager.cpp src/manager/SceneManager.cpp src/manager/TransformManager.cpp src/objects/BaseModel.cpp src/objects/BoneModel.cpp src/objects/Camera.cpp src/objects/Composite.cpp src/objects/Edge.cpp src/objects/InvisibleObject.cpp src/objects/ListModelStructure.cpp src/objects/MatrixModelStructure.cpp src/objects/ModelStructure.cpp src/objects/Object.cpp src/objects/Point.cpp src/objects/VisibleObject.cpp src/reader/BaseReader.cpp src/reader/BoneModelReader.cpp src/reader/ReaderSolution.cpp src/reader/SqliteBoneModelReader.cpp src/reader/TxtBoneModelReader.cpp src/scene/Scene.cpp src/center_strategy/CenterStrategy.cpp src/transform_strategy/RotateAction.cpp src/transform_strategy/ScaleAction.cpp src/transform_strategy/ShiftAction.cpp src/transform_strategy/TransformAction.cpp src/transform_strategy/CameraProjectionAction.cpp src/visitor/DrawVisitor.cpp src/visitor/TransformVisitor.cpp src/main.cpp src/mainwindow.cpp src/facade/SceneFacade.cpp src/command/BaseCommand.cpp src/command/camera/SetCameraCommand.cpp src/command/camera/MoveCameraCommand.cpp src/command/camera/BaseCameraCommand.cpp src/command/camera/AddCameraCommand.cpp src/command/camera/RemoveCameraCommand.cpp src/command/draw/BaseDrawCommand.cpp src/command/draw/DrawSceneQtCommand.cpp src/command/load/MatrixLoadCommand.cpp src/command/load/SqliteLoadCommandDecorator.cpp src/command/load/ListLoadCommand.cpp src/command/load/BaseLoadCommand.cpp src/command/load/BaseLoadCommandDecorator.cpp src/command/load/TxtLoadCommandDecorator.cpp src/command/object/BaseObjectCommand.cpp src/command/object/RotateObjectCommand.cpp src/command/object/ShiftObjectCommand.cpp src/command/object/ScaleObjectCommand.cpp src/command/object/RemoveObjectCommand.cpp src/command/object/CompositeObjectCommand.cpp src/command/scene/ClearSceneCommand.cpp src/command/scene/BaseSceneCommand.cpp src/command/scene/GetObjectIDsSceneCommand.cpp src/command/scene/GetCameraIDsSceneCommand.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.h src/builder/ListBoneModelBuilder.h src/builder/MatrixBoneModelBuilder.h src/concepts/concept.h src/director/BaseBoneModelDirector.h src/director/BaseDirectorCreator.h src/director/BaseDirector.h src/director/DirectorCreator.h src/director/DirectorCreator.hpp src/director/DirectorSolution.h src/director/ListBoneModelDirector.h src/director/MatrixBoneModelDirector.h src/drawer/BaseDrawer.h src/drawer/QtDrawer.h src/drawer/BaseDrawerCreator.h src/drawer/QtDrawerCreator.h src/exception/baseexception.h src/exception/directorexception.h src/exception/managerexception.h src/exception/matrixexception.h src/exception/modelexception.h src/exception/solutionexception.h src/exception/sqlitereaderexception.h src/exception/txtreaderexception.h src/manager/LoadManager.h src/manager/SceneManager.h src/manager/DrawManager.h src/manager/Drawmanager.hpp src/objects/BaseModel.h src/objects/BoneModel.h src/objects/Camera.h src/objects/Composite.h src/objects/Edge.h src/objects/InvisibleObject.h src/objects/ListModelStructure.h src/objects/MatrixModelStructure.h src/objects/ModelStructure.h src/objects/Object.h src/objects/Point.h src/objects/VisibleObject.h src/reader/BaseReaderCreator.h src/reader/BaseReader.h src/reader/BoneModelReader.h src/reader/ReaderCreator.h src/reader/ReaderCreator.hpp src/reader/ReaderSolution.h src/reader/SqliteBoneModelReader.h src/reader/TxtBoneModelReader.h src/scene/Scene.h src/square_matrix/SquareMatrix.h src/square_matrix/SquareMatrix.hpp src/square_matrix/SquareMatrixRow.hpp src/transform_strategy/RotateAction.h src/transform_strategy/ScaleAction.h src/transform_strategy/ShiftAction.h src/transform_strategy/TransformAction.h src/transform_strategy/CameraProjectionAction.h src/visitor/Visitor.h src/visitor/DrawVisitor.h src/visitor/TransformVisitor.h src/mainwindow.hpp src/interface.hpp src/facade/SceneFacade.h src/command/draw/BaseDrawCommand.h src/command/draw/DrawSceneQtCommand.h src/command/load/TxtLoadCommandDecorator.h src/command/load/BaseLoadCommand.h src/command/load/MatrixLoadCommand.h src/command/load/ListLoadCommand.h src/command/load/SqliteLoadCommandDecorator.h src/command/load/BaseLoadCommandDecorator.h src/command/camera/SetCameraCommand.h src/command/camera/MoveCameraCommand.h src/command/camera/BaseCameraCommand.h src/command/camera/RemoveCameraCommand.h src/command/camera/AddCameraCommand.h src/command/scene/ClearSceneCommand.h src/command/scene/BaseSceneCommand.h src/command/object/ScaleObjectCommand.h src/command/object/BaseObjectCommand.h src/command/object/ShiftObjectCommand.h src/command/object/RotateObjectCommand.h src/command/object/RemoveObjectCommand.h src/command/object/CompositeObjectCommand.h src/command/BaseCommand.h src/command/scene/GetObjectIDsSceneCommand.h src/command/scene/GetCameraIDsSceneCommand.h src/center/FindCenter.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.cpp src/builder/ListBoneModelBuilder.cpp src/builder/MatrixBoneModeBuilder.cpp src/director/BaseBoneModelDirector.cpp src/director/BaseDirector.cpp src/director/DirectorSolution.cpp src/director/ListBoneModelDirector.cpp src/director/MatrixBoneModelDirector.cpp src/drawer/BaseDrawer.cpp src/drawer/QtDrawer.cpp src/drawer/BaseDrawerCreator.cpp src/drawer/QtDrawerCreator.cpp src/exception/baseexception.cpp src/manager/LoadManager.cpp src/manager/SceneManager.cpp src/manager/TransformManager.cpp src/objects/BaseModel.cpp src/objects/BoneModel.cpp src/objects/Camera.cpp src/objects/Composite.cpp src/objects/Edge.cpp src/objects/InvisibleObject.cpp src/objects/ListModelStructure.cpp src/objects/MatrixModelStructure.cpp src/objects/ModelStructure.cpp src/objects/Object.cpp src/objects/Point.cpp src/objects/VisibleObject.cpp src/reader/BaseReader.cpp src/reader/BoneModelReader.cpp src/reader/ReaderSolution.cpp src/reader/SqliteBoneModelReader.cpp src/reader/TxtBoneModelReader.cpp src/scene/Scene.cpp src/transform_strategy/RotateAction.cpp src/transform_strategy/ScaleAction.cpp src/transform_strategy/ShiftAction.cpp src/transform_strategy/TransformAction.cpp src/transform_strategy/CameraProjectionAction.cpp src/visitor/DrawVisitor.cpp src/visitor/TransformVisitor.cpp src/main.cpp src/mainwindow.cpp src/facade/SceneFacade.cpp src/command/BaseCommand.cpp src/command/camera/SetCameraCommand.cpp src/command/camera/MoveCameraCommand.cpp src/command/camera/BaseCameraCommand.cpp src/command/camera/AddCameraCommand.cpp src/command/camera/RemoveCameraCommand.cpp src/command/draw/BaseDrawCommand.cpp src/command/draw/DrawSceneQtCommand.cpp src/command/load/MatrixLoadCommand.cpp src/command/load/SqliteLoadCommandDecorator.cpp src/command/load/ListLoadCommand.cpp src/command/load/BaseLoadCommand.cpp src/command/load/BaseLoadCommandDecorator.cpp src/command/load/TxtLoadCommandDecorator.cpp src/command/object/BaseObjectCommand.cpp src/command/object/RotateObjectCommand.cpp src/command/object/ShiftObjectCommand.cpp src/command/object/ScaleObjectCommand.cpp src/command/object/RemoveObjectCommand.cpp src/command/object/CompositeObjectCommand.cpp src/command/scene/ClearSceneCommand.cpp src/command/scene/BaseSceneCommand.cpp src/command/scene/GetObjectIDsSceneCommand.cpp src/command/scene/GetCameraIDsSceneCommand.cpp src/center/FindCenter.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -717,7 +717,6 @@ obj/BaseBoneModelBuilder.o: src/builder/BaseBoneModelBuilder.cpp src/builder/Bas
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseBoneModelBuilder.o src/builder/BaseBoneModelBuilder.cpp
@@ -741,7 +740,6 @@ obj/ListBoneModelBuilder.o: src/builder/ListBoneModelBuilder.cpp src/builder/Lis
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
 		src/builder/BaseBoneModelBuilder.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/objects/ListModelStructure.h
@@ -766,7 +764,6 @@ obj/MatrixBoneModeBuilder.o: src/builder/MatrixBoneModeBuilder.cpp src/builder/M
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/objects/MatrixModelStructure.h
@@ -792,13 +789,12 @@ obj/BaseBoneModelDirector.o: src/director/BaseBoneModelDirector.cpp src/director
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/exception/directorexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseBoneModelDirector.o src/director/BaseBoneModelDirector.cpp
 
-obj/Basedirector.o: src/director/Basedirector.cpp src/director/BaseDirector.h \
+obj/BaseDirector.o: src/director/BaseDirector.cpp src/director/BaseDirector.h \
 		src/objects/Object.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
@@ -807,7 +803,7 @@ obj/Basedirector.o: src/director/Basedirector.cpp src/director/BaseDirector.h \
 		src/exception/matrixexception.h \
 		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Basedirector.o src/director/Basedirector.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseDirector.o src/director/BaseDirector.cpp
 
 obj/DirectorSolution.o: src/director/DirectorSolution.cpp src/director/DirectorSolution.h \
 		src/director/BaseDirectorCreator.h \
@@ -831,7 +827,6 @@ obj/DirectorSolution.o: src/director/DirectorSolution.cpp src/director/DirectorS
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -863,7 +858,6 @@ obj/ListBoneModelDirector.o: src/director/ListBoneModelDirector.cpp src/director
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/builder/ListBoneModelBuilder.h \
@@ -891,7 +885,6 @@ obj/MatrixBoneModelDirector.o: src/director/MatrixBoneModelDirector.cpp src/dire
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/builder/MatrixBoneModelBuilder.h
@@ -944,7 +937,6 @@ obj/LoadManager.o: src/manager/LoadManager.cpp src/manager/LoadManager.h \
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1054,7 +1046,7 @@ obj/Composite.o: src/objects/Composite.cpp src/objects/Composite.h \
 		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/visitor/Visitor.h \
-		src/center_strategy/CenterStrategy.h
+		src/center/FindCenter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Composite.o src/objects/Composite.cpp
 
 obj/Edge.o: src/objects/Edge.cpp src/objects/Edge.h
@@ -1138,7 +1130,8 @@ obj/BaseReader.o: src/reader/BaseReader.cpp src/reader/BaseReader.h
 obj/BoneModelReader.o: src/reader/BoneModelReader.cpp src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/objects/Point.h \
-		src/objects/Edge.h
+		src/objects/Edge.h \
+		src/center/FindCenter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BoneModelReader.o src/reader/BoneModelReader.cpp
 
 obj/ReaderSolution.o: src/reader/ReaderSolution.cpp src/reader/ReaderSolution.h \
@@ -1156,7 +1149,6 @@ obj/SqliteBoneModelReader.o: src/reader/SqliteBoneModelReader.cpp src/reader/Sql
 		src/reader/BaseReader.h \
 		src/objects/Point.h \
 		src/objects/Edge.h \
-		src/center_strategy/CenterStrategy.h \
 		src/exception/sqlitereaderexception.h \
 		src/exception/baseexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/SqliteBoneModelReader.o src/reader/SqliteBoneModelReader.cpp
@@ -1166,7 +1158,6 @@ obj/TxtBoneModelReader.o: src/reader/TxtBoneModelReader.cpp src/reader/TxtBoneMo
 		src/reader/BaseReader.h \
 		src/objects/Point.h \
 		src/objects/Edge.h \
-		src/center_strategy/CenterStrategy.h \
 		src/exception/txtreaderexception.h \
 		src/exception/baseexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TxtBoneModelReader.o src/reader/TxtBoneModelReader.cpp
@@ -1190,10 +1181,6 @@ obj/Scene.o: src/scene/Scene.cpp src/scene/Scene.h \
 		src/transform_strategy/CameraProjectionAction.h \
 		src/objects/Composite.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Scene.o src/scene/Scene.cpp
-
-obj/CenterStrategy.o: src/center_strategy/CenterStrategy.cpp src/center_strategy/CenterStrategy.h \
-		src/objects/Point.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/CenterStrategy.o src/center_strategy/CenterStrategy.cpp
 
 obj/RotateAction.o: src/transform_strategy/RotateAction.cpp src/transform_strategy/RotateAction.h \
 		src/transform_strategy/TransformAction.h \
@@ -1325,7 +1312,6 @@ obj/main.o: src/main.cpp src/mainwindow.hpp \
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1373,7 +1359,6 @@ obj/mainwindow.o: src/mainwindow.cpp src/mainwindow.hpp \
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1441,7 +1426,6 @@ obj/SceneFacade.o: src/facade/SceneFacade.cpp src/facade/SceneFacade.h \
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1487,7 +1471,6 @@ obj/BaseCommand.o: src/command/BaseCommand.cpp src/command/BaseCommand.h \
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1534,7 +1517,6 @@ obj/SetCameraCommand.o: src/command/camera/SetCameraCommand.cpp src/command/came
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1581,7 +1563,6 @@ obj/MoveCameraCommand.o: src/command/camera/MoveCameraCommand.cpp src/command/ca
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1627,7 +1608,6 @@ obj/BaseCameraCommand.o: src/command/camera/BaseCameraCommand.cpp src/command/ca
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1674,7 +1654,6 @@ obj/AddCameraCommand.o: src/command/camera/AddCameraCommand.cpp src/command/came
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1721,7 +1700,6 @@ obj/RemoveCameraCommand.o: src/command/camera/RemoveCameraCommand.cpp src/comman
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1767,7 +1745,6 @@ obj/BaseDrawCommand.o: src/command/draw/BaseDrawCommand.cpp src/command/draw/Bas
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1814,7 +1791,6 @@ obj/DrawSceneQtCommand.o: src/command/draw/DrawSceneQtCommand.cpp src/command/dr
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1862,7 +1838,6 @@ obj/MatrixLoadCommand.o: src/command/load/MatrixLoadCommand.cpp src/command/load
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1910,7 +1885,6 @@ obj/SqliteLoadCommandDecorator.o: src/command/load/SqliteLoadCommandDecorator.cp
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -1957,7 +1931,6 @@ obj/ListLoadCommand.o: src/command/load/ListLoadCommand.cpp src/command/load/Lis
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2003,7 +1976,6 @@ obj/BaseLoadCommand.o: src/command/load/BaseLoadCommand.cpp src/command/load/Bas
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2050,7 +2022,6 @@ obj/BaseLoadCommandDecorator.o: src/command/load/BaseLoadCommandDecorator.cpp sr
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2098,7 +2069,6 @@ obj/TxtLoadCommandDecorator.o: src/command/load/TxtLoadCommandDecorator.cpp src/
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2144,7 +2114,6 @@ obj/BaseObjectCommand.o: src/command/object/BaseObjectCommand.cpp src/command/ob
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2191,7 +2160,6 @@ obj/RotateObjectCommand.o: src/command/object/RotateObjectCommand.cpp src/comman
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2238,7 +2206,6 @@ obj/ShiftObjectCommand.o: src/command/object/ShiftObjectCommand.cpp src/command/
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2285,7 +2252,6 @@ obj/ScaleObjectCommand.o: src/command/object/ScaleObjectCommand.cpp src/command/
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2332,7 +2298,6 @@ obj/RemoveObjectCommand.o: src/command/object/RemoveObjectCommand.cpp src/comman
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2379,7 +2344,6 @@ obj/CompositeObjectCommand.o: src/command/object/CompositeObjectCommand.cpp src/
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2426,7 +2390,6 @@ obj/ClearSceneCommand.o: src/command/scene/ClearSceneCommand.cpp src/command/sce
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2472,7 +2435,6 @@ obj/BaseSceneCommand.o: src/command/scene/BaseSceneCommand.cpp src/command/scene
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2519,7 +2481,6 @@ obj/GetObjectIDsSceneCommand.o: src/command/scene/GetObjectIDsSceneCommand.cpp s
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2566,7 +2527,6 @@ obj/GetCameraIDsSceneCommand.o: src/command/scene/GetCameraIDsSceneCommand.cpp s
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/center_strategy/CenterStrategy.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/director/DirectorCreator.h \
@@ -2586,6 +2546,10 @@ obj/GetCameraIDsSceneCommand.o: src/command/scene/GetCameraIDsSceneCommand.cpp s
 		src/drawer/BaseDrawerCreator.h \
 		src/manager/Drawmanager.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GetCameraIDsSceneCommand.o src/command/scene/GetCameraIDsSceneCommand.cpp
+
+obj/FindCenter.o: src/center/FindCenter.cpp src/center/FindCenter.h \
+		src/objects/Point.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/FindCenter.o src/center/FindCenter.cpp
 
 ####### Install
 

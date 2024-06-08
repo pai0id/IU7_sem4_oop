@@ -1,7 +1,6 @@
 #pragma once
 #include "BaseDirector.h"
 #include "BaseBoneModelBuilder.h"
-#include "CenterStrategy.h"
 #include "BoneModelReader.h"
 
 class BaseBoneModelDirector : public BaseDirector {
@@ -15,6 +14,5 @@ class BaseBoneModelDirector : public BaseDirector {
 
     protected:
         std::shared_ptr<BaseBoneModelBuilder> _builder;
-        std::shared_ptr<BaseCenterStrategy> _strategy;
         std::shared_ptr<BoneModelReader> _reader;
 };

@@ -1,3 +1,7 @@
 #include "BoneModelReader.h"
+#include "FindCenter.h"
 
-BoneModelReader::~BoneModelReader() {}
+Point BoneModelReader::ReadCenter() {
+    std::vector<Point> points = ReadPoints();
+    return FindCenter(points);
+}

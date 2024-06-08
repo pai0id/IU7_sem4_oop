@@ -1,6 +1,6 @@
 #include "Composite.h"
 #include "Visitor.h"
-#include "CenterStrategy.h"
+#include "FindCenter.h"
 
 Composite::Composite(std::vector<std::shared_ptr<Object>> vec) : _objects(vec) {}
 
@@ -42,6 +42,5 @@ Point Composite::GetCenter() const {
     for (auto &obj : _objects) {
         centers.push_back(obj->GetCenter());
     }
-    ClassicCenterStrategy centerStrategy;
-    return centerStrategy.CenterAlgorithm(centers);
+    return FindCenter(centers);
 }

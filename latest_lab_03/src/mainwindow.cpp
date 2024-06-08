@@ -72,7 +72,7 @@ void MyMainWindow::on_loadButton_clicked() {
         command = std::make_shared<MatrixLoadCommand>();
     
     std::shared_ptr<BaseCommand> decorator;
-    if (endsWith(fname, ".sqlite"))
+    if (endsWith(fname, ".sqlite") || endsWith(fname, ".sqlite3"))
         decorator = std::make_shared<SqliteLoadCommandDecorator>(*command, fname);
     else
         decorator = std::make_shared<TxtLoadCommandDecorator>(*command, fname);

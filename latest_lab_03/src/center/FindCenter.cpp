@@ -1,9 +1,6 @@
-#include "CenterStrategy.h"
+#include "FindCenter.h"
 
-
-BaseCenterStrategy::~BaseCenterStrategy() {}
-
-Point ClassicCenterStrategy::CenterAlgorithm(std::vector<Point> points) const {
+Point FindCenter(std::vector<Point> points) {
     if (points.empty())
         return Point();
     double minX = points[0].GetX(), minY = points[0].GetY(), minZ = points[0].GetZ();
