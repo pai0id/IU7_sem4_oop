@@ -5,7 +5,7 @@
 
 class TxtBoneModelReader : public BoneModelReader {
     public:
-        TxtBoneModelReader(const char* filename);
+        TxtBoneModelReader(std::string filename);
         virtual ~TxtBoneModelReader();
 
 
@@ -17,6 +17,6 @@ class TxtBoneModelReader : public BoneModelReader {
         virtual std::vector<Edge> ReadEdges();
 
     protected:
-        const char* _fname;
+        std::string _fname;
         std::ifstream _file;
 };

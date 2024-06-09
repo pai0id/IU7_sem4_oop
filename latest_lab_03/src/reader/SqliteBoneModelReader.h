@@ -5,7 +5,7 @@
 
 class SqliteBoneModelReader : public BoneModelReader {
     public:
-        SqliteBoneModelReader(const char* filename);
+        SqliteBoneModelReader(std::string filename);
         virtual ~SqliteBoneModelReader();
 
 
@@ -17,6 +17,6 @@ class SqliteBoneModelReader : public BoneModelReader {
         virtual std::vector<Edge> ReadEdges();
 
     protected:
-        const char* _fname;
+        std::string _fname;
         sqlite3 * _db;
 };

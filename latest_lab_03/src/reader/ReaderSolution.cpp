@@ -17,15 +17,6 @@ bool ReaderSolution::Check(std::size_t index) {
     return _creators.find(index)!= _creators.end();
 }
 
-std::shared_ptr<BaseReaderCreator> ReaderSolution::Create(std::size_t index) {
-    if (Check(index)) {
-        return _creators[index];
-    }
-    time_t now = time(nullptr);
-    throw SolutionNotFoundException(ctime(&now), __FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);
-}
-
-
 void ReaderSolution::Register(std::size_t index, std::shared_ptr<BaseReaderCreator> creator) {
     if (Check(index)) {
         time_t now = time(nullptr);

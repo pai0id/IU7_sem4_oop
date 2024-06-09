@@ -14,7 +14,7 @@ class ReaderCreator : public BaseReaderCreatorTemplate<ReaderBase, Args...> {
         virtual std::shared_ptr<ReaderBase> Create(Args&&... args);
 };
 
-using TxtBoneModelReaderCreator = ReaderCreator<BoneModelReader, TxtBoneModelReader, const char *>;
-using SqliteBoneModelReaderCreator = ReaderCreator<BoneModelReader, SqliteBoneModelReader, const char *>;
+using TxtBoneModelReaderCreator = ReaderCreator<BoneModelReader, TxtBoneModelReader, std::string>;
+using SqliteBoneModelReaderCreator = ReaderCreator<BoneModelReader, SqliteBoneModelReader, std::string>;
 
 #include "ReaderCreator.hpp"

@@ -61,8 +61,7 @@ bool endsWith(const std::string &str, const std::string &suffix) {
 }
 
 void MyMainWindow::on_loadButton_clicked() {
-    std::string str = ui->FileNameEntry->text().toStdString();
-    const char* fname = str.c_str();
+    std::string fname = ui->FileNameEntry->text().toStdString();
     
     std::shared_ptr<BaseLoadCommand> command;
 

@@ -5,7 +5,7 @@
 static const char * ReadPointsSql = "SELECT * FROM point ORDER BY id ASC";
 static const char * ReadEdgesSql = "SELECT * FROM edge";
 
-SqliteBoneModelReader::SqliteBoneModelReader(const char *filename) : _fname(filename), _db(nullptr) { }
+SqliteBoneModelReader::SqliteBoneModelReader(std::string filename) : _fname(filename), _db(nullptr) { }
 
 SqliteBoneModelReader::~SqliteBoneModelReader() { 
     if (IsOpen())
@@ -18,7 +18,7 @@ bool SqliteBoneModelReader::IsOpen() {
 
 
 void SqliteBoneModelReader::Open() {
-    int rc = sqlite3_open(_fname, &_db);
+    int rc = sqlite3_open(_fname.c_str(), &_db);
     if (rc!= SQLITE_OK) {
         time_t now = time(nullptr);
         throw SqliteNoFileException(ctime(&now), __FILE__, __LINE__, typeid(*this).name(), __FUNCTION__);

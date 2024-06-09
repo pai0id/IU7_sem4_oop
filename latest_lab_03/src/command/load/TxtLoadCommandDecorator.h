@@ -5,8 +5,8 @@ class TxtLoadCommandDecorator : public BaseLoadCommandDecorator {
     public:
         virtual ~TxtLoadCommandDecorator() = default;
         TxtLoadCommandDecorator() = delete;
-        TxtLoadCommandDecorator(BaseLoadCommand &command, const char *filename);
+        TxtLoadCommandDecorator(BaseLoadCommand &command, std::string filename);
         virtual void Execute();
     protected:
-        const char *_filename;
+        std::string _filename;
 };

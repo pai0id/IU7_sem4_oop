@@ -1,7 +1,7 @@
 #include "TxtBoneModelReader.h"
 #include "txtreaderexception.h"
 
-TxtBoneModelReader::TxtBoneModelReader(const char* filename) : _fname(filename) {}
+TxtBoneModelReader::TxtBoneModelReader(std::string filename) : _fname(filename) {}
 
 TxtBoneModelReader::~TxtBoneModelReader() {
     if (IsOpen()) {

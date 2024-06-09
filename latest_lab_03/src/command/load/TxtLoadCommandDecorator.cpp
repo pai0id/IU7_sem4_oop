@@ -1,7 +1,7 @@
 #include "TxtLoadCommandDecorator.h"
 #include <iostream>
 
-TxtLoadCommandDecorator::TxtLoadCommandDecorator(BaseLoadCommand &command, const char *filename)
+TxtLoadCommandDecorator::TxtLoadCommandDecorator(BaseLoadCommand &command, std::string filename)
 : BaseLoadCommandDecorator(command), _filename(filename) {
     _command = command;
     _reader_id = TXTBONEMODELREADERCREATOR_ID;

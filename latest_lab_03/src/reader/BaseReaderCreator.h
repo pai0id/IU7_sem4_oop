@@ -17,4 +17,4 @@ class BaseReaderCreatorTemplate : public BaseReaderCreator {
         virtual std::shared_ptr<Reader> Create(Args&&... args) = 0;
 };
 
-using BoneModelReaderCreator_t = BaseReaderCreatorTemplate<BoneModelReader, const char*>;
+using BoneModelReaderCreator_t = BaseReaderCreatorTemplate<BoneModelReader, std::string>;

@@ -1,6 +1,6 @@
 #include "SqliteLoadCommandDecorator.h"
 
-SqliteLoadCommandDecorator::SqliteLoadCommandDecorator(BaseLoadCommand &command, const char *filename)
+SqliteLoadCommandDecorator::SqliteLoadCommandDecorator(BaseLoadCommand &command, std::string filename)
 : BaseLoadCommandDecorator(command), _filename(filename) {
     _command = command;
     _reader_id = SQLITEBONEMODELREADERCREATOR_ID;

@@ -17,7 +17,7 @@ class LoadManager {
         LoadManager();
         ~LoadManager() = default;
 
-        std::shared_ptr<Object> LoadBoneModelFile(std::size_t directorID, std::size_t readerID, const char *filename);
+        std::shared_ptr<Object> LoadBoneModelFile(std::size_t directorID, std::size_t readerID, std::string filename);
 
     protected:
         DirectorSolution _dsolution;
