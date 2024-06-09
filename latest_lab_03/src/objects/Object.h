@@ -23,9 +23,9 @@ class Object {
         
         virtual std::size_t GetId() const;
 
-        virtual Point GetCenter() const = 0;
+        virtual Point GetCenter() const;    // Done
         virtual bool IsVisible() const = 0;
-        virtual bool IsComposite() const = 0;
+        virtual bool IsComposite() const;
     
     protected:
         std::size_t _id = 0;

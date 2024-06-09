@@ -3,11 +3,11 @@
 
 ListModelStructure::ListModelStructure() : _center(Point()), _points(std::vector<Point>()), _edges(std::vector<Edge>()) {};
 
-void ListModelStructure::Transform(const TransformAction& action) {
+void ListModelStructure::Transform(std::shared_ptr<TransformAction> action) {
     for (Point& point : _points) {
-        action.TransformPoint(point);
+        action->TransformPoint(point);
     }
-    action.TransformPoint(_center);
+    action->TransformPoint(_center);
 }
 
 std::vector<Point> ListModelStructure::GetPoints() const {

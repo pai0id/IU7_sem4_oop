@@ -3,7 +3,6 @@
 
 class BoneModel;
 class Camera;
-class Composite;
 
 class Visitor {
     public:

@@ -13,7 +13,7 @@ class ModelStructure {
         ModelStructure(ModelStructure&& other) = delete;
         virtual ~ModelStructure() = 0;
 
-        virtual void Transform(const TransformAction& action) = 0;
+        virtual void Transform(std::shared_ptr<TransformAction> action) = 0;
         virtual std::vector<Point> GetPoints() const = 0;
         virtual std::vector<Edge> GetEdges() const = 0;
         virtual void AddPoint(const Point& point) = 0;

@@ -26,3 +26,7 @@ Object::iterator Object::end() { return iterator(); };
 void Object::accept(std::shared_ptr<Visitor> v) { (void) v; };
 
 std::shared_ptr<Object> Object::Clone() const { return nullptr;};
+
+Point Object::GetCenter() const { return Point(); }
+
+bool Object::IsComposite() const { return false; }

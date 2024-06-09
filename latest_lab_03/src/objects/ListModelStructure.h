@@ -12,7 +12,7 @@ class ListModelStructure : public ModelStructure {
         ListModelStructure();
         
         ~ListModelStructure() = default;
-        virtual void Transform(const TransformAction& action);
+        virtual void Transform(std::shared_ptr<TransformAction> action);
         virtual std::vector<Point> GetPoints() const;
         virtual std::vector<Edge> GetEdges() const;
         virtual void AddPoint(const Point& point);

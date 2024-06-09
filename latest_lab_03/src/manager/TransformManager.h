@@ -10,5 +10,5 @@ class TransformManager {
         void RotateObject(std::shared_ptr<Object> object, double ox, double oy, double oz);
         void ScaleObject(std::shared_ptr<Object> object, double kx, double ky, double kz);
         void ShiftObject(std::shared_ptr<Object> object, double x, double y, double z);
-        void TransformObject(std::shared_ptr<Object> object, const TransformAction& transform);
+        void TransformObject(std::shared_ptr<Object> object, std::shared_ptr<TransformAction> transform);
 };

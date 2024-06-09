@@ -4,11 +4,11 @@
 
 MatrixModelStructure::MatrixModelStructure() : _center(Point()), _points(std::vector<Point>()), _edgeMatrix(SquareMatrix<int>()) {};
 
-void MatrixModelStructure::Transform(const TransformAction& action) {
+void MatrixModelStructure::Transform(std::shared_ptr<TransformAction> action) {
     for (Point& point : _points) {
-        action.TransformPoint(point);
+        action->TransformPoint(point);
     }
-    action.TransformPoint(_center);
+    action->TransformPoint(_center);
 }
 
 std::vector<Point> MatrixModelStructure::GetPoints() const {

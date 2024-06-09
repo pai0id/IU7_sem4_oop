@@ -8,22 +8,19 @@
 #include <memory>
 
 void TransformManager::RotateObject(std::shared_ptr<Object> object, double ox, double oy, double oz) {
-    auto action = RotateAction(object->GetCenter(), ox, oy, oz);
-    TransformVisitor vis(action);
+    TransformVisitor vis(std::make_shared<RotateAction>(object->GetCenter(), ox, oy, oz));
     object->accept(std::make_shared<TransformVisitor>(vis));
 }
 
 void TransformManager::ScaleObject(std::shared_ptr<Object> object, double kx, double ky, double kz) {
-    auto action = ScaleAction(object->GetCenter(), kx, ky, kz);
-    TransformVisitor vis(action);
+    TransformVisitor vis(std::make_shared<ScaleAction>(object->GetCenter(), kx, ky, kz));
     object->accept(std::make_shared<TransformVisitor>(vis));
 }
 void TransformManager::ShiftObject(std::shared_ptr<Object> object, double x, double y, double z) {
-    auto action = ShiftAction(x, y, z);
-    TransformVisitor vis(action);
+    TransformVisitor vis(std::make_shared<ShiftAction>(x, y, z));
     object->accept(std::make_shared<TransformVisitor>(vis));
 }
-void TransformManager::TransformObject(std::shared_ptr<Object> object, const TransformAction& transform) {
+void TransformManager::TransformObject(std::shared_ptr<Object> object, std::shared_ptr<TransformAction> transform) {
     TransformVisitor vis(transform);
     object->accept(std::make_shared<TransformVisitor>(vis));
 }

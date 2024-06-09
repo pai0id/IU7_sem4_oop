@@ -6,11 +6,11 @@
 class TransformVisitor : public Visitor {
 public:
     TransformVisitor() = delete;
-    TransformVisitor(const TransformAction& action);
+    TransformVisitor(std::shared_ptr<TransformAction> action);
     ~TransformVisitor() = default;
 
     virtual void visit(BoneModel& model) const;
     virtual void visit(Camera& camera) const ;
 private:
-    const TransformAction& _action;
+    std::shared_ptr<TransformAction> _action;
 };
