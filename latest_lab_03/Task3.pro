@@ -86,7 +86,6 @@ HEADERS += src/builder/BaseBoneModelBuilder.h \
     src/scene/Scene.h \
     src/square_matrix/SquareMatrix.h \
     src/square_matrix/SquareMatrix.hpp \
-    src/square_matrix/SquareMatrixRow.hpp \
     src/transform_strategy/RotateAction.h \
     src/transform_strategy/ScaleAction.h \
     src/transform_strategy/ShiftAction.h \

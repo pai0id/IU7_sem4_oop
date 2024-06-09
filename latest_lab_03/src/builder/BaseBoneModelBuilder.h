@@ -5,13 +5,17 @@
 
 class BaseBoneModelBuilder {
     public:
-        BaseBoneModelBuilder() = default;
+        BaseBoneModelBuilder();
+        explicit BaseBoneModelBuilder(std::shared_ptr<BoneModelReader> reader);
+        ~BaseBoneModelBuilder();
 
-        virtual ~BaseBoneModelBuilder() = 0;
-
+        virtual void BuildPoints();
+        virtual void BuildEdges();
+        virtual void BuildCenter();
         virtual std::shared_ptr<BoneModel> Get();
-        virtual void Build(std::shared_ptr<BoneModelReader>);
         virtual bool IsBuilt();
     protected:
+        std::shared_ptr<BoneModelReader> _reader;
         std::shared_ptr<ModelStructure> _model;
+        bool _isBuilt;
 };

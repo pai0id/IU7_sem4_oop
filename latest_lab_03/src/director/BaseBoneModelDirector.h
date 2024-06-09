@@ -9,8 +9,7 @@ class BaseBoneModelDirector : public BaseDirector {
         
         virtual ~BaseBoneModelDirector() = 0;
         
-        virtual void Create();
-        virtual std::shared_ptr<Object> Get();
+        virtual std::shared_ptr<Object> Create();
 
     protected:
         std::shared_ptr<BaseBoneModelBuilder> _builder;

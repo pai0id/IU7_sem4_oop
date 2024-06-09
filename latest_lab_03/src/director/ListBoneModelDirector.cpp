@@ -3,5 +3,5 @@
 
 ListBoneModelDirector::ListBoneModelDirector(std::shared_ptr<BoneModelReader> reader)
 : BaseBoneModelDirector(reader) {
-    _builder = std::make_shared<ListBoneModelBuilder>();
+    _builder = std::make_shared<ListBoneModelBuilder>(_reader);
 }

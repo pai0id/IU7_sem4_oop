@@ -334,7 +334,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/scene/Scene.h \
 		src/square_matrix/SquareMatrix.h \
 		src/square_matrix/SquareMatrix.hpp \
-		src/square_matrix/SquareMatrixRow.hpp \
 		src/transform_strategy/RotateAction.h \
 		src/transform_strategy/ScaleAction.h \
 		src/transform_strategy/ShiftAction.h \
@@ -650,7 +649,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.h src/builder/ListBoneModelBuilder.h src/builder/MatrixBoneModelBuilder.h src/concepts/concept.h src/director/BaseBoneModelDirector.h src/director/BaseDirectorCreator.h src/director/BaseDirector.h src/director/DirectorCreator.h src/director/DirectorCreator.hpp src/director/DirectorSolution.h src/director/DirectorSolution.hpp src/director/ListBoneModelDirector.h src/director/MatrixBoneModelDirector.h src/drawer/BaseDrawer.h src/drawer/QtDrawer.h src/drawer/BaseDrawerCreator.h src/drawer/QtDrawerCreator.h src/exception/baseexception.h src/exception/directorexception.h src/exception/managerexception.h src/exception/matrixexception.h src/exception/modelexception.h src/exception/solutionexception.h src/exception/sqlitereaderexception.h src/exception/txtreaderexception.h src/manager/LoadManager.h src/manager/SceneManager.h src/manager/DrawManager.h src/manager/Drawmanager.hpp src/objects/BaseModel.h src/objects/BoneModel.h src/objects/Camera.h src/objects/Composite.h src/objects/Edge.h src/objects/InvisibleObject.h src/objects/ListModelStructure.h src/objects/MatrixModelStructure.h src/objects/ModelStructure.h src/objects/Object.h src/objects/Point.h src/objects/VisibleObject.h src/reader/BaseReaderCreator.h src/reader/BaseReader.h src/reader/BoneModelReader.h src/reader/ReaderCreator.h src/reader/ReaderCreator.hpp src/reader/ReaderSolution.h src/reader/ReaderSolution.hpp src/reader/SqliteBoneModelReader.h src/reader/TxtBoneModelReader.h src/scene/Scene.h src/square_matrix/SquareMatrix.h src/square_matrix/SquareMatrix.hpp src/square_matrix/SquareMatrixRow.hpp src/transform_strategy/RotateAction.h src/transform_strategy/ScaleAction.h src/transform_strategy/ShiftAction.h src/transform_strategy/TransformAction.h src/transform_strategy/CameraProjectionAction.h src/visitor/Visitor.h src/visitor/DrawVisitor.h src/visitor/TransformVisitor.h src/mainwindow.hpp src/interface.hpp src/facade/SceneFacade.h src/command/draw/BaseDrawCommand.h src/command/draw/DrawSceneQtCommand.h src/command/load/TxtLoadCommandDecorator.h src/command/load/BaseLoadCommand.h src/command/load/MatrixLoadCommand.h src/command/load/ListLoadCommand.h src/command/load/SqliteLoadCommandDecorator.h src/command/load/BaseLoadCommandDecorator.h src/command/camera/SetCameraCommand.h src/command/camera/MoveCameraCommand.h src/command/camera/BaseCameraCommand.h src/command/camera/RemoveCameraCommand.h src/command/camera/AddCameraCommand.h src/command/scene/ClearSceneCommand.h src/command/scene/BaseSceneCommand.h src/command/object/ScaleObjectCommand.h src/command/object/BaseObjectCommand.h src/command/object/ShiftObjectCommand.h src/command/object/RotateObjectCommand.h src/command/object/RemoveObjectCommand.h src/command/object/CompositeObjectCommand.h src/command/BaseCommand.h src/command/scene/GetObjectIDsSceneCommand.h src/command/scene/GetCameraIDsSceneCommand.h src/center/FindCenter.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.h src/builder/ListBoneModelBuilder.h src/builder/MatrixBoneModelBuilder.h src/concepts/concept.h src/director/BaseBoneModelDirector.h src/director/BaseDirectorCreator.h src/director/BaseDirector.h src/director/DirectorCreator.h src/director/DirectorCreator.hpp src/director/DirectorSolution.h src/director/DirectorSolution.hpp src/director/ListBoneModelDirector.h src/director/MatrixBoneModelDirector.h src/drawer/BaseDrawer.h src/drawer/QtDrawer.h src/drawer/BaseDrawerCreator.h src/drawer/QtDrawerCreator.h src/exception/baseexception.h src/exception/directorexception.h src/exception/managerexception.h src/exception/matrixexception.h src/exception/modelexception.h src/exception/solutionexception.h src/exception/sqlitereaderexception.h src/exception/txtreaderexception.h src/manager/LoadManager.h src/manager/SceneManager.h src/manager/DrawManager.h src/manager/Drawmanager.hpp src/objects/BaseModel.h src/objects/BoneModel.h src/objects/Camera.h src/objects/Composite.h src/objects/Edge.h src/objects/InvisibleObject.h src/objects/ListModelStructure.h src/objects/MatrixModelStructure.h src/objects/ModelStructure.h src/objects/Object.h src/objects/Point.h src/objects/VisibleObject.h src/reader/BaseReaderCreator.h src/reader/BaseReader.h src/reader/BoneModelReader.h src/reader/ReaderCreator.h src/reader/ReaderCreator.hpp src/reader/ReaderSolution.h src/reader/ReaderSolution.hpp src/reader/SqliteBoneModelReader.h src/reader/TxtBoneModelReader.h src/scene/Scene.h src/square_matrix/SquareMatrix.h src/square_matrix/SquareMatrix.hpp src/transform_strategy/RotateAction.h src/transform_strategy/ScaleAction.h src/transform_strategy/ShiftAction.h src/transform_strategy/TransformAction.h src/transform_strategy/CameraProjectionAction.h src/visitor/Visitor.h src/visitor/DrawVisitor.h src/visitor/TransformVisitor.h src/mainwindow.hpp src/interface.hpp src/facade/SceneFacade.h src/command/draw/BaseDrawCommand.h src/command/draw/DrawSceneQtCommand.h src/command/load/TxtLoadCommandDecorator.h src/command/load/BaseLoadCommand.h src/command/load/MatrixLoadCommand.h src/command/load/ListLoadCommand.h src/command/load/SqliteLoadCommandDecorator.h src/command/load/BaseLoadCommandDecorator.h src/command/camera/SetCameraCommand.h src/command/camera/MoveCameraCommand.h src/command/camera/BaseCameraCommand.h src/command/camera/RemoveCameraCommand.h src/command/camera/AddCameraCommand.h src/command/scene/ClearSceneCommand.h src/command/scene/BaseSceneCommand.h src/command/object/ScaleObjectCommand.h src/command/object/BaseObjectCommand.h src/command/object/ShiftObjectCommand.h src/command/object/RotateObjectCommand.h src/command/object/RemoveObjectCommand.h src/command/object/CompositeObjectCommand.h src/command/BaseCommand.h src/command/scene/GetObjectIDsSceneCommand.h src/command/scene/GetCameraIDsSceneCommand.h src/center/FindCenter.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/builder/BaseBoneModelBuilder.cpp src/builder/ListBoneModelBuilder.cpp src/builder/MatrixBoneModeBuilder.cpp src/director/BaseBoneModelDirector.cpp src/director/BaseDirector.cpp src/director/DirectorSolution.cpp src/director/ListBoneModelDirector.cpp src/director/MatrixBoneModelDirector.cpp src/drawer/BaseDrawer.cpp src/drawer/QtDrawer.cpp src/drawer/BaseDrawerCreator.cpp src/drawer/QtDrawerCreator.cpp src/exception/baseexception.cpp src/manager/LoadManager.cpp src/manager/SceneManager.cpp src/manager/TransformManager.cpp src/objects/BaseModel.cpp src/objects/BoneModel.cpp src/objects/Camera.cpp src/objects/Composite.cpp src/objects/Edge.cpp src/objects/InvisibleObject.cpp src/objects/ListModelStructure.cpp src/objects/MatrixModelStructure.cpp src/objects/ModelStructure.cpp src/objects/Object.cpp src/objects/Point.cpp src/objects/VisibleObject.cpp src/reader/BaseReader.cpp src/reader/BoneModelReader.cpp src/reader/ReaderSolution.cpp src/reader/SqliteBoneModelReader.cpp src/reader/TxtBoneModelReader.cpp src/scene/Scene.cpp src/transform_strategy/RotateAction.cpp src/transform_strategy/ScaleAction.cpp src/transform_strategy/ShiftAction.cpp src/transform_strategy/TransformAction.cpp src/transform_strategy/CameraProjectionAction.cpp src/visitor/DrawVisitor.cpp src/visitor/TransformVisitor.cpp src/main.cpp src/mainwindow.cpp src/facade/SceneFacade.cpp src/command/BaseCommand.cpp src/command/camera/SetCameraCommand.cpp src/command/camera/MoveCameraCommand.cpp src/command/camera/BaseCameraCommand.cpp src/command/camera/AddCameraCommand.cpp src/command/camera/RemoveCameraCommand.cpp src/command/draw/BaseDrawCommand.cpp src/command/draw/DrawSceneQtCommand.cpp src/command/load/MatrixLoadCommand.cpp src/command/load/SqliteLoadCommandDecorator.cpp src/command/load/ListLoadCommand.cpp src/command/load/BaseLoadCommand.cpp src/command/load/BaseLoadCommandDecorator.cpp src/command/load/TxtLoadCommandDecorator.cpp src/command/object/BaseObjectCommand.cpp src/command/object/RotateObjectCommand.cpp src/command/object/ShiftObjectCommand.cpp src/command/object/ScaleObjectCommand.cpp src/command/object/RemoveObjectCommand.cpp src/command/object/CompositeObjectCommand.cpp src/command/scene/ClearSceneCommand.cpp src/command/scene/BaseSceneCommand.cpp src/command/scene/GetObjectIDsSceneCommand.cpp src/command/scene/GetCameraIDsSceneCommand.cpp src/center/FindCenter.cpp $(DISTDIR)/
 
 
@@ -709,9 +708,6 @@ obj/BaseBoneModelBuilder.o: src/builder/BaseBoneModelBuilder.cpp src/builder/Bas
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/ModelStructure.h \
 		src/objects/Edge.h \
@@ -724,6 +720,7 @@ obj/BaseBoneModelBuilder.o: src/builder/BaseBoneModelBuilder.cpp src/builder/Bas
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseBoneModelBuilder.o src/builder/BaseBoneModelBuilder.cpp
 
 obj/ListBoneModelBuilder.o: src/builder/ListBoneModelBuilder.cpp src/builder/ListBoneModelBuilder.h \
+		src/builder/BaseBoneModelBuilder.h \
 		src/objects/BoneModel.h \
 		src/objects/BaseModel.h \
 		src/objects/VisibleObject.h \
@@ -731,9 +728,6 @@ obj/ListBoneModelBuilder.o: src/builder/ListBoneModelBuilder.cpp src/builder/Lis
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/ModelStructure.h \
 		src/objects/Edge.h \
@@ -741,7 +735,6 @@ obj/ListBoneModelBuilder.o: src/builder/ListBoneModelBuilder.cpp src/builder/Lis
 		src/visitor/Visitor.h \
 		src/drawer/BaseDrawer.h \
 		src/visitor/TransformVisitor.h \
-		src/builder/BaseBoneModelBuilder.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
 		src/objects/ListModelStructure.h
@@ -756,9 +749,6 @@ obj/MatrixBoneModeBuilder.o: src/builder/MatrixBoneModeBuilder.cpp src/builder/M
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/ModelStructure.h \
 		src/objects/Edge.h \
@@ -777,9 +767,6 @@ obj/BaseBoneModelDirector.o: src/director/BaseBoneModelDirector.cpp src/director
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/builder/BaseBoneModelBuilder.h \
 		src/objects/BoneModel.h \
@@ -793,7 +780,8 @@ obj/BaseBoneModelDirector.o: src/director/BaseBoneModelDirector.cpp src/director
 		src/visitor/TransformVisitor.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
-		src/exception/directorexception.h
+		src/exception/directorexception.h \
+		src/exception/baseexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseBoneModelDirector.o src/director/BaseBoneModelDirector.cpp
 
 obj/BaseDirector.o: src/director/BaseDirector.cpp src/director/BaseDirector.h \
@@ -801,9 +789,6 @@ obj/BaseDirector.o: src/director/BaseDirector.cpp src/director/BaseDirector.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseDirector.o src/director/BaseDirector.cpp
 
@@ -814,9 +799,6 @@ obj/DirectorSolution.o: src/director/DirectorSolution.cpp src/director/DirectorS
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -837,7 +819,8 @@ obj/DirectorSolution.o: src/director/DirectorSolution.cpp src/director/DirectorS
 		src/concepts/concept.h \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
-		src/exception/solutionexception.h
+		src/exception/solutionexception.h \
+		src/exception/baseexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DirectorSolution.o src/director/DirectorSolution.cpp
 
 obj/ListBoneModelDirector.o: src/director/ListBoneModelDirector.cpp src/director/ListBoneModelDirector.h \
@@ -847,9 +830,6 @@ obj/ListBoneModelDirector.o: src/director/ListBoneModelDirector.cpp src/director
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/builder/BaseBoneModelBuilder.h \
 		src/objects/BoneModel.h \
@@ -863,8 +843,7 @@ obj/ListBoneModelDirector.o: src/director/ListBoneModelDirector.cpp src/director
 		src/visitor/TransformVisitor.h \
 		src/reader/BoneModelReader.h \
 		src/reader/BaseReader.h \
-		src/builder/ListBoneModelBuilder.h \
-		src/objects/ListModelStructure.h
+		src/builder/ListBoneModelBuilder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ListBoneModelDirector.o src/director/ListBoneModelDirector.cpp
 
 obj/MatrixBoneModelDirector.o: src/director/MatrixBoneModelDirector.cpp src/director/MatrixBoneModelDirector.h \
@@ -874,9 +853,6 @@ obj/MatrixBoneModelDirector.o: src/director/MatrixBoneModelDirector.cpp src/dire
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/builder/BaseBoneModelBuilder.h \
 		src/objects/BoneModel.h \
@@ -925,9 +901,6 @@ obj/LoadManager.o: src/manager/LoadManager.cpp src/manager/LoadManager.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -949,6 +922,7 @@ obj/LoadManager.o: src/manager/LoadManager.cpp src/manager/LoadManager.h \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -964,9 +938,6 @@ obj/SceneManager.o: src/manager/SceneManager.cpp src/manager/SceneManager.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Camera.h \
 		src/objects/InvisibleObject.h \
@@ -982,9 +953,6 @@ obj/TransformManager.o: src/manager/TransformManager.cpp src/manager/TransformMa
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Object.h \
 		src/transform_strategy/RotateAction.h \
@@ -1000,9 +968,6 @@ obj/BaseModel.o: src/objects/BaseModel.cpp src/objects/BaseModel.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/BaseModel.o src/objects/BaseModel.cpp
 
@@ -1013,9 +978,6 @@ obj/BoneModel.o: src/objects/BoneModel.cpp src/objects/BoneModel.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/ModelStructure.h \
 		src/objects/Edge.h \
@@ -1031,9 +993,6 @@ obj/Camera.o: src/objects/Camera.cpp src/objects/Camera.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/visitor/DrawVisitor.h \
 		src/visitor/Visitor.h \
@@ -1047,9 +1006,6 @@ obj/Composite.o: src/objects/Composite.cpp src/objects/Composite.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/visitor/Visitor.h \
 		src/center/FindCenter.h
@@ -1063,9 +1019,6 @@ obj/InvisibleObject.o: src/objects/InvisibleObject.cpp src/objects/InvisibleObje
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/InvisibleObject.o src/objects/InvisibleObject.cpp
 
@@ -1073,9 +1026,6 @@ obj/ListModelStructure.o: src/objects/ListModelStructure.cpp src/objects/ListMod
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Edge.h \
 		src/objects/ModelStructure.h
@@ -1086,21 +1036,16 @@ obj/MatrixModelStructure.o: src/objects/MatrixModelStructure.cpp src/objects/Mat
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Edge.h \
-		src/exception/modelexception.h
+		src/exception/modelexception.h \
+		src/exception/baseexception.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MatrixModelStructure.o src/objects/MatrixModelStructure.cpp
 
 obj/ModelStructure.o: src/objects/ModelStructure.cpp src/objects/ModelStructure.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Edge.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ModelStructure.o src/objects/ModelStructure.cpp
@@ -1109,9 +1054,6 @@ obj/Object.o: src/objects/Object.cpp src/objects/Object.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/visitor/Visitor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Object.o src/objects/Object.cpp
@@ -1124,9 +1066,6 @@ obj/VisibleObject.o: src/objects/VisibleObject.cpp src/objects/VisibleObject.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/VisibleObject.o src/objects/VisibleObject.cpp
 
@@ -1175,9 +1114,6 @@ obj/Scene.o: src/scene/Scene.cpp src/scene/Scene.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/visitor/Visitor.h \
 		src/manager/SceneManager.h \
@@ -1194,9 +1130,6 @@ obj/RotateAction.o: src/transform_strategy/RotateAction.cpp src/transform_strate
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/transform_strategy/ShiftAction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/RotateAction.o src/transform_strategy/RotateAction.cpp
@@ -1205,9 +1138,6 @@ obj/ScaleAction.o: src/transform_strategy/ScaleAction.cpp src/transform_strategy
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/transform_strategy/ShiftAction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ScaleAction.o src/transform_strategy/ScaleAction.cpp
@@ -1216,18 +1146,12 @@ obj/ShiftAction.o: src/transform_strategy/ShiftAction.cpp src/transform_strategy
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ShiftAction.o src/transform_strategy/ShiftAction.cpp
 
 obj/TransformAction.o: src/transform_strategy/TransformAction.cpp src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TransformAction.o src/transform_strategy/TransformAction.cpp
 
@@ -1235,9 +1159,6 @@ obj/CameraProjectionAction.o: src/transform_strategy/CameraProjectionAction.cpp 
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Camera.h \
 		src/objects/InvisibleObject.h \
@@ -1259,9 +1180,6 @@ obj/DrawVisitor.o: src/visitor/DrawVisitor.cpp src/visitor/DrawVisitor.h \
 		src/objects/Object.h \
 		src/transform_strategy/TransformAction.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/ModelStructure.h \
 		src/objects/Edge.h \
@@ -1277,9 +1195,6 @@ obj/TransformVisitor.o: src/visitor/TransformVisitor.cpp src/visitor/TransformVi
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/objects/Camera.h \
 		src/objects/InvisibleObject.h \
@@ -1305,9 +1220,6 @@ obj/main.o: src/main.cpp src/mainwindow.hpp \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1329,6 +1241,7 @@ obj/main.o: src/main.cpp src/mainwindow.hpp \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1355,9 +1268,6 @@ obj/mainwindow.o: src/mainwindow.cpp src/mainwindow.hpp \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1379,6 +1289,7 @@ obj/mainwindow.o: src/mainwindow.cpp src/mainwindow.hpp \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1425,9 +1336,6 @@ obj/SceneFacade.o: src/facade/SceneFacade.cpp src/facade/SceneFacade.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1449,6 +1357,7 @@ obj/SceneFacade.o: src/facade/SceneFacade.cpp src/facade/SceneFacade.h \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1473,9 +1382,6 @@ obj/BaseCommand.o: src/command/BaseCommand.cpp src/command/BaseCommand.h \
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1497,6 +1403,7 @@ obj/BaseCommand.o: src/command/BaseCommand.cpp src/command/BaseCommand.h \
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1522,9 +1429,6 @@ obj/SetCameraCommand.o: src/command/camera/SetCameraCommand.cpp src/command/came
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1546,6 +1450,7 @@ obj/SetCameraCommand.o: src/command/camera/SetCameraCommand.cpp src/command/came
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1571,9 +1476,6 @@ obj/MoveCameraCommand.o: src/command/camera/MoveCameraCommand.cpp src/command/ca
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1595,6 +1497,7 @@ obj/MoveCameraCommand.o: src/command/camera/MoveCameraCommand.cpp src/command/ca
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1619,9 +1522,6 @@ obj/BaseCameraCommand.o: src/command/camera/BaseCameraCommand.cpp src/command/ca
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1643,6 +1543,7 @@ obj/BaseCameraCommand.o: src/command/camera/BaseCameraCommand.cpp src/command/ca
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1668,9 +1569,6 @@ obj/AddCameraCommand.o: src/command/camera/AddCameraCommand.cpp src/command/came
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1692,6 +1590,7 @@ obj/AddCameraCommand.o: src/command/camera/AddCameraCommand.cpp src/command/came
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1717,9 +1616,6 @@ obj/RemoveCameraCommand.o: src/command/camera/RemoveCameraCommand.cpp src/comman
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1741,6 +1637,7 @@ obj/RemoveCameraCommand.o: src/command/camera/RemoveCameraCommand.cpp src/comman
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1765,9 +1662,6 @@ obj/BaseDrawCommand.o: src/command/draw/BaseDrawCommand.cpp src/command/draw/Bas
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1789,6 +1683,7 @@ obj/BaseDrawCommand.o: src/command/draw/BaseDrawCommand.cpp src/command/draw/Bas
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1814,9 +1709,6 @@ obj/DrawSceneQtCommand.o: src/command/draw/DrawSceneQtCommand.cpp src/command/dr
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1838,6 +1730,7 @@ obj/DrawSceneQtCommand.o: src/command/draw/DrawSceneQtCommand.cpp src/command/dr
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1864,9 +1757,6 @@ obj/MatrixLoadCommand.o: src/command/load/MatrixLoadCommand.cpp src/command/load
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1888,6 +1778,7 @@ obj/MatrixLoadCommand.o: src/command/load/MatrixLoadCommand.cpp src/command/load
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1914,9 +1805,6 @@ obj/SqliteLoadCommandDecorator.o: src/command/load/SqliteLoadCommandDecorator.cp
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1938,6 +1826,7 @@ obj/SqliteLoadCommandDecorator.o: src/command/load/SqliteLoadCommandDecorator.cp
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -1963,9 +1852,6 @@ obj/ListLoadCommand.o: src/command/load/ListLoadCommand.cpp src/command/load/Lis
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -1987,6 +1873,7 @@ obj/ListLoadCommand.o: src/command/load/ListLoadCommand.cpp src/command/load/Lis
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2011,9 +1898,6 @@ obj/BaseLoadCommand.o: src/command/load/BaseLoadCommand.cpp src/command/load/Bas
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2035,6 +1919,7 @@ obj/BaseLoadCommand.o: src/command/load/BaseLoadCommand.cpp src/command/load/Bas
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2060,9 +1945,6 @@ obj/BaseLoadCommandDecorator.o: src/command/load/BaseLoadCommandDecorator.cpp sr
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2084,6 +1966,7 @@ obj/BaseLoadCommandDecorator.o: src/command/load/BaseLoadCommandDecorator.cpp sr
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2110,9 +1993,6 @@ obj/TxtLoadCommandDecorator.o: src/command/load/TxtLoadCommandDecorator.cpp src/
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2134,6 +2014,7 @@ obj/TxtLoadCommandDecorator.o: src/command/load/TxtLoadCommandDecorator.cpp src/
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2158,9 +2039,6 @@ obj/BaseObjectCommand.o: src/command/object/BaseObjectCommand.cpp src/command/ob
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2182,6 +2060,7 @@ obj/BaseObjectCommand.o: src/command/object/BaseObjectCommand.cpp src/command/ob
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2207,9 +2086,6 @@ obj/RotateObjectCommand.o: src/command/object/RotateObjectCommand.cpp src/comman
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2231,6 +2107,7 @@ obj/RotateObjectCommand.o: src/command/object/RotateObjectCommand.cpp src/comman
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2256,9 +2133,6 @@ obj/ShiftObjectCommand.o: src/command/object/ShiftObjectCommand.cpp src/command/
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2280,6 +2154,7 @@ obj/ShiftObjectCommand.o: src/command/object/ShiftObjectCommand.cpp src/command/
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2305,9 +2180,6 @@ obj/ScaleObjectCommand.o: src/command/object/ScaleObjectCommand.cpp src/command/
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2329,6 +2201,7 @@ obj/ScaleObjectCommand.o: src/command/object/ScaleObjectCommand.cpp src/command/
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2354,9 +2227,6 @@ obj/RemoveObjectCommand.o: src/command/object/RemoveObjectCommand.cpp src/comman
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2378,6 +2248,7 @@ obj/RemoveObjectCommand.o: src/command/object/RemoveObjectCommand.cpp src/comman
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2403,9 +2274,6 @@ obj/CompositeObjectCommand.o: src/command/object/CompositeObjectCommand.cpp src/
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2427,6 +2295,7 @@ obj/CompositeObjectCommand.o: src/command/object/CompositeObjectCommand.cpp src/
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2452,9 +2321,6 @@ obj/ClearSceneCommand.o: src/command/scene/ClearSceneCommand.cpp src/command/sce
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2476,6 +2342,7 @@ obj/ClearSceneCommand.o: src/command/scene/ClearSceneCommand.cpp src/command/sce
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2500,9 +2367,6 @@ obj/BaseSceneCommand.o: src/command/scene/BaseSceneCommand.cpp src/command/scene
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2524,6 +2388,7 @@ obj/BaseSceneCommand.o: src/command/scene/BaseSceneCommand.cpp src/command/scene
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2549,9 +2414,6 @@ obj/GetObjectIDsSceneCommand.o: src/command/scene/GetObjectIDsSceneCommand.cpp s
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2573,6 +2435,7 @@ obj/GetObjectIDsSceneCommand.o: src/command/scene/GetObjectIDsSceneCommand.cpp s
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \
@@ -2598,9 +2461,6 @@ obj/GetCameraIDsSceneCommand.o: src/command/scene/GetCameraIDsSceneCommand.cpp s
 		src/transform_strategy/TransformAction.h \
 		src/objects/Point.h \
 		src/square_matrix/SquareMatrix.h \
-		src/square_matrix/SquareMatrixRow.hpp \
-		src/exception/matrixexception.h \
-		src/exception/baseexception.h \
 		src/square_matrix/SquareMatrix.hpp \
 		src/director/BaseBoneModelDirector.h \
 		src/builder/BaseBoneModelBuilder.h \
@@ -2622,6 +2482,7 @@ obj/GetCameraIDsSceneCommand.o: src/command/scene/GetCameraIDsSceneCommand.cpp s
 		src/director/DirectorCreator.hpp \
 		src/director/DirectorSolution.hpp \
 		src/exception/solutionexception.h \
+		src/exception/baseexception.h \
 		src/reader/ReaderSolution.h \
 		src/reader/BaseReaderCreator.h \
 		src/reader/ReaderSolution.hpp \

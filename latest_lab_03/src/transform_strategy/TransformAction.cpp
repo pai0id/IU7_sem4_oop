@@ -10,7 +10,7 @@ TransformAction::TransformAction() : _matrix(SquareMatrix<double>(4)) {
 
 Point &TransformAction::TransformPoint(Point &p) const {
     std::vector<double> pvector = {p.GetX(), p.GetY(), p.GetZ(), 1};
-    std::vector<double> result = _matrix.MultiplyLeft(pvector);
+    std::vector<double> result = _matrix.MultiplyRight(pvector);
     if (result[3] == 0) {
         p.SetX(0);
         p.SetY(0);

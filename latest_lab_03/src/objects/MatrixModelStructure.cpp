@@ -2,7 +2,6 @@
 #include "modelexception.h"
 #include <iostream>
 
-
 MatrixModelStructure::MatrixModelStructure() : _center(Point()), _points(std::vector<Point>()), _edgeMatrix(SquareMatrix<int>()) {};
 
 void MatrixModelStructure::Transform(const TransformAction& action) {
@@ -19,10 +18,10 @@ std::vector<Point> MatrixModelStructure::GetPoints() const {
 std::vector<Edge> MatrixModelStructure::GetEdges() const {
     std::vector<Edge> _edges;
 
-    for (size_t i = 0; i < _edgeMatrix.size(); ++i) {
-        for (auto it = _edgeMatrix[i].cbegin() + i; it != _edgeMatrix[i].cend(); ++it) {
+    for (size_t i = 0; i < _edgeMatrix.getSize(); ++i) {
+        for (auto it = _edgeMatrix[i].begin() + i; it != _edgeMatrix[i].end(); ++it) {
             if (*it) {
-                _edges.push_back(Edge(i, std::distance(_edgeMatrix[i].cbegin(), it)));
+                _edges.push_back(Edge(i, std::distance(_edgeMatrix[i].begin(), it)));
             }
         }
     }

@@ -17,6 +17,5 @@ std::shared_ptr<Object> LoadManager::LoadBoneModelFile(std::size_t directorID, s
 
     std::shared_ptr<BoneModelReader> boneModelReader = readerCr->Create(std::move(filename));
     std::shared_ptr<BaseBoneModelDirector> boneModelDirector = directorCr->Create(std::move(boneModelReader));
-    boneModelDirector->Create();
-    return boneModelDirector->Get();
+    return boneModelDirector->Create();
 };

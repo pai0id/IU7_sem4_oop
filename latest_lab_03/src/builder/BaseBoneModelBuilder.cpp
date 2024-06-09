@@ -1,22 +1,41 @@
 #include "BaseBoneModelBuilder.h"
 
+BaseBoneModelBuilder::BaseBoneModelBuilder() : _reader(nullptr), _isBuilt(false) {}
 
-BaseBoneModelBuilder::~BaseBoneModelBuilder() {}
-
-void BaseBoneModelBuilder::Build(std::shared_ptr<BoneModelReader> _reader) {
+BaseBoneModelBuilder::BaseBoneModelBuilder(std::shared_ptr<BoneModelReader> reader) : _reader(reader), _isBuilt(false) {
     _reader->Open();
-    auto points = _reader->ReadPoints();
-    auto edges = _reader->ReadEdges();
-    _reader->Close();
+}
 
-    for (auto &p : points) {
-        _model->AddPoint(p);
+BaseBoneModelBuilder::~BaseBoneModelBuilder() {
+    if (_reader && _reader->IsOpen()) {
+        _reader->Close();
     }
-    for (auto &e : edges) {
-        _model->AddEdge(e);
-    }
+}
 
-    _model->SetCenter(_reader->ReadCenter());
+void BaseBoneModelBuilder::BuildPoints() {
+    if (_reader) {
+        auto points = _reader->ReadPoints();
+
+        for (auto &p : points) {
+            _model->AddPoint(p);
+        }
+    }
+}
+
+void BaseBoneModelBuilder::BuildEdges() {
+    if (_reader) {
+        auto edges = _reader->ReadEdges();
+
+        for (auto &e : edges) {
+            _model->AddEdge(e);
+        }
+    }
+}
+
+void BaseBoneModelBuilder::BuildCenter() {
+    if (_reader) {
+        _model->SetCenter(_reader->ReadCenter());
+    }
 }
 
 std::shared_ptr<BoneModel> BaseBoneModelBuilder::Get() {
@@ -24,5 +43,5 @@ std::shared_ptr<BoneModel> BaseBoneModelBuilder::Get() {
 }
 
 bool BaseBoneModelBuilder::IsBuilt() {
-    return _model->GetPoints().size() != 0;
+    return _isBuilt;
 }

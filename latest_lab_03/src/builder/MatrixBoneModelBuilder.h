@@ -3,7 +3,6 @@
 
 
 class MatrixBoneModelBuilder : public BaseBoneModelBuilder {
-    public:
-        MatrixBoneModelBuilder();
-        virtual ~MatrixBoneModelBuilder() = default;
+public:
+    explicit MatrixBoneModelBuilder(std::shared_ptr<BoneModelReader> reader);
 };

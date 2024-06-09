@@ -1,5 +1,6 @@
 #pragma once
 #include "TransformAction.h"
+#include <memory>
 
 
 class Camera;

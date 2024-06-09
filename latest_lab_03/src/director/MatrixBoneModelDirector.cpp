@@ -3,5 +3,5 @@
 
 MatrixBoneModelDirector::MatrixBoneModelDirector(std::shared_ptr<BoneModelReader> reader)
 : BaseBoneModelDirector(reader) {
-    _builder = std::make_shared<MatrixBoneModelBuilder>();
+    _builder = std::make_shared<MatrixBoneModelBuilder>(_reader);
 }
