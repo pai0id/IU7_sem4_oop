@@ -5,7 +5,7 @@
 #include "base_iterator.h"
 #include "iterator.h"
 #include "const_iterator.h"
-#include "range.h"
+#include <ranges>
 #include "__concepts.hpp"
 
 template <CopyNMoveable Type>
@@ -33,8 +33,8 @@ public:
 	template <Convertable<Type> T>
 	List(std::initializer_list<T> initList);
 
-	template <ConvertableForwardContainer<Type> C>
-	explicit List(const C& container);
+	// template <ConvertableForwardContainer<Type> C>
+	// explicit List(const C& container);
 
 	template <ConvertableForwardIterator<Type> I>
 	explicit List(const I& begin, const I& end);
@@ -42,8 +42,9 @@ public:
 	template <ConvertableForwardIterator<Type> I>
 	explicit List(const I& begin, const size_t size);
 
-	template <ConvertableForwardIterator<Type> I>
-	explicit List(Range<I> &range);
+	template<std::ranges::input_range Range>
+	requires requires(typename Range::value_type t)  {{ t }  -> std::convertible_to<Type>; }
+	explicit List(const Range& range);
 
 	// ~Конструкторы ============================
 	
@@ -67,11 +68,12 @@ public:
 	template <Convertable<Type> T>
 	List<Type>& operator=(std::initializer_list<T> initList);
 
-	template <ConvertableForwardContainer<Type> C>
-	List<Type>& operator=(const C& container);
+	// template <ConvertableForwardContainer<Type> C>
+	// List<Type>& operator=(const C& container);
 
-	template <ConvertableForwardIterator<Type> I>
-	List<Type>& operator=(Range<I> &range);
+	template<std::ranges::input_range Range>
+	requires requires(typename Range::value_type t)  {{ t }  -> std::convertible_to<Type>; }
+	List<Type>& operator=(const Range& range);
 
 	// ~Операторы присваивания ==================
 
@@ -106,8 +108,12 @@ public:
 
 	void pushFront(List<Type>&& someList);
 
-	template <ConvertableForwardContainer<Type> C>
-	void pushFront(const C& container);
+	// template <ConvertableForwardContainer<Type> C>
+	// void pushFront(const C& container);
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	void pushFront(const Range& range);
 
 	template <Convertable<Type> T>
 	void pushBack(const T& data);
@@ -117,8 +123,12 @@ public:
 
 	void pushBack(List<Type>&& someList);
 
-	template <ConvertableForwardContainer<Type> C>
-	void pushBack(const C& container);
+	// template <ConvertableForwardContainer<Type> C>
+	// void pushBack(const C& container);
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	void pushBack(const Range& range);
 
 	template <Convertable<Type> T>
 	iterator insert(const iterator &pos, const T& data);
@@ -128,13 +138,17 @@ public:
 
 	iterator insert(const iterator &pos, List<Type>&& someList);
 
-	template <ConvertableForwardContainer<Type> C>
-	iterator insert(const iterator &pos, const C &container);
+	// template <ConvertableForwardContainer<Type> C>
+	// iterator insert(const iterator &pos, const C &container);
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	iterator insert(const iterator &pos, const Range& range);
 
 	List<Type>& operator+=(List<Type> &&someLsit);
 
-	template <ConvertableForwardContainer<Type> C>
-	List<Type>& operator+=(const C &container);
+	// template <ConvertableForwardContainer<Type> C>
+	// List<Type>& operator+=(const C &container);
 
 	template <Convertable<Type> T>
 	List<Type>& operator+=(const T &data);
@@ -142,14 +156,22 @@ public:
 	template <Convertable<Type> T>
 	List<Type>& operator+=(T &&data);
 
-	template <ConvertableForwardContainer<Type> C>
-	List<Type> operator+(const C &container) const;
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	List<Type>& operator+=(const Range& range);
+
+	// template <ConvertableForwardContainer<Type> C>
+	// List<Type> operator+(const C &container) const;
 
 	template <Convertable<Type> T>
 	List<Type> operator+(const T &data) const;
 
 	template <Convertable<Type> T>
 	List<Type> operator+(T &&data) const;
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	List<Type> operator+(const Range& range);
 
 	// ~Добавление ==============================
 
@@ -236,10 +258,10 @@ private:
 // Операторы сложения данных со списком
 
 template <CopyNMoveable Type, Convertable<Type> T>
-List<Type> operator+(const T& value, const List<Type>& container);
+List<Type> operator+(const T& value, const List<Type>& list);
 
 template <CopyNMoveable Type, Convertable<Type> T>
-List<Type> operator+(T&& value, const List<Type>& container);
+List<Type> operator+(T&& value, const List<Type>& list);
 
 // Вывод
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include <list>
 #include "list.h"
-#include "range.h"
+#include <ranges>
 
 int main() {
     List<int> list1;
@@ -78,11 +78,6 @@ int main() {
     std::cout << "List9(from list): " << list9 << std::endl;
     std::cout << "Size of list9: " << list9.size() << std::endl;
 
-    Range<List<int>::const_iterator> range(list8.cbegin(), list8.cend());
-    List<int> list9_1(range);
-    std::cout << "List9(from range): " << list9_1 << std::endl;
-    std::cout << "Size of list9: " << list9_1.size() << std::endl;
-
     List<int> listTmp = 1.2 + list9;
     std::cout << "Tmp: " << listTmp << std::endl;
 
@@ -125,6 +120,10 @@ int main() {
     List<int> list12_int = (List<int>)list12_float;
     std::cout << "List 12 int: " << list12_int << std::endl;
     std::cout << "List 12 int size: " << list12_int.size() << std::endl;
+
+    List<int> list13  =  {4,  3,  5,  -2,  7};
+    static_assert(std::ranges::range<List<int>>);
+    std::for_each(list13.cbegin(), list13.cend(), [](const auto& elem) {std::cout << elem << std::endl;});
 
     return 0;
 }

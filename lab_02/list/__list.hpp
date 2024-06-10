@@ -10,10 +10,7 @@
 template <CopyNMoveable Type>
 List<Type>::List(const List<Type>& someList)
 {
-    for (const auto& elem : someList)
-    {
-        pushBack(elem);
-    }
+    std::for_each(someList.cbegin(), someList.cend(), [this](const Type& elem){ pushBack(elem);});
 }
 
 template <CopyNMoveable Type>
@@ -26,64 +23,43 @@ template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>::List(size_type n, const T& value)
 {
-    for (size_type i = 0; i < n; ++i)
-    {
-        pushBack(value);
-    }
+    for (size_type i = 0; i < n; ++i) { pushBack(value); }
 }
 
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
 List<Type>::List(std::initializer_list<T> initList)
 {
-    for (const auto& elem : initList)
-    {
-        pushBack(elem);
-    }
+    for (auto elem : initList) pushBack(elem);
 }
 
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>::List(const C& container)
-{
-    for (const auto& elem : container)
-    {
-        pushBack(elem);
-    }
-}
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// List<Type>::List(const C& container)
+// {
+//     std::for_each(container.cbegin, container.cend, [this](const Type& elem){ pushBack(elem);});
+// }
 
 template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(const I& begin, const I& end)
 {
-    validateAnyIterartorRange(begin, end, __LINE__);
-    for (auto it = begin; it != end; ++it)
-    {
-        pushBack(*it);
-    }
+    std::for_each(begin, end, [this](const Type& elem){ pushBack(elem);});
 }
 
 template <CopyNMoveable Type>
 template <ConvertableForwardIterator<Type> I>
 List<Type>::List(const I& begin, const size_t size)
 {
-    auto it = begin;
-    for (size_t i = 0; i < size; ++i)
-    {
-        pushBack(*it);
-        ++it;
-    }
+    auto end = begin + size;
+    std::for_each(begin, end, [this](const Type& elem){ pushBack(elem);});
 }
 
 template <CopyNMoveable Type>
-template <ConvertableForwardIterator<Type> I>
-List<Type>::List(Range<I> &range)
-{
-    for (auto it = range.begin(); it != range.end(); ++it)
-    {
-        pushBack(*it);
-    }
-}
+template<std::ranges::input_range Range>
+requires requires(typename Range::value_type t)  {{ t }  -> std::convertible_to<Type>; }
+List<Type>::List(const Range& range) : List(range.cbegin(), range.cend())
+{}
 
 template <CopyNMoveable Type>
 List<Type> List<Type>::SubList(iterator &begin, iterator &end)
@@ -123,10 +99,7 @@ template <CopyNMoveable Type>
 List<Type>& List<Type>::operator=(const List<Type>& someList)
 {
     clear();
-    for (const auto& elem : someList)
-    {
-        pushBack(elem);
-    }
+    std::for_each(someList.cbegin(), someList.cend(), [this](const Type& elem){ pushBack(elem);});
     return *this;
 }
 
@@ -144,34 +117,26 @@ template <Convertable<Type> T>
 List<Type>& List<Type>::operator=(std::initializer_list<T> initList)
 {
     clear();
-    for (const auto& elem : initList)
-    {
-        pushBack(elem);
-    }
+    for (auto elem : initList) pushBack(elem);
     return *this;
 }
 
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>& List<Type>::operator=(const C& container)
-{
-    clear();
-    for (const auto& val : container)
-    {
-        pushBack(val);
-    }
-    return *this;
-}
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// List<Type>& List<Type>::operator=(const C& container)
+// {
+//     clear();
+//     std::for_each(container.cbegin, container.cend, [this](const Type& elem){ pushBack(elem);});
+//     return *this;
+// }
 
 template <CopyNMoveable Type>
-template <ConvertableForwardIterator<Type> I>
-List<Type>& List<Type>::operator=(Range<I> &range)
+template<std::ranges::input_range Range>
+requires requires(typename Range::value_type t)  {{ t }  -> std::convertible_to<Type>; }
+List<Type>& List<Type>::operator=(const Range& range)
 {
     clear();
-    for (auto it = range.begin(); it != range.end(); ++it)
-    {
-        pushBack(*it);
-    }
+    std::for_each(std::ranges::begin(range), std::ranges::end(range), [this](const Type& elem){ pushBack(elem);});
     return *this;
 }
 
@@ -290,11 +255,21 @@ void List<Type>::pushFront(List<Type>&& someList)
     csize += std::exchange(someList.csize, 0);
 }
 
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// void List<Type>::pushFront(const C& container)
+// {
+//     pushFront(List<Type>(container));
+// }
+
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-void List<Type>::pushFront(const C& container)
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+void List<Type>::pushFront(const Range& range)
 {
-    pushFront(List<Type>(container));
+    List<Type> list(range);
+    list.pushBack(*this);
+    *this = list;
 }
 
 template <CopyNMoveable Type>
@@ -358,14 +333,19 @@ void List<Type>::pushBack(List<Type>&& someList)
     csize += std::exchange(someList.csize, 0);
 }
 
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// void List<Type>::pushBack(const C& container)
+// {
+//     pushBack(List<Type>(container));
+// }
+
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-void List<Type>::pushBack(const C& container)
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+void List<Type>::pushBack(const Range& range)
 {
-    for (const auto& val : container)
-    {
-        pushBack(val);
-    }
+    pushBack(List<Type>(range));
 }
 
 template <CopyNMoveable Type>
@@ -476,11 +456,19 @@ typename List<Type>::iterator List<Type>::insert(const iterator &pos, List<Type>
     }
 }
 
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// typename List<Type>::iterator List<Type>::insert(const iterator &pos, const C &container)
+// {
+//     return insert(pos, List<Type>(container));
+// }
+
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-typename List<Type>::iterator List<Type>::insert(const iterator &pos, const C &container)
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+typename List<Type>::iterator List<Type>::insert(const iterator &pos, const Range& range)
 {
-    return insert(pos, List<Type>(container));
+    return insert(pos, List<Type>(range));
 }
 
 template <CopyNMoveable Type>
@@ -490,13 +478,13 @@ List<Type>& List<Type>::operator+=(List<Type> &&someList)
     return *this;
 }
 
-template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type>& List<Type>::operator+=(const C &container)
-{
-    pushBack(container);
-    return *this;
-}
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// List<Type>& List<Type>::operator+=(const C &container)
+// {
+//     pushBack(container);
+//     return *this;
+// }
 
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
@@ -515,16 +503,23 @@ List<Type>& List<Type>::operator+=(T &&data)
 }
 
 template <CopyNMoveable Type>
-template <ConvertableForwardContainer<Type> C>
-List<Type> List<Type>::operator+(const C &container) const
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+List<Type>& List<Type>::operator+=(const Range& range)
 {
     List<Type> result(*this);
-    for (const auto& val : container)
-    {
-        result.pushBack(val);
-    }
+    result.pushBack(range);
     return result;
 }
+
+// template <CopyNMoveable Type>
+// template <ConvertableForwardContainer<Type> C>
+// List<Type> List<Type>::operator+(const C &container) const
+// {
+//     List<Type> result(*this);
+//     result.pushBack(container);
+//     return result;
+// }
 
 template <CopyNMoveable Type>
 template <Convertable<Type> T>
@@ -544,27 +539,29 @@ List<Type> List<Type>::operator+(T &&data) const
     return result;
 }
 
-template <CopyNMoveable Type, Convertable<Type> T>
-List<Type> operator+(const T& value, const List<Type>& container)
+template <CopyNMoveable Type>
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+List<Type> List<Type>::operator+(const Range& range)
 {
-    List<Type> result;
-    result.pushBack(value);
-    for (const auto& val : container)
-    {
-        result.pushBack(val);
-    }
+    List<Type> result(*this);
+    result.pushBack(range);
     return result;
 }
 
 template <CopyNMoveable Type, Convertable<Type> T>
-List<Type> operator+(T&& value, const List<Type>& container)
+List<Type> operator+(const T& value, const List<Type>& list)
 {
-    List<Type> result;
-    result.pushBack(std::move(value));
-    for (const auto& val : container)
-    {
-        result.pushBack(val);
-    }
+    List<Type> result(list);
+    result.pushFront(value);
+    return result;
+}
+
+template <CopyNMoveable Type, Convertable<Type> T>
+List<Type> operator+(T&& value, const List<Type>& list)
+{
+    List<Type> result(list);
+    result.pushFront(std::move(value));
     return result;
 }
 
@@ -704,22 +701,10 @@ void List<Type>::validateListIterartorRange(const ListIterator<Type> &begin, con
     }
 }
 
-template <CopyNMoveable Type>
-template <ConvertableForwardIterator<Type> I>
-void List<Type>::validateAnyIterartorRange(const I &begin, const I &end, size_t line)
-{
-    if (begin < end)
-    {
-        time_t t_time = time(NULL);
-        throw InvalidRange(__FILE__, typeid(*this).name(), line, ctime(&t_time));
-    }
-}
-
 template <CopyNMoveable T>
 std::ostream& operator <<(std::ostream & os, const List<T> & list)
 {
-	for (auto& elem : list)
-		std::cout << elem << " ";
+    std::for_each(list.cbegin(), list.cend(), [list](const T& elem){std::cout << elem << " ";});
 
 	return os;
 }
