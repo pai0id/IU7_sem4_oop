@@ -11,7 +11,7 @@ LoadManager::LoadManager() {
 }
 
 
-std::shared_ptr<Object> LoadManager::LoadBoneModelFile(std::size_t directorID, std::size_t ReaderID, std::string filename) {
+std::shared_ptr<Object> LoadManager::LoadBoneModelFile(std::size_t directorID, std::size_t ReaderID, std::string filename) {  // done
     auto directorCr = _dsolution.Create<BoneModelDirectorCreator_t>(directorID);
     auto readerCr = _rsolution.Create<BoneModelReaderCreator_t>(ReaderID);      // Done
 

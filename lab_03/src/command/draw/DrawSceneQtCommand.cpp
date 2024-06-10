@@ -10,5 +10,5 @@ DrawSceneQtCommand::DrawSceneQtCommand(QGraphicsScene* sceneQt)
 
 
 void DrawSceneQtCommand::Execute() {
-    _drawManager->DrawScene<QtDrawerCreator, QGraphicsScene*>(_sceneManager, _sceneQt);
+    _drawManager->DrawScene<QtDrawerCreator, QGraphicsScene*>(_sceneManager, _sceneQt);  // done
 }

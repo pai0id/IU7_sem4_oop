@@ -9,7 +9,7 @@ class BaseBoneModelBuilder {
         explicit BaseBoneModelBuilder(std::shared_ptr<BoneModelReader> reader);
         ~BaseBoneModelBuilder();
 
-        virtual void BuildPoints();
+        virtual void BuildPoints(); // done
         virtual void BuildEdges();
         virtual void BuildCenter();
         virtual std::shared_ptr<BoneModel> Get();

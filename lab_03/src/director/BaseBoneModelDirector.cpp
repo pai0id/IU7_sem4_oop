@@ -13,7 +13,7 @@ std::shared_ptr<Object> BaseBoneModelDirector::Create() {
         std::cout << "BaseBoneModelDirector::Create" << std::endl;
     }
 
-    _builder->BuildPoints();
+    _builder->BuildPoints();    // done
     _builder->BuildEdges();
     _builder->BuildCenter();
     return _builder->Get();
