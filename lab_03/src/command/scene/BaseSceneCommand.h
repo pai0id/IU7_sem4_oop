@@ -1,5 +1,5 @@
 #pragma once
-#include "../BaseCommand.hpp"
+#include "BaseCommand.h"
 
 class BaseSceneCommand : public BaseCommand {
     public:

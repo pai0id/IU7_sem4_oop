@@ -5,8 +5,8 @@ class SqliteLoadCommandDecorator : public BaseLoadCommandDecorator {
     public:
         virtual ~SqliteLoadCommandDecorator() = default;
         SqliteLoadCommandDecorator() = delete;
-        SqliteLoadCommandDecorator(BaseLoadCommand &command, const char *filename);
+        SqliteLoadCommandDecorator(BaseLoadCommand &command, std::string filename);
         virtual void Execute();
     protected:
-        const char *_filename;
+        std::string _filename;
 };

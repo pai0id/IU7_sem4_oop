@@ -1,5 +1,5 @@
 #include "DrawSceneQtCommand.h"
-#include "../../drawer/QTDrawerCreator.hpp"
+#include "QtDrawerCreator.h"
 #include <iostream>
 
 
@@ -10,7 +10,5 @@ DrawSceneQtCommand::DrawSceneQtCommand(QGraphicsScene* sceneQt)
 
 
 void DrawSceneQtCommand::Execute() {
-    auto camera = _sceneManager->GetMainCamera();
-    auto scene = _sceneManager->GetScene();
-    _drawManager->DrawScene<QTDrawerCreator, QGraphicsScene*>(scene, camera, _sceneQt);
+    _drawManager->DrawScene<QtDrawerCreator, QGraphicsScene*>(_sceneManager, _sceneQt);
 }

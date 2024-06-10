@@ -1,4 +1,4 @@
-#include "BaseCommand.hpp"
+#include "BaseCommand.h"
 
 BaseCommand::~BaseCommand() {}
 

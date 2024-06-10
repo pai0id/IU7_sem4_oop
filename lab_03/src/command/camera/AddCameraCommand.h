@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseCameraCommand.h"
 
+
 class AddCameraCommand : public BaseCameraCommand {
     public:
         AddCameraCommand(const Point &pos);

@@ -1,24 +1,19 @@
-/**
- * Project Untitled
- */
-
-
-#include "Scene.hpp"
-#include "BaseObject.hpp"
-#include "Composite.hpp"
+#include "Scene.h"
+#include "Object.h"
+#include "Composite.h"
 #include <iostream>
 
-Scene::Scene() : _objects(std::list<std::shared_ptr<BaseObject>>()), _cameras(std::list<iterator>()) {}
+Scene::Scene() : _objects(std::list<std::shared_ptr<Object>>()), _cameras(std::list<iterator>()) {}
 
-void Scene::AddBaseObject(const std::shared_ptr<BaseObject> obj) {
+void Scene::AddObject(const std::shared_ptr<Object> obj) {
     _objects.push_back(obj);
 }
 
-void Scene::RemoveBaseObject(const const_iterator& it) {
+void Scene::RemoveObject(const const_iterator& it) {
     _objects.erase(it);
 }
 
-void Scene::AddCamera(const std::shared_ptr<BaseObject> obj) {
+void Scene::AddCamera(const std::shared_ptr<Object> obj) {
     _objects.push_back(obj);
     auto it = _objects.begin();
     auto itnext = ++_objects.begin();
@@ -31,7 +26,7 @@ void Scene::RemoveCamera(const std::list<iterator>::const_iterator &it) {
     _cameras.erase(it);
 }
 
-std::shared_ptr<BaseObject> Scene::GetCamera(const iteratorCamera &it) {
+std::shared_ptr<Object> Scene::GetCamera(const iteratorCamera &it) {
     return **it;
 }
 
@@ -95,10 +90,29 @@ Scene::iteratorCamera Scene::endCamera() {
     return _cameras.cend();
 }
 
-void Scene::AddComposite(const std::vector<std::shared_ptr<BaseObject>> BaseObjects) {
-    std::shared_ptr<Composite> composite = std::make_shared<Composite>();
-    for (const auto &obj : BaseObjects) {
-        composite->Add({obj});
+void Scene::accept(std::shared_ptr<Visitor> v) {
+    for (const auto &obj : _objects) {
+        obj->accept(v);
     }
-    AddBaseObject(composite);
+}
+std::shared_ptr<Scene> Scene::Clone() {
+    std::shared_ptr<Scene> clone = std::make_shared<Scene>();
+    auto cit = beginCamera();
+    for (const auto &obj : _objects) {
+        if (cit != endCamera() && obj == **cit) {
+            clone->AddCamera(obj->Clone());
+            ++cit;
+        } else {
+            clone->AddObject(obj->Clone());
+        }
+    }
+    return clone;
+}
+
+void Scene::AddComposite(const std::vector<std::shared_ptr<Object>> objects) {
+    std::shared_ptr<Composite> composite = std::make_shared<Composite>();
+    for (const auto &obj : objects) {
+        composite->Add(obj);
+    }
+    AddObject(composite);
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "../BaseCommand.hpp"
-#include "../../scene/Point.hpp"
+#include "BaseCommand.h"
+
 
 class BaseCameraCommand : public BaseCommand {
     public:

@@ -1,13 +1,3 @@
-/**
- * Project Untitled
- */
-
-
-#include "BaseDrawer.hpp"
-
-/**
- * BaseDrawer implementation
- */
-
+#include "BaseDrawer.h"
 
 BaseDrawer::~BaseDrawer() {};

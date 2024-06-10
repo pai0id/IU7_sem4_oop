@@ -1,5 +1,6 @@
 #pragma once
-#include "../BaseCommand.hpp"
+#include "BaseCommand.h"
+
 
 class BaseDrawCommand : public BaseCommand {
     public:
