@@ -106,7 +106,6 @@ HEADERS += src/builder/BaseBoneModelBuilder.h \
     src/command/load/SqliteLoadCommandDecorator.h \
     src/command/load/BaseLoadCommandDecorator.h \
     src/command/camera/SetCameraCommand.h \
-    src/command/camera/MoveCameraCommand.h \
     src/command/camera/BaseCameraCommand.h \
     src/command/camera/RemoveCameraCommand.h \
     src/command/camera/AddCameraCommand.h \
@@ -172,7 +171,6 @@ SOURCES += ./src/builder/BaseBoneModelBuilder.cpp \
     src/facade/SceneFacade.cpp \
     src/command/BaseCommand.cpp  \
     src/command/camera/SetCameraCommand.cpp  \
-    src/command/camera/MoveCameraCommand.cpp  \
     src/command/camera/BaseCameraCommand.cpp  \
     src/command/camera/AddCameraCommand.cpp  \
     src/command/camera/RemoveCameraCommand.cpp  \

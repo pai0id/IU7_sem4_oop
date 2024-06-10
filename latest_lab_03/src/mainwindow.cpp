@@ -14,7 +14,6 @@
 #include "AddCameraCommand.h"
 #include "SetCameraCommand.h"
 #include "RemoveCameraCommand.h"
-#include "MoveCameraCommand.h"
 #include "ShiftObjectCommand.h"
 #include "RotateObjectCommand.h"
 #include "ScaleObjectCommand.h"

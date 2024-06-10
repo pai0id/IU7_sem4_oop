@@ -3,7 +3,9 @@
 
 template <typename DrawerCreator, typename... Args>
 requires NotAbstract<DrawerCreator> && Derivative<DrawerCreator, BaseDrawerCreator> && Constructible<DrawerCreator, Args...>
-void DrawManager::DrawScene(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera, Args... args) {
+void DrawManager::DrawScene(std::shared_ptr<SceneManager> sceneMngr, Args... args) {
+    auto camera = sceneMngr->GetMainCamera();
+    auto scene = sceneMngr->GetScene();
     DrawerCreator drawerCreator(args...);
     std::shared_ptr<BaseDrawer>drawer = drawerCreator.Create();
     DrawVisitor vis(drawer, camera);

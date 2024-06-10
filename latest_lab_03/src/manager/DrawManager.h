@@ -13,7 +13,7 @@ class DrawManager {
         
         template <typename DrawerCreator, typename... Args>
         requires NotAbstract<DrawerCreator> && Derivative<DrawerCreator, BaseDrawerCreator> && Constructible<DrawerCreator, Args...>
-        void DrawScene(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera, Args... args);
+        void DrawScene(std::shared_ptr<SceneManager> sceneMngr, Args... args);
 };
 
 #include "Drawmanager.hpp"
